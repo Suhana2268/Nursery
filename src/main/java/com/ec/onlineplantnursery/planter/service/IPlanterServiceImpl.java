@@ -2,27 +2,35 @@ package com.ec.onlineplantnursery.planter.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ec.onlineplantnursery.planter.entity.Planter;
-import com.ec.onlineplantnursery.planter.repository.IPlanterRepositoryImpl;
+import com.ec.onlineplantnursery.planter.repository.IPlanterRepository;
+
 
 @Service
-public class IPlanterServiceImpl implements IPlanterService{
+public class IPlanterServiceImpl implements IPlanterService
+{
 
 	@Autowired
-	IPlanterRepositoryImpl planterRepo;
+	private IPlanterRepository p;
 	
+	
+	
+
 	public IPlanterServiceImpl() {
-		// TODO Auto-generated constructor stub
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public Planter addPlanter(Planter planter) {
 		// TODO Auto-generated method stub
-		return planterRepo.addPlanter(planter);
+		p.save(planter);
+
+		return 	planter;
 	}
 
 	@Override
@@ -40,7 +48,7 @@ public class IPlanterServiceImpl implements IPlanterService{
 	@Override
 	public Planter viewPlanter(int planterId) {
 		// TODO Auto-generated method stub
-		return planterRepo.viewPlanter(planterId);
+		return p.findById(planterId).get();
 	}
 
 	@Override
@@ -52,7 +60,7 @@ public class IPlanterServiceImpl implements IPlanterService{
 	@Override
 	public List<Planter> viewAllPlanters() {
 		// TODO Auto-generated method stub
-		return planterRepo.viewAllPlanters();
+		return p.findAll();
 	}
 
 	@Override
@@ -60,5 +68,4 @@ public class IPlanterServiceImpl implements IPlanterService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

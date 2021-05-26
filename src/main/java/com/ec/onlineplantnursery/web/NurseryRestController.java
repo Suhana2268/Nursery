@@ -98,6 +98,12 @@ public class NurseryRestController {
 		return ordService.viewAllOrders();
 	}
 	
+	@GetMapping("/customer/view/{id}")
+	public Customer viewCustomerById(@PathVariable int id) {
+		return custService.viewCustomer(id);
+			
+	}
+	
 	@PutMapping("/customer/{id}")
 	public Customer updateCustomer(@RequestBody Customer c,@PathVariable int id)
 	{
@@ -114,10 +120,10 @@ public class NurseryRestController {
 		return custService.validateCustomer(uname, pass);
 	}
 	
-	/**@GetMapping("/order/planter/{id}")
+	@GetMapping("/order/planter/{id}")
 	public List<Planter> viewPlantersListByOrderId(@PathVariable int id) {
 		return ordService.viewPlanterByOrderId(id);
-	}**/
+	}
 	
 	
 	
