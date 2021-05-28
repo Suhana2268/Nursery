@@ -1,15 +1,18 @@
 package com.ec.onlineplantnursery.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.PersistenceException;
+import org.junit.jupiter.api.function.Executable;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,129 +51,182 @@ class SeedRepositoryTest {
 	}
 
 	@Test
-	@Disabled
+	//@Disabled
+	@DisplayName("Test-Save Seed")
 	void testSaveSeed() {
 		Seed input = new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+				"This seed is a small embr"
+				+ "yonic plant",200,300,2000);
+		Seed output = new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
 				"This seed is a small embryonic plant",200,300,2000);
-		Seed savedSeed = new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
-				"This seed is a small embryonic plant",200,300,2000);
-
-		when(seedRepo.save(input)).thenReturn(savedSeed);
+	
+		when(seedRepo.save(input)).thenReturn(output);
 		seedService.addSeed(input);
 		verify(seedRepo).save(input);
-
+		assertEquals(input,output);
 	}
-
+	
 
 	@Test
-	@Disabled
-	@DisplayName("Test-Get All Seeds , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Get All Seeds")
 	void testGetAllSeeds() {
-
-
-		List<Seed> seedList = mock(List.class); 
+		
+		Seed s1 = new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+				"This seed is a small embryonic plant",200,300,2000);
+		Seed s2 = new Seed(102,"Papaya","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+				"This seed is a small embryonic plant",200,300,2000);
+		List<Seed> seedList1 = new ArrayList<>();
+		seedList1.add(s1);
+		seedList1.add(s2);
 		//when() and 	//thenReturn()
-		when(seedRepo.findAll()).thenReturn(seedList);
+		when(seedRepo.findAll()).thenReturn(seedList1);
 		//call the actual method 
-		seedService.viewAllSeeds();
+		List<Seed> seedListOutput = seedService.viewAllSeeds();
+		
 		//verify
 		verify(seedRepo).findAll();
-
+		assertIterableEquals(seedList1, seedListOutput);
+		
 	}
-
+	
 	@Test
-	@Disabled
-	@DisplayName("Test-Get Seed by Id , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Get Seed by Id")
 	void testViewSeedById(){
-
-
+		
+		//final Seed actual = null;
 		Optional<Seed> s = Optional.empty();
+		
 		//when() and 	//thenReturn()
 		when(seedRepo.findById(2)).thenReturn(s);
-		//call the actual method 
-		try {
-			seedService.viewSeed(2);
-		} catch (SeedIdNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//verify
-		verify(seedRepo).findById(2);
-
+		Executable executable = ()->{
+			assertNotNull(seedService.viewSeed(2));
+		};
+		assertThrows(SeedIdNotFoundException.class, executable);
+		
+	}
+	
+	@Test
+	//@Disabled
+	@DisplayName("Test-Get Seed by common Name ")
+	void testViewSeedByName()  {
+		
+		
+		String commonName = "Mango";
+		Optional<Seed> s = Optional.empty();
+		when(seedRepo.getSeedByCommonName(commonName)).thenReturn(s);
+		Executable executable = ()->{
+			Optional<Seed> excepted = Optional.of(new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+					"This seed is a small embryonic plant",200,300,2000));
+			Optional<Seed> output = seedService.viewSeed(commonName);
+			
+			assertNotNull(output);
+			assertEquals(excepted, output);
+			
+		};
+		assertThrows(ResourceNotFoundException.class, executable);
+		
+		
+	}
+	
+	@Test
+	//@Disabled
+	@DisplayName("Test-Resource not found exception by common name ")
+	void testExceptionViewSeedByName()  {
+		
+		
+		String commonName = "abc";
+		Optional<Seed> s = Optional.empty();
+		when(seedRepo.getSeedByCommonName(commonName)).thenReturn(s);
+		Executable executable = ()->{
+			Optional<Seed> excepted = Optional.of(new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+					"This seed is a small embryonic plant",200,300,2000));
+			Optional<Seed> output = seedService.viewSeed(commonName);
+			
+			assertNotNull(output);
+			assertEquals(excepted, output);
+			
+		};
+		assertThrows(ResourceNotFoundException.class, executable);
+		
+		
+	}
+	@Test
+	//@Disabled
+	@DisplayName("Test-Get Seed by type of seed ")
+	void testViewSeedByTypeOfSeed(){
+		
+		String typeOfSeed = "Monocotyledonous";
+		Optional<List<Seed>> seedList = Optional.empty(); 
+		when(seedRepo.getSeedsByTypeOfSeed(typeOfSeed)).thenReturn(seedList);
+		Executable executable = ()->{
+			Optional<Seed> expected = Optional.of(new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+					"This seed is a small embryonic plant",200,300,2000));
+			Optional<List<Seed>> output = seedService.viewAllSeeds(typeOfSeed);
+			assertEquals(expected, output);
+		};
+		assertThrows(ResourceNotFoundException.class, executable);
+	}
+	
+	@Test
+	//@Disabled
+	@DisplayName("Test-Exception Get Seed by type of seed ")
+	void testExceptionViewSeedByTypeOfSeed(){
+		
+		String typeOfSeed = "Dicoty";
+		Optional<List<Seed>> seedList = Optional.empty(); 
+		when(seedRepo.getSeedsByTypeOfSeed(typeOfSeed)).thenReturn(seedList);
+		Executable executable = ()->{
+			Optional<Seed> expected = Optional.of(new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+					"This seed is a small embryonic plant",200,300,2000));
+			Optional<List<Seed>> output = seedService.viewAllSeeds(typeOfSeed);
+			assertEquals(expected, output);
+		};
+		assertThrows(ResourceNotFoundException.class, executable);
 	}
 
 	@Test
-	@Disabled
-	@DisplayName("Test-Get Seed by common Name , Args:- No Args to pass")
-	void testViewSeedByName() throws ResourceNotFoundException {
-
-
-		Seed s = mock(Seed.class);
-		//when() and 	//thenReturn()
-		when(seedRepo.getSeedByCommonName("Maize")).thenReturn(s);
-		//call the actual method 
-		seedService.viewSeed("Maize");
-		//verify
-		verify(seedRepo).getSeedByCommonName("Maize");
-
-	}
-
-	@Test
-	@Disabled
-	@DisplayName("Test-Get Seed by type of seed , Args:- No Args to pass")
-	void testViewSeedByTypeOfSeed() throws ResourceNotFoundException {
-
-
-		List<Seed> seedList = mock(List.class); 
-		//when() and 	//thenReturn()
-		when(seedRepo.getSeedsByTypeOfSeed("Monocotyledonous")).thenReturn(seedList);
-		//call the actual method 
-		seedService.viewAllSeeds("Monocotyledonous");
-		//verify
-		verify(seedRepo).getSeedsByTypeOfSeed("Monocotyledonous");
-
-	}
-
-	@Test
-	@Disabled
-	@DisplayName("Test-Delete seed , Args:- No Args to pass")
-	void testDeleteSeed() {
-
+	//@Disabled
+	@DisplayName("Test-Delete seed")
+	void testDeleteSeed() throws SeedIdNotFoundException {
+		
 		Seed input = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
 				"This seed is a small embryonic plant",250,300,2000);
-		Seed savedSeed = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+		Seed output = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
 				"This seed is a small embryonic plant",250,300,2000);
-
-
-		//when(seedRepo.delete(input)).thenThrow(savedSeed);
-
-		/*//doThrow(new PersistenceException("Exception occured")).when(seedRepo).delete(input);
-		//call the actual method 
-		seedService.deleteSeed(input);
-		//verify
-		verify(seedRepo).delete(input);
-		sut.deleteDose(doseId);
-
-        // verify the mocks
-        verify(doseRepository, times(1)).deleteById(eq(doseId));*/
+		
+		
+		doNothing().
+		 when(seedRepo).deleteById(input.getSeedId());
 
 		seedService.deleteSeed(input.getSeedId());
-		verify(seedRepo).delete(input);
-	}
 
+		verify(seedRepo).deleteById(input.getSeedId());
+		assertEquals(input,output);
+		  
+	}
+	
 	@Test
-	@Disabled
-	@DisplayName("Test-Update seed , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Update seed")
 	void testUpdateSeed() throws ResourceNotFoundException {
 		Seed input = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
 				"This seed is a small embryonic plant",250,300,2000);
-		Seed savedSeed = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+		Seed output = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
 				"This seed is a small embryonic plant",250,300,2000);
+	
+		
+		try{
+			when(seedRepo.save(input)).thenReturn(output);
+			
+			seedService.updateSeed(input);
 
-		when(seedRepo.save(input)).thenReturn(savedSeed);
-		seedService.updateSeed(input);
-		verify(seedRepo).save(input);
-
+			assertEquals(input,output);
+		}
+		catch(ResourceNotFoundException e) {
+			
+		}
 	}
 
 

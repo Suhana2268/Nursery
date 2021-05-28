@@ -141,21 +141,21 @@ public class MyRestController {
 	@DeleteMapping("/order/delete/{oid}")
 	public Order deleteOrder(@PathVariable int oid) {
 		log.info("Delete order");
-		return oservice.deleteOrder(oid);
+		return oservice.deleteOrder(oid).get();
 	}
 	
 	@ApiOperation(value = "Plant Delete mapping to delete plant" , response = Plant.class)
 	@DeleteMapping("/plant/delete/{pid}")
 	public Plant deleteByIdPlant(@PathVariable int pid){
 		log.info("Delete plant");
-		return ipservice.deletePlant(pid);
+		return ipservice.deletePlant(pid).get();
 	}
 	
 	@ApiOperation(value = "Seed Delete mapping to delete seed" , response = Seed.class)
 	@DeleteMapping("/seed/delete/{sid}")
 	public Seed deleteByIdSeed(@PathVariable int sid){
 		log.info("Delete seed");
-		return iservice.deleteSeed(sid);
+		return iservice.deleteSeed(sid).get();
 	}
 	
 	@ApiOperation(value = "Planter Delete mapping to delete planter" , response = Planter.class)
@@ -176,49 +176,49 @@ public class MyRestController {
 	@GetMapping("/order/{oid}")
 	public Order viewOrderById(@PathVariable int oid) throws OrderIdNotFoundException{
 		log.info("Get order information by id");
-		return oservice.viewOrder(oid);
+		return oservice.viewOrder(oid).get();
 	}
 	
 	@ApiOperation(value = "Plant Get mapping to fetch plant by id" , response = Plant.class)
 	@GetMapping("/plantById/{pid}")
 	public Plant viewByIdPlant(@PathVariable int pid) throws ResourceNotFoundException{
 		log.info("Get plant information by id");
-		return ipservice.viewPlantById(pid);
+		return ipservice.viewPlantById(pid).get();
 	}
 	
 	@ApiOperation(value = "Plant Get mapping to fetch plant by name" , response = Plant.class)
 	@GetMapping("/plantByName/{pname}")
 	public Plant viewByIdPlantName(@PathVariable String pname) throws ResourceNotFoundException{
 		log.info("Get plant information by name");
-		return ipservice.viewPlant(pname);
+		return ipservice.viewPlant(pname).get();
 	}
 	
 	@ApiOperation(value = "Seed Get mapping to fetch seed by id" , response = Seed.class)
 	@GetMapping("/seedById/{cid}")
 	public Seed viewByIdSeed(@PathVariable int cid) throws SeedIdNotFoundException{
 		log.info("Get seed information by id");
-		return iservice.viewSeed(cid);
+		return iservice.viewSeed(cid).get();
 	}
 	
 	@ApiOperation(value = "Seed Get mapping to fetch seed by name" , response = Seed.class)
 	@GetMapping("/seedByName/{cname}")
 	public Seed viewByIdSeedName(@PathVariable String cname)throws ResourceNotFoundException {
 		log.info("Get seed information by name");
-		return iservice.viewSeed(cname);
+		return iservice.viewSeed(cname).get();
 	}
 	
 	@ApiOperation(value = "Planter Get mapping to fetch planter by id" , response = Planter.class)
 	@GetMapping("/planter/{plid}")
 	public Planter viewByIdPlanter(@PathVariable int plid)throws ResourceNotFoundException {
 		log.info("Get Planter information by id");
-		return pservice.viewPlanter(plid);
+		return pservice.viewPlanter(plid).get();
 	}
 	
 	@ApiOperation(value = "Planter Get mapping to fetch planter by name" , response = Planter.class)
 	@GetMapping("/planter/{plshape}")
 	public Planter viewByIdPlanter(@PathVariable String plshape) throws ResourceNotFoundException{
 		log.info("Get Planter information by id");
-		return pservice.viewPlanter(plshape);
+		return pservice.viewPlanter(plshape).get();
 	}
 	
 	@ApiOperation(value = "Customer Get mapping to fetch all customers" , response = List.class)
@@ -259,27 +259,36 @@ public class MyRestController {
 	@ApiOperation(value = "Plant Get mapping to fetch all plants by type" , response = List.class)
 	@GetMapping("/plants/{ptype}")
 	public List<Plant> viewAllPlants(@PathVariable String ptype) throws ResourceNotFoundException{
-		return ipservice.viewAllPlants(ptype);
+		log.info("Get all Plants");
+		return ipservice.viewAllPlants(ptype).get();
 	}
 	
 	@ApiOperation(value = "Seed Get mapping to fetch all seeds in by type" , response = List.class)
 	@GetMapping("/seeds/{stype}")
 	public List<Seed> viewAllSeeds(@PathVariable String stype) throws ResourceNotFoundException{
 		log.info("Get all seeds in given type");
-		return iservice.viewAllSeeds(stype);
+		return iservice.viewAllSeeds(stype).get();
 	}
 	
 	@ApiOperation(value = "Planter Get mapping to fetch all Planters in given range" , response = List.class)
 	@GetMapping("/planters/{minCost}/{maxCost}")
 	public List<Planter> viewAllPlanters(@PathVariable double minCost,@PathVariable double maxCost) throws ResourceNotFoundException{
 		log.info("Get all Planters in given range");
-		return pservice.viewAllPlanters(minCost,maxCost);
+		return pservice.viewAllPlanters(minCost,maxCost).get();
 	}
 	
 	@ApiOperation(value = "Customer Post mapping to auth customer by userid and password")
 	@PostMapping("/customer/auth/{userid}/{password}")
 	public boolean validateCustomer(@PathVariable String userid, @PathVariable String password ) {
+		log.info("Authentication of Customer");
 		return cservice.validateCustomer(userid, password);
+	}
+	
+	@ApiOperation(value ="Order Get mapping to get All Planters by Order Id")
+	@GetMapping("/order/planter/{id}")
+	public List<Planter> viewPlantersListByOrderId(@PathVariable int id) {
+		log.info("Get all Planters by Order Id");
+		return oservice.viewPlanterByOrderId(id).get();
 	}
 	
 	

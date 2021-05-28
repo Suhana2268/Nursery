@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ec.onlineplantnursery.planter.entity.Planter;
 
-public interface IPlanterRepository extends JpaRepository<Planter,Integer>{
+public interface IPlanterRepository extends JpaRepository<Planter,Integer>, CustomPlanterRepository{
 	/*Planter addPlanter(Planter planter);
 
 	Planter updatePlanter(Planter planter);

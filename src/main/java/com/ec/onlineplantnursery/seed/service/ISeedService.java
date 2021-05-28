@@ -1,6 +1,7 @@
 package com.ec.onlineplantnursery.seed.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.exceptions.SeedIdNotFoundException;
@@ -11,13 +12,13 @@ public interface ISeedService {
 
 	Seed updateSeed(Seed seed) throws ResourceNotFoundException;
 
-	Seed deleteSeed(int sid);
+	Optional<Seed> deleteSeed(int sid);
 
-	Seed viewSeed(int seedId) throws SeedIdNotFoundException;
+	Optional<Seed> viewSeed(int seedId) throws SeedIdNotFoundException;
 
-	Seed viewSeed(String commonName) throws ResourceNotFoundException;
+	Optional<Seed> viewSeed(String commonName) throws ResourceNotFoundException;
 
 	List<Seed> viewAllSeeds();
 
-	List<Seed> viewAllSeeds(String typeOfSeed) throws ResourceNotFoundException;
+	Optional<List<Seed>> viewAllSeeds(String typeOfSeeds) throws ResourceNotFoundException;
 }

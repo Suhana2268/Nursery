@@ -17,9 +17,11 @@ public class ICustomerServiceImpl implements ICustomerServices {
 	
 	@Autowired
 	ICustomerRepository crepo;
-	
-	@Autowired
-	EntityManager em;
+
+	public ICustomerServiceImpl(ICustomerRepository crepo) {
+		// TODO Auto-generated constructor stub
+		this.crepo =  crepo;
+	}
 
 	@Override
 	public Customer addCustomer(Customer customer) {

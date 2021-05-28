@@ -24,6 +24,12 @@ public class IPlanterServiceImpl implements IPlanterService{
 	@Autowired
 	IPlanterRepository repo;
 
+	public IPlanterServiceImpl(IPlanterRepository repo) {
+		// TODO Auto-generated constructor stub
+		super();
+		this.repo = repo;
+	}
+
 	@Override
 	public Planter addPlanter(Planter planter) {
 		repo.save(planter);
@@ -60,24 +66,22 @@ public class IPlanterServiceImpl implements IPlanterService{
 	}
 
 	@Override
-	public Planter viewPlanter(int planterId) throws ResourceNotFoundException{
+	public Optional<Planter> viewPlanter(int planterId) throws ResourceNotFoundException{
 		Optional<Planter> p = repo.findById(planterId);
 		if(p.isEmpty()) {
 			throw new ResourceNotFoundException();
 		}
 		// TODO Auto-generated method stub
-		return repo.findById(planterId).get();
+		return repo.findById(planterId);
 	}
 
 	@Override
-	public Planter viewPlanter(String planterShape)throws ResourceNotFoundException {
-		List<Planter> plist = repo.findAll();
-		for(Planter p : plist) {
-			if(p.getPlanterShape().equalsIgnoreCase(planterShape)) {
-				return p;
-			}
+	public Optional<Planter> viewPlanter(String planterShape)throws ResourceNotFoundException {
+		Optional<Planter> p = repo.getPlanterByPlanterShape(planterShape);
+		if(p.isEmpty()) {
+			throw new ResourceNotFoundException();
 		}
-		throw new ResourceNotFoundException();
+		return p;
 	}
 
 	@Override
@@ -87,14 +91,8 @@ public class IPlanterServiceImpl implements IPlanterService{
 	}
 
 	@Override
-	public List<Planter> viewAllPlanters(double minCost, double maxCost) throws ResourceNotFoundException {
-		List<Planter> planter = new ArrayList<Planter>();
-		List<Planter> plist = repo.findAll();
-		for(Planter p : plist) {
-			if(p.getPlanterCost() >= minCost && p.getPlanterCost() <= maxCost) {
-				planter.add(p);
-			}
-		}
+	public Optional<List<Planter>> viewAllPlanters(double minCost, double maxCost) throws ResourceNotFoundException {
+		Optional<List<Planter>> planter = repo.getPlantersByRange(minCost, maxCost);
 		if(planter.isEmpty()) {
 			throw new ResourceNotFoundException();
 		}

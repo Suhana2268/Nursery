@@ -20,34 +20,34 @@ public class SeedServiceImpl implements ISeedService{
 
 	
 	@Autowired
-	ISeedRepository repo;
+	ISeedRepository srepo;
 	
 	public SeedServiceImpl() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public SeedServiceImpl(ISeedRepository  repo) {
+	public SeedServiceImpl(ISeedRepository srepo) {
 		// TODO Auto-generated constructor stub
-		this.repo = repo;
+		this.srepo = srepo;
 	}
 
 	@Override
 	@Transactional
 	public Seed addSeed(Seed seed) {
-		repo.save(seed);
+		srepo.save(seed);
 		return seed;
 	}
 
 	@Override
 	@Transactional
 	public Seed updateSeed(Seed seed) throws ResourceNotFoundException {
-		Optional<Seed> os = repo.findById(seed.getSeedId());
+		Optional<Seed> os = srepo.findById(seed.getSeedId());
 		if(os.isEmpty()) {
 	    	   throw new ResourceNotFoundException();
 	    }
 		
-       Seed s = repo.findById(seed.getSeedId()).get();
+       Seed s = srepo.findById(seed.getSeedId()).get();
        
        s.setBloomTime(seed.getBloomTime());
        s.setCommonName(seed.getCommonName());
@@ -60,43 +60,54 @@ public class SeedServiceImpl implements ISeedService{
        s.setTypeOfSeeds(seed.getTypeOfSeeds());
        s.setWatering(seed.getWatering());
 
-		return repo.save(s);
+       
+	   return srepo.save(s);
 	}
 
 	@Override
 	@Transactional
-	public Seed deleteSeed(int seed) {
+	public Optional<Seed> deleteSeed(int seed) {
 		// TODO Auto-generated method stub
-		Seed s = repo.findById(seed).get();
-		repo.delete(s);
+		Optional<Seed> s = srepo.findById(seed);
+		srepo.deleteById(seed);
 		return s;
 	}
 
 	@Override
-	public Seed viewSeed(int seedId) throws SeedIdNotFoundException {
+	public Optional<Seed> viewSeed(int seedId) throws SeedIdNotFoundException {
 		// TODO Auto-generated method stub
-		Optional<Seed> s = repo.findById(seedId);
+		Optional<Seed> s = srepo.findById(seedId);
 		if(s.isEmpty()) {
 			throw new SeedIdNotFoundException(seedId);
 		}
-		return repo.findById(seedId).get();
+		return srepo.findById(seedId);
 	}
 
 	@Override
-	public Seed viewSeed(String commonName) throws ResourceNotFoundException{
+	public Optional<Seed> viewSeed(String commonName) throws ResourceNotFoundException{
 		// TODO Auto-generated method stub
-		return repo.getSeedByCommonName(commonName);
+		Optional<Seed> s11 = srepo.getSeedByCommonName(commonName);
+		
+		if(s11.isEmpty()) throw new ResourceNotFoundException();
+		
+		return s11;
+		
 	}
 
 	@Override
 	public List<Seed> viewAllSeeds() {
 		// TODO Auto-generated method stub
-		return repo.findAll();
+		return srepo.findAll();
 	}
 
 	@Override
-	public List<Seed> viewAllSeeds(String typeOfSeeds) throws ResourceNotFoundException{
-		return repo.getSeedsByTypeOfSeed(typeOfSeeds);
+	public Optional<List<Seed>> viewAllSeeds(String typeOfSeeds) throws ResourceNotFoundException{
+		Optional<List<Seed>> s11 = srepo.getSeedsByTypeOfSeed(typeOfSeeds);
+		Optional<List<Seed>> s = srepo.getSeedsByTypeOfSeed(typeOfSeeds);
+		
+		if(s.isEmpty()) throw new ResourceNotFoundException();
+		
+		return s11;
 	}
 
 }

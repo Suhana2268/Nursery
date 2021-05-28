@@ -29,13 +29,17 @@ public class IOrderServiceImpl implements IOrderService{
 	@Autowired
 	IPlanterServiceImpl planterRep;
 
+	public IOrderServiceImpl(IOrderRepository repo) {
+		super();
+		this.repo = repo;
+	}
+
 	@Override
 	public Order addOrder(Order order) throws ResourceNotFoundException {
 		Customer cust= custRep.viewCustomer(order.getCid());
 		order.setCustomer(cust);
-		Planter planter1;
-		planter1 = planterRep.viewPlanter(order.getPid());
-		order.setPlanters(planter1);
+		Optional<Planter> planter1 = planterRep.viewPlanter(order.getPid());
+		order.setPlanters(planter1.get());
 		repo.save(order);
 		return order;
 	}
@@ -58,28 +62,33 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 	@Override
-	public Order deleteOrder(int orderId)  {
+	public Optional<Order> deleteOrder(int orderId)  {
 		// TODO Auto-generated method stub
-		Order o = repo.findById(orderId).get();
-		repo.delete(o);
+		Optional<Order> o = repo.findById(orderId);
+		repo.deleteById(orderId);
 		return o;
 	}
 
 	@Override
-	public Order viewOrder(int orderId) throws OrderIdNotFoundException {
+	public Optional<Order> viewOrder(int orderId) throws OrderIdNotFoundException {
 		// TODO Auto-generated method stub
 		Optional<Order> op = repo.findById(orderId);
 		
 		if(op.isEmpty()) throw new OrderIdNotFoundException(orderId);
 		
-		Order o =  repo.findById(orderId).get();
-		return o;
+		return op;
 	}
 
 	@Override
 	public List<Order> viewAllOrders() {
 		// TODO Auto-generated method stub
 		return repo.findAll();
+	}
+
+	@Override
+	public Optional<List<Planter>> viewPlanterByOrderId(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

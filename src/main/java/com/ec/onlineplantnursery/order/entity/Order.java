@@ -168,6 +168,72 @@ public class Order {
 	public void setPlanters(Planter planters) {
 		this.planters = planters;
 	}
+	
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bookingOrderId == null) ? 0 : bookingOrderId.hashCode());
+		result = prime * result + cid;
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
+		result = prime * result + pid;
+		result = prime * result + ((planters == null) ? 0 : planters.hashCode());
+		result = prime * result + quantity;
+		long temp;
+		temp = Double.doubleToLongBits(totalCost);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((transactionMode == null) ? 0 : transactionMode.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (bookingOrderId == null) {
+			if (other.bookingOrderId != null)
+				return false;
+		} else if (!bookingOrderId.equals(other.bookingOrderId))
+			return false;
+		if (cid != other.cid)
+			return false;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
+		if (orderDate == null) {
+			if (other.orderDate != null)
+				return false;
+		} else if (!orderDate.equals(other.orderDate))
+			return false;
+		if (pid != other.pid)
+			return false;
+		if (planters == null) {
+			if (other.planters != null)
+				return false;
+		} else if (!planters.equals(other.planters))
+			return false;
+		if (quantity != other.quantity)
+			return false;
+		if (Double.doubleToLongBits(totalCost) != Double.doubleToLongBits(other.totalCost))
+			return false;
+		if (transactionMode == null) {
+			if (other.transactionMode != null)
+				return false;
+		} else if (!transactionMode.equals(other.transactionMode))
+			return false;
+		return true;
+	}
 
 
 	@Override

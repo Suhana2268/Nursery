@@ -102,6 +102,24 @@ public class Planter {
 	}
 
 
+	public Planter(Integer planterId, @Positive(message = "planterheight should be positive") float planterheight,
+			@Positive(message = "planterCapacity should be positive") int planterCapacity,
+			@Positive(message = "drinageHoles should be positive") int drinageHoles,
+			@Positive(message = "planterColor should be positive") int planterColor,
+			@NotEmpty(message = "planterShape cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid planterShape, planterShape should have minimum 3 and maximum 15 characters") String planterShape,
+			@Positive(message = "planterStock should be positive") int planterStock,
+			@Positive(message = "planterCost should be positive") int planterCost) {
+		super();
+		this.planterId = planterId;
+		this.planterheight = planterheight;
+		this.planterCapacity = planterCapacity;
+		this.drinageHoles = drinageHoles;
+		this.planterColor = planterColor;
+		this.planterShape = planterShape;
+		this.planterStock = planterStock;
+		this.planterCost = planterCost;
+	}
+
 	public Integer getPlanterId() {
 		return planterId;
 	}

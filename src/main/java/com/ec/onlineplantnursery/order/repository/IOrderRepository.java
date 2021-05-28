@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ec.onlineplantnursery.order.entity.Order;
 
-public interface IOrderRepository extends JpaRepository<Order, Integer>{
+public interface IOrderRepository extends JpaRepository<Order, Integer>, CustomOrderRepository{
 	/*Order addOrder(Order order);
 	Order updateOrder(Order order);
 	Order deleteOrder(int orderId);
