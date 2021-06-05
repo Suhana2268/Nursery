@@ -17,21 +17,19 @@ public class CustomPlantRepositoryImpl implements CustomPlantRepository{
 	EntityManager entityManager;
 	
 	@Override
-	public Optional<Plant> viewPlant(String commonName) {
+	public Plant viewPlant(String commonName) {
 	
 		Query q = entityManager.createQuery("from Plant where commonName=:commonName");
 		q.setParameter("commonName", commonName);
-		Plant p = (Plant) q.getSingleResult();
-		Optional<Plant> plant = Optional.of(p);
-		return plant;
+		return (Plant) q.getSingleResult();
 	}
 
 	@Override
-	public Optional<List<Plant>> viewAllPlants(String typeOfPlant) {
+	public List<Plant> viewAllPlants(String typeOfPlant) {
 		
 		Query q = entityManager.createQuery("from Plant where typeOfPlant=:typeOfPlant");
 		q.setParameter("typeOfPlant", typeOfPlant);
-		return Optional.of(q.getResultList());
+		return q.getResultList();
 	}
 
 }

@@ -10,86 +10,144 @@ import org.springframework.stereotype.Service;
 
 import com.ec.onlineplantnursery.customer.entity.Customer;
 import com.ec.onlineplantnursery.customer.repository.ICustomerRepository;
-
+import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 
 @Service
 public class ICustomerServiceImpl implements ICustomerService{
+
 	
 	@Autowired
-	private ICustomerRepository custRep;
+	ICustomerRepository repo;
 	
 	
 
-	public ICustomerServiceImpl(ICustomerRepository custRep) {
+	public ICustomerServiceImpl() {
 		super();
-		this.custRep = custRep;
+		// TODO Auto-generated constructor stub
 	}
 
+	public ICustomerServiceImpl(ICustomerRepository repo) {
+		super();
+		this.repo = repo;
+	}
+	
+	/*Method Name:addCustomer
+	 *Parameters:Customer
+	 *ReturnType:Customer
+	 *Author Name:Sri Vidya Vaddi
+	 *Created Date: 25/05/2021 */
+	@Transactional
 	@Override
 	public Customer addCustomer(Customer customer) {
 		// TODO Auto-generated method stub
-		custRep.save(customer);
+		repo.save(customer);
 		return customer;
 	}
 
-	@Override
-	public Customer updateCustomer(Customer tenant) {
-		// TODO Auto-generated method stub
-		int id = tenant.getCustomerId();
-		Optional<Customer> cs = custRep.findById(id);
-		if(cs.isPresent()) {
-			Customer cst = cs.get();
-			cst.setAddress(tenant.getAddress());
-		    cst.setCustomerEmail(tenant.getCustomerEmail());
-		    cst.setCustomerId(tenant.getCustomerId());
-		    cst.setCustomerName(tenant.getCustomerName());
-		    cst.setPassword(tenant.getPassword());
-		    cst.setUsername(tenant.getUsername());
-		   
-			return custRep.save(cst);
-		}
-		return null;
-	}
 
+	/*Method Name:updateCustomer
+	 *Parameters:Customer
+	 *ReturnType:Customer
+	 *Author Name:Sri Vidya Vaddi
+	 *Created Date: 25/05/2021 */
 	@Override
-	public Customer deleteCustomer(Customer tenant) {
+	@Transactional
+	public Customer updateCustomer(Customer tenant) throws ResourceNotFoundException {
+		int custId = tenant.getCustomerId();
+		Optional<Customer> s = repo.findById(custId);
+		Customer s1 = null;
+		if(s.isEmpty()) {
+			throw new ResourceNotFoundException();
+		}
+		else {
+	
+			s1 = s.get();
+			s1.setCustomerId(tenant.getCustomerId());
+			s1.setCustomerEmail(tenant.getCustomerEmail());
+			s1.setCustomerName(tenant.getCustomerName());
+			s1.setUsername(tenant.getUsername());
+			s1.setPassword(tenant.getPassword());
+		
+			repo.save(s1);
+		}
+		return s1;
+	}
+	
+	/*Method Name:deleteCustomer
+	 *Parameters:Customer
+	 *ReturnType:Customer
+	 *Author Name:Sri Vidya Vaddi
+	 *Created Date: 25/05/2021 */
+	@Override
+	@Transactional
+	public Customer deleteCustomer(Customer tenant) throws ResourceNotFoundException{
 		// TODO Auto-generated method stub
 		boolean isDeleted = false;
-		Customer c1 = null;
-		List<Customer> cList = viewAllCustomers();
-		for(Customer customer : cList) {
-			if(customer.getCustomerId() == tenant.getCustomerId()) {
-				isDeleted = true;
-				c1 = customer;
-			}
+		int custId = tenant.getCustomerId();
+		Optional<Customer> s = repo.findById(custId);
+		if(s.isEmpty()) {
+			throw new ResourceNotFoundException();
 		}
-		custRep.delete(c1);
-		return c1;
+		else {
+			repo.delete(tenant);
+		}
+		return tenant;
+		
 	}
+	
+
+
+	/*Method Name:viewCustomer
+	 *Parameters:custometId
+	 *ReturnType:Customer
+	 *Author Name:Sri Vidya Vaddi
+	 *Created Date: 25/05/2021 */
 
 	@Override
-	public Customer viewCustomer(int customerId) {
-		// TODO Auto-generated method stub
-		return custRep.findById(customerId).get();
+	public Customer viewCustomer(int customerId) throws ResourceNotFoundException {
+      Optional<Customer> s = repo.findById(customerId);
+      if(s.isEmpty()) {
+    	  throw new ResourceNotFoundException();
+      }
+      else {
+		return repo.findById(customerId).get();
+	}
+	
 	}
 
+	/*Method Name:viewAllCustomers
+	 *Parameters:No Parameters
+	 *ReturnType:List<Customer>
+	 *Author Name:Sri Vidya Vaddi
+	 *Created Date: 25/05/2021 */
 	@Override
 	public List<Customer> viewAllCustomers() {
 		// TODO Auto-generated method stub
-		return custRep.findAll();
+		return repo.findAll();
 	}
+	
+	/*Method Name:validateCustomer
+	 *Parameters:username,password
+	 *ReturnType:boolean
+	 *Author Name:Sri Vidya Vaddi
+	 *Created Date: 25/05/2021 */
 
 	@Override
 	public boolean validateCustomer(String userName, String password) {
-		// TODO Auto-generated method stub
-		List<Customer> cList = custRep.findAll();
-		for(Customer cust:cList) {
-			if(cust.getUsername().equalsIgnoreCase(userName) && cust.getPassword().equals(password)) {
-				return true;
+		Boolean validBoolean = false;
+		List<Customer> custList = repo.findAll();
+		for(Customer c:custList) {
+			if((c.getUsername().equalsIgnoreCase(userName))){
+				if((c.getPassword()).equals(password)) {
+					validBoolean= true;
+				}
+				
 			}
 		}
-		return false;
+		return validBoolean;
 	}
-	
-	
+
 }
+
+
+

@@ -72,6 +72,7 @@ public class Plant {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public Plant(Integer plantId, Integer plantHeight, Integer plantsStock, String commonName, String bloomTime,
 			String medicinalOrCulinaryUse, String difficultyLevel, String temparature, String typeOfPlant,
 			String plantDescription, String plantSpread, double plantCost) {

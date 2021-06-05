@@ -74,9 +74,18 @@ public class Seed {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Seed(Integer seedId, String commonName, String bloomTime, String watering, String difficultyLevel,
-			String temparature, String typeOfSeeds, String seedsDescription, Integer seedsStock, double seedsCost,
-			Integer seedsPerPacket) {
+	
+	public Seed(Integer seedId,
+			@NotEmpty(message = "Seed Name cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters") String commonName,
+			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
+			@NotEmpty(message = "watering cannot be left blank or null") String watering,
+			@NotEmpty(message = "difficulty level cannot be left blank or null") String difficultyLevel,
+			@NotEmpty(message = "Temperature cannot be left blank or null") String temparature,
+			@NotEmpty(message = "Type of seeds cannot be left blank or null") String typeOfSeeds,
+			@NotEmpty(message = "seeds description cannot be left blank or null") String seedsDescription,
+			@Positive(message = "Stock should be positive") Integer seedsStock,
+			@Positive(message = "Cost should be positive") double seedsCost,
+			@Positive(message = "SeedsPerPacket should be positive") Integer seedsPerPacket) {
 		super();
 		this.seedId = seedId;
 		this.commonName = commonName;
@@ -90,6 +99,8 @@ public class Seed {
 		this.seedsCost = seedsCost;
 		this.seedsPerPacket = seedsPerPacket;
 	}
+
+
 	public Integer getSeedId() {
 		return seedId;
 	}

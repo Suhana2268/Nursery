@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Validated
-@RequestMapping("/api")
+@RequestMapping("/api/order")
 @Api(value = "Online Nursery Application",description = "Customer can order planters")
 public class OrderRestController {
 	Logger log = org.slf4j.LoggerFactory.getLogger(OrderRestController.class);
@@ -64,105 +64,50 @@ public class OrderRestController {
 		System.out.println("Nursery Rest Controller Cunstructor");
 	}
 	
-	@GetMapping("/home")
-	public String homeRequest() {
-		return "Welcome : My Nursery App "+LocalDateTime.now();
-	}
-	
-
+	/*Method Name:insertProduct
+	 *Parameters:Order
+	 *ReturnType:OrderDTO
+	 *Author Name:Suhana
+	 *Created Date: 23/05/2021 */
 	@ApiOperation(value = "Order post mapping" , response = Order.class)
 	@PostMapping("/order")
 	public OrderDTO insertProduct(@RequestBody @Valid Order order) throws ResourceNotFoundException{
 		log.info("inside insert orders");
-		
-		//return ordService.displayOrderDetails(order);
 		Optional<Order> optionalOrder = ordService.addOrder(order);
 		Order order1 = optionalOrder.get();
 		OrderDTO orderDto = ordService.displayOrderDetails(order1);
 		return orderDto;
 	}
 	
-	@ApiOperation(value = "Customer post mapping" , response = Customer.class)
-	@PostMapping("/customer")
-	public Customer addCustomer(@RequestBody Customer customer) {
-		log.info("inside insert customer");
-		custService.addCustomer(customer);
-		return customer;
-	}
-	
-	/**@ApiOperation(value = "seed post mapping" , response = Seed.class)
-	@PostMapping("/seed")
-	public Seed addSeed(@RequestBody Seed seed) {
-		log.info("inside insert seeds");
-		seedService.addSeed(seed);
-		return seed;
-	}**/
-	
-	/**@ApiOperation(value = "Plant post mapping" , response = Plant.class)
-	@PostMapping("/plant")
-	public Plant addPlant(@RequestBody Plant plant) {
-		log.info("inside insert plant");
-		plantService.addPlant(plant);
-		return plant;
-	}**/
-	
-	/**@ApiOperation(value = "Planter post mapping" , response = Planter.class)
-	@PostMapping("/planter")
-	public Planter addPlanter(@RequestBody Planter planter) {
-		log.info("inside insert planter");
-		planterService.addPlanter(planter);
-		return planter;
-	}**/
-	
-	
-	@GetMapping("/customer")
-	public List<Customer> viewAllCustomers() {
-		return custService.viewAllCustomers();
-	}
-	
+	/*Method Name:viewAllOrders
+	 *Parameters:No Parameters
+	 *ReturnType:List<OrderDTO>
+	 *Author Name:Suhana
+	 *Created Date: 23/05/2021 */
 	@ApiOperation(value = "Order Get mapping to fetch all orders" , response = List.class)
 	@GetMapping("/orders")
-	public List<OrderDTO> viewAllOrders() {
+	public List<OrderDTO> viewAllOrders() throws ResourceNotFoundException {
 		log.info("Get all Orders");
 		List<Order> orders = ordService.viewAllOrders();
 		return ordService.displayAllOrders(orders);
 	}
-	
-	
-	@GetMapping("/customer/view/{id}")
-	public Customer viewCustomerById(@PathVariable int id) {
-		return custService.viewCustomer(id);
-			
-	}
-	
-	@ApiOperation(value = "Customer Put mapping to fetch and update customer" , response = List.class)
-	@PutMapping("/customer/{id}")
-	public Customer updateCustomer(@RequestBody Customer c,@PathVariable int id)
-	{
-		log.info("Update customer");
-		return custService.updateCustomer(c);
-	}
 
-	@ApiOperation(value = "Customer Delete mapping to delete customer" , response = Customer.class)
-	@PostMapping("/customer/delete")
-	public Customer deleteCustomer(@RequestBody Customer customer) {
-		log.info("Delete customer");
-		return custService.deleteCustomer(customer);
-	}
-	
-	
-	@ApiOperation(value = "Customer Post mapping to auth customer by userid and password")
-	@GetMapping("/customer/validate/{uname}/{pass}")
-	public boolean validateCustomer(@PathVariable String uname, @PathVariable String pass) {
-		return custService.validateCustomer(uname, pass);
-	}
-	
+	/*Method Name:viewPlantersListByOrderId
+	 *Parameters:id
+	 *ReturnType:List<Planter>
+	 *Author Name:Suhana
+	 *Created Date: 23/05/2021 */
 	@ApiOperation(value = "Order Get mapping to fetch list of planters by order id")
 	@GetMapping("/order/planter/{id}")
 	public List<Planter> viewPlantersListByOrderId(@PathVariable int id) throws ResourceNotFoundException {
 		return ordService.viewPlanterByOrderId(id);
 	}
 	
+	/*Method Name:updateByOrder
+	 *Parameters:Order
+	 *ReturnType:Order
+	 *Author Name:Suhana
+	 *Created Date: 23/05/2021 */
 	@ApiOperation(value = "Order Put mapping to fetch and update order" , response = List.class)
 	@PutMapping("/order/update")
 	public Order updateByOrder(@RequestBody Order o)throws ResourceNotFoundException {
@@ -170,6 +115,11 @@ public class OrderRestController {
 		return ordService.updateOrder(o);
 	}
 	
+	/*Method Name:deleteOrder
+	 *Parameters:oid
+	 *ReturnType:Order
+	 *Author Name:Suhana
+	 *Created Date: 23/05/2021 */
 	@ApiOperation(value = "Order Delete mapping to delete order" , response = Order.class)
 	@DeleteMapping("/order/delete/{oid}")
 	public Order deleteOrder(@PathVariable int oid) {
@@ -177,8 +127,13 @@ public class OrderRestController {
 		return ordService.deleteOrder(oid);
 	}
 	
+	/*Method Name:viewOrderById
+	 *Parameters:id
+	 *ReturnType:OrderDTO
+	 *Author Name:Suhana
+	 *Created Date: 23/05/2021 */
 	@GetMapping("/order/{id}")
-	public OrderDTO viewOrderById(@PathVariable int id) throws OrderIdNotFoundException  {
+	public OrderDTO viewOrderById(@PathVariable int id) throws OrderIdNotFoundException, ResourceNotFoundException  {
 		Optional<Order> order = ordService.viewOrder(id);
 		Order returnOrder = order.get();
 		return ordService.displayOrderDetails(returnOrder);

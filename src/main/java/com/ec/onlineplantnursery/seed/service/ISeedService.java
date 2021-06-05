@@ -11,9 +11,7 @@ public interface ISeedService {
 	Seed addSeed(Seed seed);
 
 	Seed updateSeed(Seed seed) throws SeedIdNotFoundException;
-
-	Seed deleteSeed(int seedId) throws SeedIdNotFoundException;
-
+	
 	Seed viewSeed(int seedId) throws SeedIdNotFoundException;
 
 	Optional<Seed> viewSeed(String commonName) throws ResourceNotFoundException;
@@ -21,4 +19,6 @@ public interface ISeedService {
 	List<Seed> viewAllSeeds();
 
 	Optional<List<Seed>> viewAllSeeds(String typeOfSeed) throws ResourceNotFoundException;
+
+	Seed deleteSeed(Seed seed) throws SeedIdNotFoundException;
 }

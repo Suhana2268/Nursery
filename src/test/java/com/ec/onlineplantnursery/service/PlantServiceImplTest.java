@@ -1,11 +1,16 @@
 package com.ec.onlineplantnursery.service;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -34,16 +39,16 @@ public class PlantServiceImplTest {
 
 	//@Mock
 	IPlantRepository plantRepo;
-	private static IPlantServiceImpl service;
+	private static IPlantServiceImpl plantService;
 	private static AutoCloseable ac;
 	
 	
-	//private TestEntityManager em;
+	
 	
 	@BeforeEach
 	public void doinit() {
 		plantRepo = mock(IPlantRepository.class);
-		service = new IPlantServiceImpl(plantRepo);
+		plantService = new IPlantServiceImpl(plantRepo);
 		ac = MockitoAnnotations.openMocks(this);
 	}
 	
@@ -57,57 +62,84 @@ public class PlantServiceImplTest {
 		Plant input = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent","This is a delightful,easy to grow plant","6 inches",150.0);
 		
 		Plant savedProduct = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent","This is a delightful,easy to grow plant","6 inches",150.0);
-		
 	
 		when(plantRepo.save(input)).thenReturn(savedProduct);
-		service.addPlant(input);
+		Plant result = plantService.addPlant(input);
 		verify(plantRepo).save(input);
-		
+		assertEquals(savedProduct, result);
 	}
 	
 	@Test
-	@DisplayName("test- get all Plants")
+//	@DisplayName("test- get all Plants")
 	void testGetAllPlants() {
+
+		Plant input1 = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent Plant","This is a delightful,easy to grow plant","6 inches",150.0);	
+		Plant input2 = new Plant(2,10,10,"Guava","Throughout year","culinary","Easy to grow","20-35 C","Fruit Plant","This is a delightful,easy to grow plant","6 inches",150.0);
+		List<Plant> pList = new ArrayList<>();
+		pList.add(input1);
+		pList.add(input2);
 		
-		List<Plant> pList = mock(List.class);
 		when(plantRepo.findAll()).thenReturn(pList);
-		service.viewAllPlants();
+		List<Plant> outputList = plantService.viewAllPlants();
 		verify(plantRepo).findAll();
-		
+		assertIterableEquals(pList, outputList);
 	}
+	
+	@Test
+    void testviewPlantById() {
+
+		Plant actual = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent Plant","This is a delightful,easy to grow plant","6 inches",150.0);
+		
+		Optional<Plant> p = Optional.of(actual);
+		when(plantRepo.findById(1)).thenReturn(p);	
+		Plant expected = plantService.viewPlant(1);
+		assertEquals(expected, actual);
+	}	
 	
 	@Test
 	void testViewPlantByName() throws ResourceNotFoundException {
-		/**Optional<Plant> p = Optional.empty();
-		when(plantRepo.viewPlant("Ice Plant")).thenReturn(p);
-		service.viewPlant("Ice Plant");
-		verify(plantRepo).viewPlant("Ice Plant");**/
-		String commonName = "abc";
-		Optional<Plant> p = Optional.empty();
-		when(plantRepo.viewPlant(commonName)).thenReturn(p);
-		Executable executable = ()->service.viewPlant(commonName);
-		assertThrows(ResourceNotFoundException.class, executable);
+		Plant input = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent Plant","This is a delightful,easy to grow plant","6 inches",150.0);
 		
+		String commonName = "Ice Plant";
+		when(plantRepo.viewPlant(commonName)).thenReturn(input);
+		Plant plant = plantService.viewPlant(commonName);
+		assertEquals(plant, input);
 	}
 	
 	@Test
 	void testViewPlantByTypeOfPlant() throws ResourceNotFoundException {
-		String typeOfPlant = "abc";
-		Optional<List<Plant>> plantList = Optional.empty();
+		
+		Plant input1 = new Plant(2,10,10,"Guava","Throughout year","culinary","Easy to grow","20-35 C","Fruit Plant","This is a delightful,easy to grow plant","6 inches",150.0);
+		Plant input2 = new Plant(3,10,10,"Papaya","Throughout year","culinary","Easy to grow","20-35 C","Fruit Plant","This is a delightful,easy to grow plant","6 inches",150.0);
+		List<Plant> plantList = new ArrayList<>();
+		plantList.add(input1);
+		plantList.add(input2);
+		
+		String typeOfPlant = "Fruit Plant";	
 		when(plantRepo.viewAllPlants(typeOfPlant)).thenReturn(plantList);
-		Executable executable = ()->service.viewAllPlants(typeOfPlant);
-		assertThrows(ResourceNotFoundException.class, executable);
+		List<Plant> outputList = plantService.viewAllPlants(typeOfPlant);
+		assertIterableEquals(plantList, outputList);
+	}
+	
+	
+	@Test
+	void testUpdatePlant()throws NoSuchElementException {
+		Plant input = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent","This is a delightful,easy to grow plant","6 inches",150.0);	
+		
+		when(plantRepo.findById(1)).thenReturn(Optional.of(input));
+		Plant result = plantService.updatePlant(input);
+		assertEquals(input, result);
 		
 	}
 	
 	@Test
-    void viewPlantById() {
-		Optional<Plant> p = Optional.empty();
-		when(plantRepo.findById(1)).thenReturn(p);
-		service.viewPlant(1);
-		verify(plantRepo).findById(1);
+	void testDeletePlant(){
+		Plant input = new Plant(11,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent","This is a delightful,easy to grow plant","6 inches",150.0);
+	
+		when(plantRepo.findById(11)).thenReturn(Optional.of(input));		
+		Plant result = plantService.deletePlant(input);
+		verify(plantRepo).delete(input);
+		assertEquals(input,result);
 		
 	}
-	
-	
 }//end

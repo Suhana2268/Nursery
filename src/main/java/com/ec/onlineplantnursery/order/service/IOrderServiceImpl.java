@@ -72,6 +72,11 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 
+	/*Method Name:addOrder
+	 *Parameters:Order
+	 *ReturnType:Optional<Order>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 
 	@Override
 	public Optional<Order> addOrder(Order order) throws ResourceNotFoundException{
@@ -107,6 +112,11 @@ public class IOrderServiceImpl implements IOrderService{
 		return Optional.of(order);
 	}
 
+	/*Method Name:updateOrder
+	 *Parameters:Order
+	 *ReturnType:Order
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public Order updateOrder(Order order) throws ResourceNotFoundException {
 		
@@ -124,6 +134,11 @@ public class IOrderServiceImpl implements IOrderService{
 		return orderRep.save(o);
 	}
 
+	/*Method Name:deleteOrder
+	 *Parameters:orderId
+	 *ReturnType:Order
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public Order deleteOrder(int orderId) {
 		
@@ -136,6 +151,11 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 	
 
+	/*Method Name:viewOrder
+	 *Parameters:orderId
+	 *ReturnType:Optional<Order>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public Optional<Order> viewOrder(int orderId) throws OrderIdNotFoundException {
 		
@@ -148,11 +168,22 @@ public class IOrderServiceImpl implements IOrderService{
 		return op;
 	}
 
+	/*Method Name:viewAllOrder
+	 *Parameters:No parameters
+	 *ReturnType:List<Order>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public List<Order> viewAllOrders() {
 	
 		return orderRep.findAll();
 	}
+	
+	/*Method Name:viewPlanterByOrderId
+	 *Parameters:Order
+	 *ReturnType:List<Planter>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	
 	@Override
 	public List<Planter> viewPlanterByOrderId(int orderId) throws ResourceNotFoundException{
@@ -161,7 +192,12 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 
-	public List<OrderDTO> displayAllOrders(List<Order> oList) {
+	/*Method Name:displayAllOrders
+	 *Parameters:List<Order>
+	 *ReturnType:List<OrderDTO>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
+	public List<OrderDTO> displayAllOrders(List<Order> oList) throws ResourceNotFoundException {
 	
 		List<Order> orders = viewAllOrders();
 		List<OrderDTO> oDTOList = new ArrayList<OrderDTO>();
@@ -174,8 +210,12 @@ public class IOrderServiceImpl implements IOrderService{
 	
 	}
 	
-
-	public OrderDTO displayOrderDetails(Order savedOrder)  {
+	/*Method Name:displayOrderDetails
+	 *Parameters:Order
+	 *ReturnType:OrderDTO
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
+	public OrderDTO displayOrderDetails(Order savedOrder) throws ResourceNotFoundException  {
 		
 		
 		Customer cust = custService.viewCustomer(savedOrder.getCustId());
@@ -184,7 +224,6 @@ public class IOrderServiceImpl implements IOrderService{
 		return orderDTO;
 		
 	}
-
 	
 	
 }

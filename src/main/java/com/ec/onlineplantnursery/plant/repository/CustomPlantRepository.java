@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.ec.onlineplantnursery.plant.entity.Plant;
 
 public interface CustomPlantRepository {
-	Optional<Plant> viewPlant(String commonName);
-	Optional<List<Plant>> viewAllPlants(String typeOfPlant);
+	Plant viewPlant(String commonName);
+	List<Plant> viewAllPlants(String typeOfPlant);
 
 }

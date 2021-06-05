@@ -37,6 +37,13 @@ public class ISeedServiceImpl implements ISeedService{
 
 
 
+
+/*Method Name:addSeed
+	 *Parameters:Seed
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 21/05/2021 */
+	
 	@Override
 	@Transactional
 	public Seed addSeed(Seed seed) {
@@ -44,6 +51,12 @@ public class ISeedServiceImpl implements ISeedService{
 		seedRepo.save(seed);
 		return seed;
 	}
+	
+	/*Method Name:updateSeed
+	 *Parameters:Seed
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 24/05/2021 */
 
 	@Override
 	public Seed updateSeed(Seed seed) throws SeedIdNotFoundException {
@@ -71,17 +84,31 @@ public class ISeedServiceImpl implements ISeedService{
 		return s1;
 	}
 
+	/*Method Name:deleteSeed
+	 *Parameters:Seed
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 24/05/2021 */
 	@Override
 	@Transactional
-	public Seed deleteSeed(int seedId) throws SeedIdNotFoundException {
-		
+	public Seed deleteSeed(Seed seed) throws SeedIdNotFoundException{
+		boolean isDeleted = false;
+		int seedId = seed.getSeedId();
 		Optional<Seed> s = seedRepo.findById(seedId);
 		if(s.isEmpty()) {
 			throw new SeedIdNotFoundException(seedId);
 		}
-		seedRepo.deleteById(seedId);
-		return s.get();
+		else {
+			seedRepo.delete(seed);
+		}
+		return seed;
 	}
+
+	/*Method Name:viewSeed
+	 *Parameters:seedId
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 21/05/2021 */
 
 	@Override
 	public Seed viewSeed(int seedId) throws SeedIdNotFoundException  {
@@ -92,6 +119,12 @@ public class ISeedServiceImpl implements ISeedService{
 		return seedRepo.findById(seedId).get();
 	}
 
+/*Method Name:viewSeed
+	 *Parameters:commonName
+	 *Author Name:Nagolu Tejashwini
+	 *ReturnType:Optional<Seed>
+	 *Created Date: 24/05/2021 */
+	
 	@Override
 	public Optional<Seed> viewSeed(String commonName) throws ResourceNotFoundException {
 		Optional<Seed> s1 = seedRepo.getSeedByCommonName(commonName);
@@ -101,12 +134,24 @@ public class ISeedServiceImpl implements ISeedService{
 		return s1;
 	}
 
+	/*Method Name:viewAllSeeds
+	 *Parameters:No Parameters
+	 *ReturnType:Optional<List<Seed>>
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 21/05/2021 */
+	
 	@Override
 	public List<Seed> viewAllSeeds() {
 		// TODO Auto-generated method stub
 		return seedRepo.findAll();
 	}
 
+
+/*Method Name:viewAllSeeds
+	 *Parameters:Seed
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 24/05/2021 */
 	@Override
 	public Optional<List<Seed>> viewAllSeeds(String typeOfSeed) throws ResourceNotFoundException {
 		Optional<List<Seed>> sList = seedRepo.getSeedsByTypeOfSeed(typeOfSeed);

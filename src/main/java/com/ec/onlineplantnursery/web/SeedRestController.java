@@ -43,25 +43,38 @@ public class SeedRestController {
 		System.out.println("---->> Online Nursery Rest constructor");
 	}
 	
-	@GetMapping("/home")
-	public String homeRequest() {
-		return "Welcome : Online Nurse Application" + LocalDateTime.now();
-	}
-	
+	/*Method Name:insertSeed
+	 *Parameters:Seed
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 21/05/2021 */
 	@ApiOperation(value = "seed post mapping" , response = Seed.class)
-	@PostMapping("/seed")
+	@PostMapping("/insertseed")
 	public Seed insertSeed(@RequestBody @Valid Seed s) {
 		log.info("inside insert seeds");
 		seedService.addSeed(s);
 		return s;
 	}
 	
+	/*Method Name:getAllSeeds
+	 *Parameters:No parameter
+	 *ReturnType:List<Seed>
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 21/05/2021 */
 	@ApiOperation(value = "Seed Get mapping to fetch all seeds" , response = List.class)
-	@GetMapping("/seeds")
+	@GetMapping("/getallseeds")
 	public List<Seed> getAllSeeds(){
 		log.info("inside Get all seeds information");
 		return seedService.viewAllSeeds();
 	}
+	
+
+/*Method Name:getSeedById
+	 *Parameters:seedId
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 21/05/2021 */
+
 	
 	@ApiOperation(value = "Seed Get mapping to fetch seed by id" , response = Seed.class)
 	@GetMapping("/seedId/{id}")
@@ -72,18 +85,30 @@ public class SeedRestController {
 		
 	}
 	
-	@ApiOperation(value = "Seed Post mapping to delete seed" , response = Seed.class)
-	@DeleteMapping("/seed/delete/{seedId}")
-	public Seed deleteSeed(@PathVariable int seedId) throws SeedIdNotFoundException 
+
+/*Method Name:deleteSeed
+	 *Parameters:Seed
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 24/05/2021 */
+	
+	@ApiOperation(value = "Seed delete mapping to delete seed" , response = Seed.class)
+	@DeleteMapping("/delete")
+	public Seed deleteSeed(@RequestBody Seed seed) throws SeedIdNotFoundException 
 	{
 		log.info("inside delete seed");
-		
-		return seedService.deleteSeed(seedId);
+		return seedService.deleteSeed(seed);
 		
 	}
 	
+	/*Method Name:updateSeed
+	 *Parameters:Seed
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 24/05/2021 */
+	
 	@ApiOperation(value = "Seed Put mapping to update seed" , response = Seed.class)
-	@PutMapping("/seed/update")
+	@PutMapping("/update")
 	public Seed updateSeed(@RequestBody Seed seed) throws SeedIdNotFoundException
 	{
 		log.info("inside update seed");
@@ -91,16 +116,30 @@ public class SeedRestController {
 		
 	}
 	
+	/*Method Name:getSeedByCommonName
+	 *Parameters:commonName
+	 *ReturnType:Seed
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 24/05/2021 */
+
+	
 	@ApiOperation(value = "Seed Get mapping to fetch details of seed by commonName" , response = Seed.class)
-	@GetMapping("/seedName/{commonName}")
+	@GetMapping("/commonname/{commonName}")
 	public Seed getSeedByCommonName(@PathVariable String commonName) throws ResourceNotFoundException 
 	{
 		log.info("inside get seed by common name");
 		return seedService.viewSeed(commonName).get();
 	}
 	
+
+/*Method Name:getSeedsByTypeOfSeed
+	 *Parameters:typrOfSeed
+	 *ReturnType:List<Seed>
+	 *Author Name:Nagolu Tejashwini
+	 *Created Date: 24/05/2021 */
+	
 	@ApiOperation(value = "Seed Get mapping to fetch all seeds by type of seed" , response = Seed.class)
-	@GetMapping("/seeds/{typeOfSeed}")
+	@GetMapping("/typeofseed/{typeOfSeed}")
 	public List<Seed> getSeedsByTypeOfSeed(@PathVariable String typeOfSeed) throws ResourceNotFoundException 
 	{
 		log.info("inside get seed by type of seed");

@@ -23,7 +23,6 @@ public class IPlantServiceImpl implements IPlantService{
 	
 	public IPlantServiceImpl() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	
@@ -34,6 +33,12 @@ public class IPlantServiceImpl implements IPlantService{
 	}
 
 
+	/*Method Name:addPlant
+	 *Parameters:Plant
+	 *ReturnType:Plant
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 22/05/2021 */
+	
 
 	@Override
 	@Transactional
@@ -44,6 +49,12 @@ public class IPlantServiceImpl implements IPlantService{
 
 	}
 
+	/*Method Name:updatePlant
+	 *Parameters:Plant
+	 *ReturnType:Plant
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 22/05/2021 */
+	
 	@Override
 	public Plant updatePlant(Plant plant) {
 		Optional<Plant> existingPlant = plantRepo.findById(plant.getPlantId());
@@ -69,46 +80,77 @@ public class IPlantServiceImpl implements IPlantService{
 		
 	}
 
+	/*Method Name:deletePlant
+	 *Parameters:Plant
+	 *ReturnType:Plant
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 25/05/2021 */
+	
 	@Override
-	public Plant deletePlant(int plantId) {
-		Optional<Plant> plant = plantRepo.findById(plantId);
-		plantRepo.deleteById(plantId);	
-		return plant.get();
+	@Transactional
+	public Plant deletePlant(Plant plant) {
+		boolean isDeleted = false;
+		int plantId = plant.getPlantId();
+		Optional<Plant> p= plantRepo.findById(plantId);
+		if(p.isPresent()) {
+			plantRepo.delete(plant);	
+		}
+		return plant;
 	}
 
+	/*Method Name:viewPlant
+	 *Parameters:PlantId
+	 *ReturnType:Plant
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 23/05/2021 */
+	
 	@Override
-	public Optional<Plant> viewPlant(int plantId) {
-		// TODO Auto-generated method stub
-		
-		return plantRepo.findById(plantId);
+	public Plant viewPlant(int plantId) {	
+		return plantRepo.findById(plantId).get();
 	}
 
+	/*Method Name:viewPlant
+	 *Parameters:commonName
+	 *ReturnType:Optional<Plant>
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 24/05/2021 */
+	
 	@Override
-	public Optional<Plant> viewPlant(String commonName) throws ResourceNotFoundException {
-		Optional<Plant> p = plantRepo.viewPlant(commonName);
-		
+	public Plant viewPlant(String commonName) throws ResourceNotFoundException {
+		Plant plant = plantRepo.viewPlant(commonName);
+		Optional<Plant> p = Optional.of(plant);	
 		if(p.isEmpty()) throw new ResourceNotFoundException(commonName);
-
-		
-		return p;
+	
+		return p.get();
 	}
 
+	/*Method Name:viewAllPlants
+	 *Parameters: No Parameters
+	 *ReturnType:List<Plant>
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 24/05/2021 */
+	
 	@Override
 	public List<Plant> viewAllPlants() {
-		// TODO Auto-generated method stub
+
 		return plantRepo.findAll();
 	}
 
+	/*Method Name:viewAllPlants
+	 *Parameters:typeOfPlant
+	 *ReturnType:Optional<List<Plant>>
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 24/05/2021 */
+	
 	@Override
-	public Optional<List<Plant>> viewAllPlants(String typeOfPlant) throws ResourceNotFoundException {
-		Optional<List<Plant>> pList = plantRepo.viewAllPlants(typeOfPlant);
+	public List<Plant> viewAllPlants(String typeOfPlant) throws ResourceNotFoundException {
+		List<Plant> plantList = plantRepo.viewAllPlants(typeOfPlant);
+		Optional<List<Plant>> pList = Optional.of(plantList);
 		
 		if(pList==null || pList.isEmpty()) {
 			throw new ResourceNotFoundException(typeOfPlant);
-		}
-
-		
-		return plantRepo.viewAllPlants(typeOfPlant);
+		}	
+		return pList.get();
 	}
 
 
