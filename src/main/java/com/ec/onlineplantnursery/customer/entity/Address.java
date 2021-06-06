@@ -1,20 +1,54 @@
 package com.ec.onlineplantnursery.customer.entity;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import com.sun.istack.NotNull;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Embeddable
 public class Address {
+
+	@ApiModelProperty(name = "addressID",value = "Hold the address id ",required = true)
+	@NotNull
+	@Min(value = 1,message="Enter valid addressID")
 	private Integer addressId;
+	
+
+	@ApiModelProperty(name = "HouseNo",value = "Hold the house no",required = true)
+	@NotEmpty(message = "Housenumber cannot be left blank or null")
+	@Size(min = 3, max = 50, message = "Invalid housenumber ,housenumber should have minimum 3 and maximum 50 characters")
+	
 	private String houseNo;
+	
+
+	@ApiModelProperty(name = "Colony",value = "Hold the min 3 char only",required = true)
+	@NotEmpty(message = "Colony cannot be left blank or null")
+	@Size(min = 3, max = 50, message = "Invalid colony ,Colony should have minimum 3 and maximum 50 characters")
 	private String colony;
+	
+	@ApiModelProperty(name = "City",value = "Hold the min 3 char only",required = true)
+	@NotEmpty(message = "City cannot be left blank or null")
+	@Size(min = 3, max = 50, message = "Invalid City ,City should have minimum 3 and maximum 50 characters")
 	private String city;
+	
+	@ApiModelProperty(name = "State",value = "Hold the min 3 char only",required = true)
+	@NotEmpty(message = "State cannot be left blank or null")
+	@Size(min = 3, max = 50, message = "Invalid State ,State should have minimum 3 and maximum 50 characters")
 	private String state;
-	private int pincode;
+	
+	@ApiModelProperty(name = "Pincode",value = "Hold the 7 digit number ",required = true)
+    @NotNull
+	private Long pincode;
+	
 	public Address() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public Address(Integer addressId, String houseNo, String colony, String city, String state, int pincode) {
+	public Address(Integer addressId, String houseNo, String colony, String city, String state, Long pincode) {
 		super();
 		this.addressId = addressId;
 		this.houseNo = houseNo;
@@ -53,11 +87,16 @@ public class Address {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public int getPincode() {
+	public Long getPincode() {
 		return pincode;
 	}
-	public void setPincode(int pincode) {
+	public void setPincode(Long pincode) {
 		this.pincode = pincode;
+	}
+	@Override
+	public String toString() {
+		return "Address [addressId=" + addressId + ", houseNo=" + houseNo + ", colony=" + colony + ", city=" + city
+				+ ", state=" + state + ", pincode=" + pincode + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -67,7 +106,7 @@ public class Address {
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((colony == null) ? 0 : colony.hashCode());
 		result = prime * result + ((houseNo == null) ? 0 : houseNo.hashCode());
-		result = prime * result + pincode;
+		result = prime * result + ((pincode == null) ? 0 : pincode.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		return result;
 	}
@@ -100,7 +139,10 @@ public class Address {
 				return false;
 		} else if (!houseNo.equals(other.houseNo))
 			return false;
-		if (pincode != other.pincode)
+		if (pincode == null) {
+			if (other.pincode != null)
+				return false;
+		} else if (!pincode.equals(other.pincode))
 			return false;
 		if (state == null) {
 			if (other.state != null)

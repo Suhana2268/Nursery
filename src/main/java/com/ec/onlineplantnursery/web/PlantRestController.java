@@ -35,14 +35,11 @@ public class PlantRestController {
 	@Autowired
 	private IPlantService plantService;
 	
-	public PlantRestController() {
-		System.out.println("-----------");
-	}
-	
-	@GetMapping("/home")
-	public String home() {
-		return "Welcome to Nursery App "+LocalDate.now();
-	}
+	/*Method Name:addPlant
+	 *Parameters:Plant
+	 *ReturnType:Plant
+	 *Author Name:Swathi
+	 *Created Date: 22/05/2021 */
 	@ApiOperation(value="Add Plant",response=Plant.class)
 	@PostMapping("/addPlant")
 	public Plant addPlant(@Valid @RequestBody Plant p) {
@@ -50,6 +47,11 @@ public class PlantRestController {
 		return plantService.addPlant(p);
 	}
 	
+	/*Method Name:updatePlant
+	 *Parameters:Plant
+	 *ReturnType:Plant
+	 *Author Name:Swathi
+	 *Created Date: 22/05/2021 */
 	@ApiOperation(value="Updating a plant",response = Plant.class)
 	@PutMapping("/updatePlant")
 	public Plant updatePlant(@RequestBody Plant plant) {
@@ -57,13 +59,23 @@ public class PlantRestController {
 		return plantService.updatePlant(plant);
 	}
 	
+	/*Method Name:deletePlant
+	 *Parameters:Plant
+	 *ReturnType:Plant
+	 *Author Name:Ambidi Swathi
+	 *Created Date: 25/05/2021 */
+	
 	@ApiOperation(value="Delete Plant",response=Plant.class)
 	@DeleteMapping("/deletePlant/{plantId}")
-	public Plant deletePlant(@PathVariable int plantId) {
+	public Plant deletePlant(@RequestBody Plant p) {
 		log.info("Inside Delete Plant");
-		return plantService.deletePlant(plantId);
+		return plantService.deletePlant(p);
 	}
-	
+	/*Method Name:viewAllPLants
+	 *Parameters:No parameters
+	 *ReturnType:List<Plant>
+	 *Author Name:Swathi
+	 *Created Date: 24/05/2021 */
 	@ApiOperation(value="view All Plants",response=Plant.class)
 	@GetMapping("/viewPlants")
 	public List<Plant> viewAllPlants(){
@@ -71,12 +83,23 @@ public class PlantRestController {
 		return plantService.viewAllPlants();
 	}
 	
+	/*Method Name:viewAllPlants
+	 *Parameters:typeOfPlant
+	 *ReturnType:List<Plant>
+	 *Author Name:Swathi
+	 *Created Date: 24/05/2021 */
 	@ApiOperation(value="view All Plants",response=Plant.class)
 	@GetMapping("/viewPlantsByType/{typeOfPlant}")
 	public List<Plant> viewAllPlants(@PathVariable String typeOfPlant)throws ResourceNotFoundException{
 		log.info("Inside View Plants by type of Plant");
 		return plantService.viewAllPlants(typeOfPlant).get();
 	}
+	
+	/*Method Name:addPlant
+	 *Parameters:Plant
+	 *ReturnType:Plant
+	 *Author Name:Swathi
+	 *Created Date: 23/05/2021 */
 	@ApiOperation(value="view Plant",response=Plant.class)
 	@GetMapping("/viewPlant/{plantId}")
 	public Plant viewPlant(@PathVariable int plantId) {
@@ -84,7 +107,11 @@ public class PlantRestController {
 		return plantService.viewPlant(plantId).get();
 	}
 	
-
+	/*Method Name:viewPlant
+	 *Parameters:commonName
+	 *ReturnType:Plant
+	 *Author Name:Swathi
+	 *Created Date: 24/05/2021 */
 	@ApiOperation(value="view Plant by Name",response=Plant.class)
 	@GetMapping("/viewPlantByName/{commonName}")
 	public Plant viewPlant(@PathVariable String commonName)throws ResourceNotFoundException {

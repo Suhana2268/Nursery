@@ -72,6 +72,7 @@ public class Plant {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public Plant(Integer plantId, Integer plantHeight, Integer plantsStock, String commonName, String bloomTime,
 			String medicinalOrCulinaryUse, String difficultyLevel, String temparature, String typeOfPlant,
 			String plantDescription, String plantSpread, double plantCost) {
@@ -89,6 +90,34 @@ public class Plant {
 		this.plantsStock = plantsStock;
 		this.plantCost = plantCost;
 	}
+	
+	
+
+	public Plant(Integer plantId, Integer plantHeight,
+			@NotEmpty(message = "Plant spread cannot be blank") @Size(min = 3, max = 15, message = "Invalid Plant spread") String plantSpread,
+			@NotEmpty(message = "Plant Name cannot be blank") @Size(min = 3, max = 15, message = "Invalid Plant Name") String commonName,
+			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
+			String medicinalOrCulinaryUse,
+			@NotEmpty(message = "difficulty level cannot be left blank or null") String difficultyLevel,
+			@NotEmpty(message = "Temperature cannot be left blank or null") String temparature,
+			@NotNull @Size(min = 3, max = 15, message = "Invalid Plant type") String typeOfPlant,
+			@NotEmpty(message = "plant description cannot be left blank or null") String plantDescription,
+			@Positive(message = "Stock should be positive") Integer plantsStock, @NotNull @Positive double plantCost) {
+		super();
+		this.plantId = plantId;
+		this.plantHeight = plantHeight;
+		this.plantSpread = plantSpread;
+		this.commonName = commonName;
+		this.bloomTime = bloomTime;
+		this.medicinalOrCulinaryUse = medicinalOrCulinaryUse;
+		this.difficultyLevel = difficultyLevel;
+		this.temparature = temparature;
+		this.typeOfPlant = typeOfPlant;
+		this.plantDescription = plantDescription;
+		this.plantsStock = plantsStock;
+		this.plantCost = plantCost;
+	}
+
 	public Integer getPlantId() {
 		return plantId;
 	}

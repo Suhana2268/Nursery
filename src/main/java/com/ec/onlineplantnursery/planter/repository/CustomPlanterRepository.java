@@ -8,5 +8,5 @@ import com.ec.onlineplantnursery.planter.entity.Planter;
 public interface CustomPlanterRepository {
 
 	Optional<List<Planter>> viewPlanter(String planterShape);
-	Optional<List<Planter>> getPlantersByRange(double minCost, double maxCost);
+	Optional<List<Planter>> getPlantersByRange(int minCost, int maxCost);
 }

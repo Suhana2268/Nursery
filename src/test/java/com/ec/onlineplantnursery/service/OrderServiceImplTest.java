@@ -57,35 +57,7 @@ public class OrderServiceImplTest {
 		ac.close();
 	}
 	
-	@Test
-	void testSaveOrder() throws ResourceNotFoundException{
-		List<Integer> planterIds = Arrays.asList(1, 2); 
-		//Address address = new Address(20, "8-90", "Yusufguda", "Hyderabad", "Telangana", 500045);
-		//Customer cust = new Customer(1, "Suhana", "suhana123@gmail.com", "suhana2268", "123456", address);
-		//Seed seed = new Seed(1, "mango", "10 days", "twicw a day", "hard", "30 degrees", "dry", "Mango seed", 20 , 70.0, 2);
-		//Plant plant = new Plant(1, 4,35, "Rose","2 weeks", "No", "Medium", "25 degrees", "short", "Rose plant", "half", 50.00);
-		//Planter p1 = new Planter(1, 2.3f, 4, 3, 1, "round", 46, 25, null, seed, 2);
-		//Planter p2 = new Planter(1, 5.3f, 2, 2, 1, "square", 20, 30, plant, null, 1);
-		//List<Planter> pList = Arrays.asList(p1, p2);
-		
-		
-		
-		
-		orderService.setCustService(customerService);
-		Customer cust = mock(Customer.class);
-		List<Planter> pList = mock(List.class);
-		LocalDate date = LocalDate.now();
-		//Order input = new Order(101, date, "online", 1, 20.00, 1, planterIds, cust, pList);
-		//OrderDTO savedOrder = new OrderDTO(101, 20.00, pList, cust.getCustomerName(), cust.getAddress());
-		//Optional<Order> saved = Optional.of(new Order(101, date, "online", 1, 20.00, 1, planterIds, cust, pList));
-		Order input = mock(Order.class);
-		Order saved = mock(Order.class);
-		
-		when(orderRepo.save(input)).thenReturn(saved);
-		orderService.addOrder(input);
-		verify(orderRepo).save(saved);
 	
-	}
 	
 	@Test
 	void testGetOrderById() throws OrderIdNotFoundException {

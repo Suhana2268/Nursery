@@ -1,6 +1,7 @@
 package com.ec.onlineplantnursery.service;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -106,6 +107,24 @@ public class PlantServiceImplTest {
 		when(plantRepo.findById(1)).thenReturn(p);
 		service.viewPlant(1);
 		verify(plantRepo).findById(1);
+		
+	}
+
+	@Test
+	void testUpdatePlant()throws NoSuchElementException {
+		Plant input = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent","This is a delightful,easy to grow plant","6 inches",150.0);
+		
+		Plant saved = new Plant(1,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent","This is a delightful,easy to grow plant","6 inches",150.0);
+		
+		try{
+			when(plantRepo.save(input)).thenReturn(saved);
+			service.updatePlant(input);
+			
+			assertEquals(input, saved);
+		}
+		catch(NoSuchElementException e) {
+			
+		}
 		
 	}
 	

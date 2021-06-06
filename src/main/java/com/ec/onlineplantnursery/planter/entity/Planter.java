@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -49,13 +49,13 @@ public class Planter {
 	private int planterCost;
 	
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne
 	@JoinColumn(name = "Plant_info", referencedColumnName = "plantId")
 	private Plant plant;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Seed_Info", referencedColumnName = "seedId")
+	@OneToOne
+	@JoinColumn(name = "Seed_info", referencedColumnName = "seedId")
 	private Seed seed;
 
 
@@ -63,10 +63,6 @@ public class Planter {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	
-	
-	
 
 
 	public Planter(Integer planterId, float planterheight,
@@ -155,10 +151,25 @@ public class Planter {
 		this.planterCost = planterCost;
 		this.plant = plant;
 	}
+	
 
 
-
-
+	public Planter(float planterheight, @Min(value = 1, message = "Capacity cannot be less than 1") int planterCapacity,
+			int drinageHoles, int planterColor,
+			@NotEmpty(message = "Planter shape cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Planter shape") String planterShape,
+			@Min(value = 1, message = "In stock cannot be less than 1") int planterStock,
+			@Min(value = 50, message = "Cost cannot be less than 50") int planterCost, Plant plant, Seed seed) {
+		super();
+		this.planterheight = planterheight;
+		this.planterCapacity = planterCapacity;
+		this.drinageHoles = drinageHoles;
+		this.planterColor = planterColor;
+		this.planterShape = planterShape;
+		this.planterStock = planterStock;
+		this.planterCost = planterCost;
+		this.plant = plant;
+		this.seed = seed;
+	}
 
 
 	public Integer getPlanterId() {

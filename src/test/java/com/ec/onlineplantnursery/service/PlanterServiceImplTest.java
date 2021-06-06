@@ -1,10 +1,12 @@
 package com.ec.onlineplantnursery.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.ArgumentMatchers;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,6 +27,7 @@ import com.ec.onlineplantnursery.plant.repository.IPlantRepository;
 import com.ec.onlineplantnursery.plant.service.IPlantService;
 import com.ec.onlineplantnursery.plant.service.IPlantServiceImpl;
 import com.ec.onlineplantnursery.planter.entity.Planter;
+import com.ec.onlineplantnursery.planter.repository.CustomPlanterRepository;
 import com.ec.onlineplantnursery.planter.repository.IPlanterRepository;
 import com.ec.onlineplantnursery.planter.service.IPlanterServiceImpl;
 import com.ec.onlineplantnursery.seed.entity.Seed;
@@ -60,71 +64,38 @@ public class PlanterServiceImplTest {
 		ac.close();
 	}
 
-	@Test
-	@DisplayName("Test-Save Planter with Seed Name")
-	void testSavePlanterBySeed() throws ResourceNotFoundException {
-		Seed sinput = new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
-				"This seed is a small embryonic plant",200,300,2000);
-		
-		Planter input = new Planter(1,12,3,2,23,"Round",45,30, sinput);
-		Planter savedPlanter = new Planter(1,12,3,2,23,"Round",45,30, sinput);
-
-		when(planterRepo.save(input)).thenReturn(savedPlanter);
-		planterService.addPlanter(input, 0, 101);
-		verify(planterRepo).save(input);
-
-	}
-	
 	
 	@Test
-	@DisplayName("Test-Save Planter with Plant Name")
-	void testSavePlanterByPlant() throws ResourceNotFoundException {
-		Plant sinput = new Plant(123,12,380,"Mango","Once a day","medical","moderate","32",
-				"fruit","This is a mango plant","high",3000);
-		
-		Planter input = new Planter(1,12,3,2,23,"Round",45,30,sinput);
-		Planter savedPlanter = new Planter(1,12,3,2,23,"Round",45,30,sinput);
-
-		when(planterRepo.save(input)).thenReturn(savedPlanter);
-		planterService.addPlanter(input, 123, 0);
-		verify(planterRepo).save(input);
-
-	}
-	
-	
-	@Test
-	@DisplayName("Test-Save Planter with Both Plant and Seed Name")
-	void testSavePlanterByBoth() throws ResourceNotFoundException {
-		
-		Seed sinput = new Seed(101,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
-				"This seed is a small embryonic plant",200,300,2000);
-		Plant pinput = new Plant(123,12,380,"Mango","Once a day","medical","moderate","32",
-				"fruit","This is a mango plant","high",3000);
-		
-		Planter input = new Planter(1,12,3,2,23,"Round",45,30,pinput,sinput);
-		Planter savedPlanter = new Planter(1,12,3,2,23,"Round",45,30,pinput,sinput);
-
-		when(planterRepo.save(input)).thenReturn(savedPlanter);
-		planterService.addPlanter(input, 123, 101);
-		verify(planterRepo).save(input);
-
-	}
-	
-	@Test
-	@DisplayName("Test-Save Planter without  Plant and Seed Name")
+	@Disabled
+	@DisplayName("Test-Save Planter")
 	void testSavePlanter() throws ResourceNotFoundException {
+		Plant plant = new Plant(1, 4, 13, "Aloe", "Once a week", "medicinal", "easy", "20 C", "Succulent", "This is a stemless or very short-stemmed plant", "wide", 200);
+		Seed seed = new Seed(1,"Al","Morning", "Twice a day", "easy","25 C","Monocotyledonous", "This seed is a small embryonic plant",200,300,2000);
+		//plant.setPlantId(1);
+		//seed.setSeedId(1);
 		
-		Planter input = new Planter(1,12,3,2,23,"Round",45,30);
-		Planter savedPlanter = new Planter(1,12,3,2,23,"Round",45,30);
-
-		when(planterRepo.save(input)).thenReturn(savedPlanter);
-		planterService.addPlanter(input, 0, 0);
-		verify(planterRepo).save(input);
+		//plantRepo.save(plant);
+		
+		Planter input = new Planter(105,12,3,2,23,"Round",45,30, plant, seed);
+		//Planter savedInput = new Planter(105,12,3,2,23,"Round",45,30, plant, seed);
+		
+		//Planter input = mock(Planter.class);
+		
+		when(planterRepo.save(input)).thenReturn(input);
+		when(planterRepo.save(ArgumentMatchers.any(Planter.class))).thenReturn(input);
+		
+		
+		Planter result = planterService.addPlanter(input);
+		//verify(planterRepo).save(input);
+		assertEquals(input, result);
+		
+		
 
 	}
 
 
 	@Test
+	//@Disabled
 	@DisplayName("Test-Get All Planters , Args:- No Args to pass")
 	void testGetAllPlanters() {
 
@@ -132,82 +103,168 @@ public class PlanterServiceImplTest {
 		List<Planter> pList = mock(List.class); 
 		//when() and 	//thenReturn()
 		when(planterRepo.findAll()).thenReturn(pList);
-		//call the actual method 
-		planterService.viewAllPlanters();
-		//verify
-		verify(planterRepo).findAll();
+		//call the actual method
+		List<Planter> outputOrderList = planterService.viewAllPlanters();
+		assertEquals(pList, outputOrderList);
 
 	}
 
 	@Test
-	@DisplayName("Test-Get Planter by Id , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Get Planter by Id , Args:- Passing PlanterId")
 	void testViewPlanterById() throws ResourceNotFoundException{
 
+		int input = 52;
+		Planter planter = mock(Planter.class);
+		Optional<Planter> optional = Optional.of(planter);
+		when(planterRepo.findById(input)).thenReturn(optional);
+		Optional<Planter> output = Optional.of(planterService.viewPlanter(input));
+		
+		//verify(planterRepo).findById(input);
+		assertEquals(optional, output);
 
-		Optional<Planter> s = Optional.empty();
-		//when() and 	//thenReturn()
-		when(planterRepo.findById(2)).thenReturn(s);
-		Executable executable = ()->planterService.viewPlanter(2);
+	}
+	
+	@Test
+	public void testViewPlanterByIdException() {
+		
+		int input = 20;
+		when(planterRepo.findById(input)).thenReturn(Optional.ofNullable(null));
+		Executable executable = ()->planterService.viewPlanter(input);
 		assertThrows(ResourceNotFoundException.class, executable);
-
 	}
 
 	@Test
-	@DisplayName("Test-Get Planter by Planter Shape , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Get Planter by Planter Shape , Args:- Passing planterShape")
 	void testViewPlanterByShape() throws ResourceNotFoundException {
 
 
 		String planterShape = "square";
-		Optional<List<Planter>> s = Optional.empty();
-		when(planterRepo.viewPlanter(planterShape)).thenReturn(s);
+		
+		Plant plant = new Plant(1, 4, "wide", "Rose", "Once a week", "medicinal", "easy", "20 C", "Succulent", "This is a stemless or very short-stemmed plant", 13, 200);
+	    Seed seed = new Seed(2, "Money", "One week", "Once a day", "easy", "20ºC", "Monocotyledonous", "This seed is a small embryonic plant", 20, 100.0, 1000);
+	    
+	    Planter planter = new Planter(102, 11, 2, 2, 2, "square", 5, 110, plant, seed);
+		List<Planter> pList = new ArrayList<>();
+		pList.add(planter);
+		when(planterRepo.viewPlanter(planterShape)).thenReturn(Optional.of(pList));
+		//Executable executable = ()->planterService.viewPlanter(planterShape);
+		//assertThrows(ResourceNotFoundException.class, executable);
+		
+		List<Planter> outputOrderList = planterService.viewPlanter(planterShape);
+		assertEquals(pList, outputOrderList);
+
+	}
+	
+	@Test
+	public void testViewPlanterByShapeException() {
+		
+		String planterShape = "star";
+		when(planterRepo.viewPlanter(planterShape)).thenReturn(Optional.ofNullable(null));
 		Executable executable = ()->planterService.viewPlanter(planterShape);
 		assertThrows(ResourceNotFoundException.class, executable);
-
 	}
 
 	@Test
-	@DisplayName("Test-Get Planter by range , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Get Planter by range , Args:- minCost, maxCost")
 	void testViewPlanterByRange() throws ResourceNotFoundException {
 
 
-		double minCost = 50;
-		double maxCost = 100;
-		Optional<List<Planter>> pList = Optional.empty(); 
-		when(planterRepo.getPlantersByRange(minCost,maxCost)).thenReturn(pList);
+		int minCost = 100;
+		int maxCost = 150;
+		
+		Plant plant = new Plant(1, 4, "wide", "Rose", "Once a week", "medicinal", "easy", "20 C", "Succulent", "This is a stemless or very short-stemmed plant", 13, 200);
+	    Seed seed = new Seed(2, "Money", "One week", "Once a day", "easy", "20ºC", "Monocotyledonous", "This seed is a small embryonic plant", 20, 100.0, 1000);
+	    
+		
+		Planter planter = new Planter(102, 11, 2, 2, 2, "square", 5, 110, plant, seed);
+		List<Planter> pList = new ArrayList<>();
+		pList.add(planter);
+		when(planterRepo.getPlantersByRange(minCost,maxCost)).thenReturn(Optional.of(pList));
 		//call the actual method 
-		Executable executable = ()->planterService.viewAllPlanters(minCost,maxCost);
+		//Executable executable = ()->planterService.viewAllPlanters(minCost,maxCost);
+		//assertThrows(ResourceNotFoundException.class, executable);
+				
+		List<Planter> outputOrderList = planterService.viewAllPlanters(minCost, maxCost);
+		assertEquals(pList, outputOrderList);
+		
+	}
+	
+	@Test
+	public void testPlanterByRangeException() {
+		
+		
+		int minCost = 2000;
+		int maxCost = 10000;
+		when(planterRepo.getPlantersByRange(minCost,maxCost)).thenReturn(Optional.ofNullable(null));
+		Executable executable = ()->planterService.viewAllPlanters(minCost, maxCost);
 		assertThrows(ResourceNotFoundException.class, executable);
-
 	}
 
 	@Test
-	@Disabled
-	@DisplayName("Test-Delete Planter , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Delete Planter , Args:- pass planterId")
 	void testDeletePlanter() throws ResourceNotFoundException {
+		
+		
 
-		Seed sinput = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+		Seed sinput = new Seed("Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
 				"This seed is a small embryonic plant",250,300,2000);
 		
 		Planter input = new Planter(1,12,3,2,23,"Round",45,30,null,sinput);
-		Planter savedPlanter = new Planter(1,12,3,2,23,"Round",45,30,null,sinput);
-
-		planterService.deletePlanter(input.getPlanterId());
+		
+		when(planterRepo.findById(input.getPlanterId())).thenReturn(Optional.of(input));
+		Planter output = planterService.deletePlanter(input.getPlanterId());
 		verify(planterRepo).deleteById(input.getPlanterId());
+		assertEquals(input, output);
+		
+	}
+	
+	
+	@Test
+	public void testDeletePlanterException() {
+		//Seed sinput = new Seed("Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
+			//	"This seed is a small embryonic plant",250,300,2000);
+		
+		Planter input = mock(Planter.class);
+		
+		when(planterRepo.findById(123)).thenReturn(Optional.of(input));
+		Executable executable = ()->planterService.deletePlanter(input.getPlanterId());
+		assertThrows(ResourceNotFoundException.class, executable);
 	}
 
 	@Test
-	@Disabled
-	@DisplayName("Test-Update Planter , Args:- No Args to pass")
+	//@Disabled
+	@DisplayName("Test-Update Planter , Args:- Pass Planter")
 	void testUpdatePlanter() throws ResourceNotFoundException {
-		Seed sinput = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
-				"This seed is a small embryonic plant",250,300,2000);
-		Planter input = new Planter(1,12,3,2,23,"Round",45,30,null,sinput);
-		Planter savedPlanter = new Planter(1,12,3,2,23,"Round",45,30,null,sinput);
+		
+		//Plant plant = new Plant(1, 4, "wide", "Rose", "Once a week", "medicinal", "easy", "20 C", "Succulent", "This is a stemless or very short-stemmed plant", 13, 200);
+	    //Seed seed = new Seed(2, "Money", "One week", "Once a day", "easy", "20ºC", "Monocotyledonous", "This seed is a small embryonic plant", 20, 100.0, 1000);
+	    
+	    Planter input = new Planter(102, 11, 2, 2, 2, "square", 5, 110);//, plant, seed);
+	    
+	    when(planterRepo.save(input)).thenReturn(input);
+	    
+	    Planter input1 = new Planter(102, 13, 2, 2, 2, "square", 5, 130);
+	    
+	    when(planterRepo.findById(input1.getPlanterId())).thenReturn(Optional.of(input1));
+		
+		Planter output = planterService.updatePlanter(input);
+		verify(planterRepo).save(input1);
+		assertEquals(input, output);
 
-		when(planterRepo.save(input)).thenReturn(savedPlanter);
-		planterService.updatePlanter(input);
-		verify(planterRepo).save(input);
-
+	}
+	
+	@Test
+	public void testUpdatePlanterException() {
+		
+		Planter input = mock(Planter.class);
+		
+		when(planterRepo.findById(123)).thenReturn(Optional.of(input));
+		Executable executable = ()->planterService.updatePlanter(input);
+		assertThrows(ResourceNotFoundException.class, executable);
 	}
 
 }

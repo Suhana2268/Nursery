@@ -12,12 +12,6 @@ public class OrderDTO {
 	private List<Planter> planters;
 	private String customerName;
 	private Address customerAdress;
-	
-
-	public OrderDTO() {
-		// TODO Auto-generated constructor stub
-	}
-
 
 	public OrderDTO(int orderId, double d, List<Planter> planters, String customerName, Address address) {
 		super();

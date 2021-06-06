@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ec.onlineplantnursery.dto.PlanterDTO;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.plant.entity.Plant;
 import com.ec.onlineplantnursery.plant.repository.IPlantRepository;
@@ -36,11 +37,20 @@ public class IPlanterServiceImpl implements IPlanterService
 
 	public IPlanterServiceImpl() {
 		super();
-		this.planterRepo = planterRepo;
 	}
 	
 	
 	
+
+	public IPlanterServiceImpl(IPlanterRepository planterRepo, IPlantRepository plantRepo, ISeedRepository seedRepo) {
+		super();
+		this.planterRepo = planterRepo;
+		this.plantRepo = plantRepo;
+		this.seedRepo = seedRepo;
+	}
+
+
+
 
 	public IPlanterServiceImpl(ISeedRepository seedRepo) {
 		super();
@@ -65,31 +75,27 @@ public class IPlanterServiceImpl implements IPlanterService
 
 
 
+	/*Method Name:addPlanter
+	 *Parameters:Planter
+	 *ReturnType:Planter
+	 *Author Name:Tripura
+	 *Created Date: 23/05/2021 */
 	@Override
-	public Planter addPlanter(Planter planter, int plantId, int seedId) throws ResourceNotFoundException{
+	public Planter addPlanter(Planter planter) throws ResourceNotFoundException{
 		// TODO Auto-generated method stub
-		if(plantId != 0) {
-			Optional<Plant> p = plantRepo.findById(plantId);
-			if(p.isPresent()) {
-				planter.setPlant(plantRepo.findById(plantId).get());
-			}
-			if(p.isPresent() == false){
-				throw new ResourceNotFoundException();
-			}
+		Optional<Plant> p = plantRepo.findById(planter.getPlant().getPlantId());
+		Optional<Seed> s = seedRepo.findById(planter.getSeed().getSeedId());
+		if(p.isPresent() == true && s.isPresent() == true) {
+			return planterRepo.save(planter);
 		}
-		if(seedId != 0) {
-			Optional<Seed> s = seedRepo.findById(seedId);
-			if(s.isPresent()) {
-				planter.setSeed(seedRepo.findById(seedId).get());
-			}
-			if(s.isPresent() == false){
-				throw new ResourceNotFoundException();
-			}
-		}
-		planterRepo.save(planter);
-		return planter;
+		throw new ResourceNotFoundException();
 	}
 
+	/*Method Name:updatePlanter
+	 *Parameters:Planter
+	 *ReturnType:Planter
+	 *Author Name:Tripura
+	 *Created Date: 24/05/2021 */
 	@Override
 	public Planter updatePlanter(Planter planter) throws ResourceNotFoundException{
 		Optional<Planter> pl = planterRepo.findById(planter.getPlanterId());
@@ -107,6 +113,11 @@ public class IPlanterServiceImpl implements IPlanterService
 		throw new ResourceNotFoundException();
 	}
 
+	/*Method Name:deletePlanter
+	 *Parameters:planterId
+	 *ReturnType:Planter
+	 *Author Name:Tripura
+	 *Created Date: 24/05/2021 */
 	@Override
 	public Planter deletePlanter(int planterId) throws ResourceNotFoundException{
 		Optional<Planter> pl = planterRepo.findById(planterId);
@@ -118,6 +129,11 @@ public class IPlanterServiceImpl implements IPlanterService
 		return pl.get();
 	}
 
+	/*Method Name:viewPlanter
+	 *Parameters:planterId
+	 *ReturnType:Planter
+	 *Author Name:Tripura
+	 *Created Date: 23/05/2021 */
 	@Override
 	@Transactional
 	public Planter viewPlanter(int planterId) throws ResourceNotFoundException {
@@ -128,29 +144,44 @@ public class IPlanterServiceImpl implements IPlanterService
 		return planterRepo.findById(planterId).get();
 	}
 
+	/*Method Name:viewPlanter
+	 *Parameters:planterShape
+	 *ReturnType:List<Planter>
+	 *Author Name:Tripura
+	 *Created Date: 25/05/2021 */
 	@Override
 	public List<Planter> viewPlanter(String planterShape) throws ResourceNotFoundException{
 		Optional<List<Planter>> plist = planterRepo.viewPlanter(planterShape);
-		if(!plist.isEmpty()) {
+		if(!plist.isPresent() == false) {
 			return plist.get();
 		}
 		throw new ResourceNotFoundException();
 	}
 
+	/*Method Name:viewAllPlanters
+	 *Parameters:No parameters
+	 *ReturnType:List<Planter>
+	 *Author Name:Tripura
+	 *Created Date: 23/05/2021 */
 	@Override
 	public List<Planter> viewAllPlanters() {
 		// TODO Auto-generated method stub
 		return planterRepo.findAll();
 	}
 
+	/*Method Name:viewAllPlanters
+	 *Parameters:minCost,maxCost
+	 *ReturnType:List<Planter>
+	 *Author Name:Tripura
+	 *Created Date: 24/05/2021 */
 	@Override
-	public Optional<List<Planter>> viewAllPlanters(double minCost, double maxCost)throws ResourceNotFoundException {
-			Optional<List<Planter>> planter = planterRepo.getPlantersByRange(minCost, maxCost);
-			if(planter.isEmpty()) {
-				throw new ResourceNotFoundException();
-			}
-			return planter;
+	public List<Planter> viewAllPlanters(int minCost, int maxCost)throws ResourceNotFoundException {
+		Optional<List<Planter>> planter = planterRepo.getPlantersByRange(minCost, maxCost);
+		if(planter.isPresent() == true) {
+			return planter.get();
 		}
-		
+		throw new ResourceNotFoundException();
 	}
+		
+}
 

@@ -10,9 +10,7 @@ public interface IPlantService {
 	Plant addPlant(Plant plant);
 
 	Plant updatePlant(Plant plant);
-
-	Plant deletePlant(int plantId);
-
+	
 	Optional<Plant> viewPlant(int plantId);
 
 	Optional<Plant> viewPlant(String commonName) throws ResourceNotFoundException;
@@ -20,4 +18,6 @@ public interface IPlantService {
 	List<Plant> viewAllPlants();
 
 	Optional<List<Plant>> viewAllPlants(String typeOfPlant) throws ResourceNotFoundException;
+
+	Plant deletePlant(Plant plant);
 }

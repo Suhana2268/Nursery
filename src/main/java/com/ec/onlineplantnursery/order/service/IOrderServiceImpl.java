@@ -35,13 +35,12 @@ public class IOrderServiceImpl implements IOrderService{
 	ICustomerServiceImpl custService;
 	
 	
-	
-	
+
 	public IOrderServiceImpl() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 
 	public IOrderServiceImpl(ICustomerServiceImpl custService) {
 		super();
@@ -72,6 +71,11 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 
+	/*Method Name:addOrder
+	 *Parameters:Order
+	 *ReturnType:Optional<Order>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 
 	@Override
 	public Optional<Order> addOrder(Order order) throws ResourceNotFoundException{
@@ -107,12 +111,17 @@ public class IOrderServiceImpl implements IOrderService{
 		return Optional.of(order);
 	}
 
+	/*Method Name:updateOrder
+	 *Parameters:Order
+	 *ReturnType:Order
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public Order updateOrder(Order order) throws ResourceNotFoundException {
 		
 		Optional<Order> op = orderRep.findById(order.getBookingOrderId());
 		
-		if(op.isEmpty()) throw new ResourceNotFoundException();
+		if(op.isPresent() == false) throw new ResourceNotFoundException();
 		
 		Order o = orderRep.findById(order.getBookingOrderId()).get();
 		
@@ -124,6 +133,11 @@ public class IOrderServiceImpl implements IOrderService{
 		return orderRep.save(o);
 	}
 
+	/*Method Name:deleteOrder
+	 *Parameters:orderId
+	 *ReturnType:Order
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public Order deleteOrder(int orderId) {
 		
@@ -136,23 +150,39 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 	
 
+	/*Method Name:viewOrder
+	 *Parameters:orderId
+	 *ReturnType:Optional<Order>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public Optional<Order> viewOrder(int orderId) throws OrderIdNotFoundException {
 		
 		Optional<Order> op = orderRep.findById(orderId);
 		
 		
-		if(op.isEmpty()) throw new OrderIdNotFoundException(orderId);
+		if(op.isPresent() == false) throw new OrderIdNotFoundException(orderId);
 		
 		//Optional<Order> o =  Optional.of(orderRep.findById(orderId).get());
 		return op;
 	}
 
+	/*Method Name:viewAllOrder
+	 *Parameters:No parameters
+	 *ReturnType:List<Order>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	@Override
 	public List<Order> viewAllOrders() {
 	
 		return orderRep.findAll();
 	}
+	
+	/*Method Name:viewPlanterByOrderId
+	 *Parameters:Order
+	 *ReturnType:List<Planter>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
 	
 	@Override
 	public List<Planter> viewPlanterByOrderId(int orderId) throws ResourceNotFoundException{
@@ -161,7 +191,12 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 
-	public List<OrderDTO> displayAllOrders(List<Order> oList) {
+	/*Method Name:displayAllOrders
+	 *Parameters:List<Order>
+	 *ReturnType:List<OrderDTO>
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
+	public List<OrderDTO> displayAllOrders(List<Order> oList) throws ResourceNotFoundException {
 	
 		List<Order> orders = viewAllOrders();
 		List<OrderDTO> oDTOList = new ArrayList<OrderDTO>();
@@ -174,8 +209,12 @@ public class IOrderServiceImpl implements IOrderService{
 	
 	}
 	
-
-	public OrderDTO displayOrderDetails(Order savedOrder)  {
+	/*Method Name:displayOrderDetails
+	 *Parameters:Order
+	 *ReturnType:OrderDTO
+	 *Author Name:Suhana
+	 *Created Date: 21/05/2021 */
+	public OrderDTO displayOrderDetails(Order savedOrder) throws ResourceNotFoundException  {
 		
 		
 		Customer cust = custService.viewCustomer(savedOrder.getCustId());
@@ -184,7 +223,6 @@ public class IOrderServiceImpl implements IOrderService{
 		return orderDTO;
 		
 	}
-
 	
 	
 }
