@@ -4,79 +4,74 @@ import java.time.LocalDate;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Positive;
 
 import com.ec.onlineplantnursery.customer.entity.Customer;
-import com.ec.onlineplantnursery.plant.entity.Plant;
 import com.ec.onlineplantnursery.planter.entity.Planter;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "orders")
-@TableGenerator(name = "order_generator", initialValue = 0, allocationSize = 50) 
+@TableGenerator(name = "order_generator", initialValue = 0, allocationSize = 50)
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "order_generator")
 	private Integer bookingOrderId;
+	
+	@ApiModelProperty(name = "orderDate", value = "holds the date", required = true)
 	private LocalDate orderDate;
-	
+    
+	@ApiModelProperty(name = "transactionMode", value = "Hold the strings online or cash", required = true)
+	@NotEmpty(message = "transactionMode cannot be left blank or null")
 	private String transactionMode;
-	
+
+	@ApiModelProperty(name = "quantity", value = "Hold a positive integer", required = true)
+	@Positive(message = "quantity should be positive")
 	private int quantity;
+
+	@ApiModelProperty(name = "totalCost", value = "holds a positive value", required = true)
 	private double totalCost;
-	//list of plants in cart
-	//information of customer for address 
-	private int custId;
-	@Column
-	@ElementCollection
-	private List<Integer> id;
-	
-	@ManyToOne
-	@JoinColumn(name="customerId")
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinTable(name = "Customer_Order_info", joinColumns = @JoinColumn(name = "bookingOrderId"), inverseJoinColumns = @JoinColumn(name = "customerId"))
 	private Customer customer;
-	
-	
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="bookingOrderId")
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Planter_Info", referencedColumnName = "planterId")
 	private List<Planter> planters;
-	
-	
-	
+
 	public Order() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
-	public Order(Integer bookingOrderId, LocalDate orderDate, String transactionMode, int quantity, double totalCost,
-			int custId, List<Integer> id, Customer customer, List<Planter> planters) {
+	public Order(Integer bookingOrderId, LocalDate orderDate,
+			@NotEmpty(message = "transactionMode cannot be left blank or null") String transactionMode,
+			@Positive(message = "quantity should be positive") int quantity, double totalCost, Customer customer,
+			List<Planter> planters) {
 		super();
 		this.bookingOrderId = bookingOrderId;
 		this.orderDate = orderDate;
 		this.transactionMode = transactionMode;
 		this.quantity = quantity;
 		this.totalCost = totalCost;
-		this.custId = custId;
-		this.id = id;
 		this.customer = customer;
 		this.planters = planters;
 	}
 
-	
 	public Integer getBookingOrderId() {
 		return bookingOrderId;
 	}
@@ -117,22 +112,6 @@ public class Order {
 		this.totalCost = totalCost;
 	}
 
-	public int getCustId() {
-		return custId;
-	}
-
-	public void setCustId(int custId) {
-		this.custId = custId;
-	}
-
-	public List<Integer> getId() {
-		return id;
-	}
-
-	public void setId(List<Integer> id) {
-		this.id = id;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -148,18 +127,13 @@ public class Order {
 	public void setPlanters(List<Planter> planters) {
 		this.planters = planters;
 	}
-	
-	
-	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bookingOrderId == null) ? 0 : bookingOrderId.hashCode());
-		result = prime * result + custId;
 		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
 		result = prime * result + ((planters == null) ? 0 : planters.hashCode());
 		result = prime * result + quantity;
@@ -184,17 +158,10 @@ public class Order {
 				return false;
 		} else if (!bookingOrderId.equals(other.bookingOrderId))
 			return false;
-		if (custId != other.custId)
-			return false;
 		if (customer == null) {
 			if (other.customer != null)
 				return false;
 		} else if (!customer.equals(other.customer))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (orderDate == null) {
 			if (other.orderDate != null)
@@ -221,12 +188,8 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [bookingOrderId=" + bookingOrderId + ", orderDate=" + orderDate + ", transactionMode="
-				+ transactionMode + ", quantity=" + quantity + ", totalCost=" + totalCost + ", custId=" + custId
-				+ ", id=" + id + ", customer=" + customer + ", planters=" + planters + "]";
+				+ transactionMode + ", quantity=" + quantity + ", totalCost=" + totalCost + ", customer=" + customer
+				+ ", planters=" + planters + "]";
 	}
-
-	
-	
-	
 
 }

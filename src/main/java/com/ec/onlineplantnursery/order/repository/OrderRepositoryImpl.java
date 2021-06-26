@@ -1,6 +1,6 @@
 package com.ec.onlineplantnursery.order.repository;
 
-import java.time.LocalDate;
+/**import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import com.ec.onlineplantnursery.seed.entity.Seed;
 import com.ec.onlineplantnursery.seed.repository.ISeedRepositoryImpl;
 import com.ec.onlineplantnursery.seed.service.ISeedServiceImpl;
 
-public class OrderRepositoryImpl implements IOrderRepository{
+/**public class OrderRepositoryImpl implements IOrderRepository{
 	
 	@Autowired
 	OrderRepository orderRep;
@@ -52,7 +52,7 @@ public class OrderRepositoryImpl implements IOrderRepository{
 		order.setPlanter(planter1);
 		
 		orderRep.save(order);**/
-		Customer cust = custRep.viewCustomer(order.getCustId());
+		/**Customer cust = custRep.viewCustomer(order.getCustId());
 		List<Planter> pList = planterRep.viewAllPlanters();
 		List<Integer> pId = order.getId();
 		List<Planter> orderedPlanters = new ArrayList<Planter>();
@@ -139,4 +139,4 @@ public class OrderRepositoryImpl implements IOrderRepository{
 	
 	
 	
-}
+}**/

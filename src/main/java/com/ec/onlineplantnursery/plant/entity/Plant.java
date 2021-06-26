@@ -1,32 +1,75 @@
 package com.ec.onlineplantnursery.plant.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "plant")
 @TableGenerator(name = "plant_generator", initialValue = 0, allocationSize = 50)
 public class Plant {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "plant_generator")
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@ApiModelProperty(name = "Plant ID", required = true)
 	private Integer plantId;
+
+	@Positive(message = "Height of plant should be positive")
 	private Integer plantHeight;
+
+	@NotEmpty(message = "Plant spread cannot be blank")
+	@Size(min = 3, max = 15, message = "Invalid Plant spread")
 	private String plantSpread;
+
+	@Column(unique = true)
+	@NotEmpty(message = "Plant Name cannot be blank")
+	@Size(min = 3, max = 15, message = "Invalid Plant Name")
 	private String commonName;
+
+	@ApiModelProperty(name = "Bloom Time", value = "Hold the min 3 char bloom time", required = true)
+	@NotEmpty(message = "bloom time cannot be left blank or null")
+	@Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters")
 	private String bloomTime;
+
 	private String medicinalOrCulinaryUse;
+
+	@ApiModelProperty(name = "Difficulty Level", value = "Should not be null", required = true)
+	@NotEmpty(message = "difficulty level cannot be left blank or null")
 	private String difficultyLevel;
+
+	@ApiModelProperty(name = "Temperature", value = "Should not be null", required = true)
+	@NotEmpty(message = "Temperature cannot be left blank or null")
 	private String temparature;
+
+	@NotNull
+	// @Size(min=3, max=15, message="Invalid Plant type")
 	private String typeOfPlant;
+
+	@ApiModelProperty(name = "Plant Description", value = "Should not be null", required = true)
+	@NotEmpty(message = "plant description cannot be left blank or null")
 	private String plantDescription;
+
+	@ApiModelProperty(name = "PlantStock", value = "Holds only positive value")
+	@Positive(message = "Stock should be positive")
 	private Integer plantsStock;
+
+	@Positive(message = "Enter valid cost")
 	private double plantCost;
-	
-	
+
+	public Plant() {
+		super();
+
+	}
 
 	public Plant(Integer plantId, Integer plantHeight, Integer plantsStock, String commonName, String bloomTime,
 			String medicinalOrCulinaryUse, String difficultyLevel, String temparature, String typeOfPlant,
@@ -45,81 +88,103 @@ public class Plant {
 		this.plantsStock = plantsStock;
 		this.plantCost = plantCost;
 	}
+
 	public Integer getPlantId() {
 		return plantId;
 	}
+
 	public void setPlantId(Integer plantId) {
 		this.plantId = plantId;
 	}
+
 	public Integer getPlantHeight() {
 		return plantHeight;
 	}
+
 	public void setPlantHeight(Integer plantHeight) {
 		this.plantHeight = plantHeight;
 	}
+
 	public String getPlantSpread() {
 		return plantSpread;
 	}
+
 	public void setPlantSpread(String plantSpread) {
 		this.plantSpread = plantSpread;
 	}
+
 	public String getCommonName() {
 		return commonName;
 	}
+
 	public void setCommonName(String commonName) {
 		this.commonName = commonName;
 	}
+
 	public String getBloomTime() {
 		return bloomTime;
 	}
+
 	public void setBloomTime(String bloomTime) {
 		this.bloomTime = bloomTime;
 	}
+
 	public String getMedicinalOrCulinaryUse() {
 		return medicinalOrCulinaryUse;
 	}
+
 	public void setMedicinalOrCulinaryUse(String medicinalOrCulinaryUse) {
 		this.medicinalOrCulinaryUse = medicinalOrCulinaryUse;
 	}
+
 	public String getDifficultyLevel() {
 		return difficultyLevel;
 	}
+
 	public void setDifficultyLevel(String difficultyLevel) {
 		this.difficultyLevel = difficultyLevel;
 	}
+
 	public String getTemparature() {
 		return temparature;
 	}
+
 	public void setTemparature(String temparature) {
 		this.temparature = temparature;
 	}
+
 	public String getTypeOfPlant() {
 		return typeOfPlant;
 	}
+
 	public void setTypeOfPlant(String typeOfPlant) {
 		this.typeOfPlant = typeOfPlant;
 	}
+
 	public String getPlantDescription() {
 		return plantDescription;
 	}
+
 	public void setPlantDescription(String plantDescription) {
 		this.plantDescription = plantDescription;
 	}
+
 	public Integer getPlantsStock() {
 		return plantsStock;
 	}
+
 	public void setPlantsStock(Integer plantsStock) {
 		this.plantsStock = plantsStock;
 	}
+
 	public double getPlantCost() {
 		return plantCost;
 	}
+
 	public void setPlantCost(double plantCost) {
 		this.plantCost = plantCost;
 	}
-	
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -140,6 +205,7 @@ public class Plant {
 		result = prime * result + ((typeOfPlant == null) ? 0 : typeOfPlant.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -208,6 +274,7 @@ public class Plant {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "Plant [plantId=" + plantId + ", plantHeight=" + plantHeight + ", plantSpread=" + plantSpread
@@ -216,6 +283,5 @@ public class Plant {
 				+ ", typeOfPlant=" + typeOfPlant + ", plantDescription=" + plantDescription + ", plantsStock="
 				+ plantsStock + ", plantCost=" + plantCost + "]";
 	}
-	
-	
+
 }
