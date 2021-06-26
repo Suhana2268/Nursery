@@ -3,6 +3,7 @@ package com.ec.onlineplantnursery.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -15,48 +16,36 @@ import javax.persistence.TableGenerator;
 
 
 @Entity
-@TableGenerator(name = "product_generator", initialValue = 0, allocationSize = 50)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn(
-		 name = "Product_Type",
-		 discriminatorType =DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
+//@DiscriminatorColumn(name = "Product_Type",discriminatorType = DiscriminatorType.STRING)
 public class Product implements Comparable<Product>,Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "product_generator")
-	private Integer pId;
-	
-	private int units;
-	
-	
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private int pId;
 	
 	public Product() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
+	
+	
 
-
-
-	public Integer getpId() {
-		return pId;
-	}
-
-
-
-	public void setpId(Integer pId) {
+	public Product(int pId) {
+		super();
 		this.pId = pId;
 	}
 
 
 
-	public int getUnits() {
-		return units;
+	public int getpId() {
+		return pId;
 	}
 
 
 
-	public void setUnits(int units) {
-		this.units = units;
+	public void setpId(int pId) {
+		this.pId = pId;
 	}
 
 
@@ -65,8 +54,7 @@ public class Product implements Comparable<Product>,Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((pId == null) ? 0 : pId.hashCode());
-		result = prime * result + units;
+		result = prime * result + pId;
 		return result;
 	}
 
@@ -81,29 +69,16 @@ public class Product implements Comparable<Product>,Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		if (pId == null) {
-			if (other.pId != null)
-				return false;
-		} else if (!pId.equals(other.pId))
-			return false;
-		if (units != other.units)
+		if (pId != other.pId)
 			return false;
 		return true;
 	}
 
 
 
-	public Product(Integer pId, int units) {
-		super();
-		this.pId = pId;
-		this.units = units;
-	}
-
-
-
 	@Override
 	public String toString() {
-		return "Product [pId=" + pId + ", units=" + units + "]";
+		return "Product [pId=" + pId + "]";
 	}
 
 
@@ -117,10 +92,5 @@ public class Product implements Comparable<Product>,Serializable{
 
 	
 	
-	
 
 }
-
-
-
-

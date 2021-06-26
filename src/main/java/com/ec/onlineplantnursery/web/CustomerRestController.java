@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ec.onlineplantnursery.entity.Customer;
+import com.ec.onlineplantnursery.exceptions.InvalidCredentialException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.requestDto.CustomerRequestDto;
 import com.ec.onlineplantnursery.responseDto.CustomerResponseDto;
+import com.ec.onlineplantnursery.security.JwtResponse;
 import com.ec.onlineplantnursery.service.ICustomerServiceImpl;
 
 import io.swagger.annotations.Api;
@@ -33,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Validated
 @RestController
-@RequestMapping("/onlinenursery/customer")
+@RequestMapping("/customer")
 @Api(value = "Online Nursery Application")
 public class CustomerRestController {
 	Logger log = org.slf4j.LoggerFactory.getLogger(CustomerRestController.class);
@@ -72,6 +74,7 @@ public class CustomerRestController {
 	public ResponseEntity<CustomerResponseDto> addCustomer(@RequestBody @Valid CustomerRequestDto customerdto) {
 		
 		log.info("postmapping insert customer");
+		
 		Customer customer = modelMapper.map(customerdto, Customer.class);
 		Customer cust = custService.addCustomer(customer);
 		CustomerResponseDto customerResponse = modelMapper.map(cust, CustomerResponseDto.class);
@@ -131,8 +134,9 @@ public class CustomerRestController {
 		return new ResponseEntity<>(customerResponseDto, HttpStatus.OK);
 		
 	}
-	
-
+ 	
+ 	
+ 	
 	/*Method Name:validateCustomer
 	 *Parameters:username, password
 	 *ReturnType:boolean

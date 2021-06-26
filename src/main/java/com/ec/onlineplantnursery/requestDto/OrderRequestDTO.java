@@ -3,6 +3,7 @@ package com.ec.onlineplantnursery.requestDto;
 import java.time.LocalDate;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.ElementCollection;
 import javax.validation.constraints.FutureOrPresent;
@@ -26,15 +27,15 @@ public class OrderRequestDTO {
 	@NotEmpty(message = "transactionMode cannot be left blank or null")
 	private String transactionMode;
 
+	private List<Product> products;
 	
-	@ElementCollection
-	private List<Integer> quantity;
+	
 
 	private double totalCost;
 
 	private Customer customer;
 
-	private List<Product> products;
+	private Map<Integer, Integer> productQuantityMap;
 
 	public OrderRequestDTO() {
 		super();
@@ -67,13 +68,7 @@ public class OrderRequestDTO {
 
 	
 
-	public List<Integer> getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(List<Integer> quantity) {
-		this.quantity = quantity;
-	}
+	
 
 	public double getTotalCost() {
 		return totalCost;
@@ -99,5 +94,18 @@ public class OrderRequestDTO {
 		this.products = products;
 	}
 
+	public Map<Integer, Integer> getProductQuantityMap() {
+		return productQuantityMap;
+	}
+
+	public void setProductQuantityMap(Map<Integer, Integer> productQuantityMap) {
+		this.productQuantityMap = productQuantityMap;
+	}
+
+		
+
+	
+
+	
 	
 }

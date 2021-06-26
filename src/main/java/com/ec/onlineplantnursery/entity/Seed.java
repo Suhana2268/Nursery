@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "seed")
-@DiscriminatorValue("seed")
+//@DiscriminatorValue("seed")
 public class Seed extends Product{
 	
 	@ApiModelProperty(name = "SeedName", value = "Hold the min 3 char seed name", required = true)
@@ -63,6 +63,32 @@ public class Seed extends Product{
 		super();
 
 	}
+
+	public Seed(int pId,
+			@NotEmpty(message = "Seed Name cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters") String commonName,
+			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
+			@NotEmpty(message = "watering cannot be left blank or null") String watering,
+			@NotEmpty(message = "difficulty level cannot be left blank or null") String difficultyLevel,
+			@NotEmpty(message = "Temperature cannot be left blank or null") String temparature,
+			@NotEmpty(message = "Type of seeds cannot be left blank or null") String typeOfSeeds,
+			@NotEmpty(message = "seeds description cannot be left blank or null") String seedsDescription,
+			@Positive(message = "Stock should be positive") Integer seedsStock,
+			@Positive(message = "Cost should be positive") double seedsCost,
+			@Positive(message = "SeedsPerPacket should be positive") Integer seedsPerPacket) {
+		super(pId);
+		this.commonName = commonName;
+		this.bloomTime = bloomTime;
+		this.watering = watering;
+		this.difficultyLevel = difficultyLevel;
+		this.temparature = temparature;
+		this.typeOfSeeds = typeOfSeeds;
+		this.seedsDescription = seedsDescription;
+		this.seedsStock = seedsStock;
+		this.seedsCost = seedsCost;
+		this.seedsPerPacket = seedsPerPacket;
+	}
+
+	
 
 	public String getCommonName() {
 		return commonName;
@@ -147,10 +173,11 @@ public class Seed extends Product{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + ((bloomTime == null) ? 0 : bloomTime.hashCode());
 		result = prime * result + ((commonName == null) ? 0 : commonName.hashCode());
 		result = prime * result + ((difficultyLevel == null) ? 0 : difficultyLevel.hashCode());
+	
 		long temp;
 		temp = Double.doubleToLongBits(seedsCost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -167,7 +194,7 @@ public class Seed extends Product{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -187,6 +214,7 @@ public class Seed extends Product{
 				return false;
 		} else if (!difficultyLevel.equals(other.difficultyLevel))
 			return false;
+		
 		if (Double.doubleToLongBits(seedsCost) != Double.doubleToLongBits(other.seedsCost))
 			return false;
 		if (seedsDescription == null) {
@@ -222,43 +250,12 @@ public class Seed extends Product{
 		return true;
 	}
 
-	public Seed(
-			@NotEmpty(message = "Seed Name cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters") String commonName,
-			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
-			@NotEmpty(message = "watering cannot be left blank or null") String watering,
-			@NotEmpty(message = "difficulty level cannot be left blank or null") String difficultyLevel,
-			@NotEmpty(message = "Temperature cannot be left blank or null") String temparature,
-			@NotEmpty(message = "Type of seeds cannot be left blank or null") String typeOfSeeds,
-			@NotEmpty(message = "seeds description cannot be left blank or null") String seedsDescription,
-			@Positive(message = "Stock should be positive") Integer seedsStock,
-			@Positive(message = "Cost should be positive") double seedsCost,
-			@Positive(message = "SeedsPerPacket should be positive") Integer seedsPerPacket) {
-		super();
-		this.commonName = commonName;
-		this.bloomTime = bloomTime;
-		this.watering = watering;
-		this.difficultyLevel = difficultyLevel;
-		this.temparature = temparature;
-		this.typeOfSeeds = typeOfSeeds;
-		this.seedsDescription = seedsDescription;
-		this.seedsStock = seedsStock;
-		this.seedsCost = seedsCost;
-		this.seedsPerPacket = seedsPerPacket;
-	}
-
-	public Seed(Integer pId, int units) {
-		super(pId, units);
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public String toString() {
-		return "Seed [commonName=" + commonName + ", bloomTime=" + bloomTime + ", watering=" + watering
-				+ ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfSeeds="
+		return "Seed [ commonName=" + commonName + ", bloomTime=" + bloomTime + ", watering="
+				+ watering + ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfSeeds="
 				+ typeOfSeeds + ", seedsDescription=" + seedsDescription + ", seedsStock=" + seedsStock + ", seedsCost="
 				+ seedsCost + ", seedsPerPacket=" + seedsPerPacket + "]";
 	}
-
-	
 
 }

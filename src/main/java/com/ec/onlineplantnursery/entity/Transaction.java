@@ -1,15 +1,20 @@
 package com.ec.onlineplantnursery.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-
+@Entity
+@Table(name = "TransactionsInfo")
 public class Transaction {
 	
+	@Id
 	private int transactionId;
 	
 	private String transactionMode;
-	
-	
 
 	public Transaction() {
 		super();
@@ -37,8 +42,6 @@ public class Transaction {
 	public void setTransactionMode(String transactionMode) {
 		this.transactionMode = transactionMode;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -73,6 +76,9 @@ public class Transaction {
 		return "Transaction [transactionId=" + transactionId + ", transactionMode=" + transactionMode + "]";
 	}
 	
+	
+	
+
 	
 	
 }

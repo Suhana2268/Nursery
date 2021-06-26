@@ -3,6 +3,7 @@ package com.ec.onlineplantnursery.service;
 import java.util.List;
 
 import com.ec.onlineplantnursery.entity.Customer;
+import com.ec.onlineplantnursery.exceptions.InvalidCredentialException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 
 public interface ICustomerService {
@@ -17,4 +18,6 @@ public interface ICustomerService {
 	List<Customer> viewAllCustomers();
 
 	boolean validateCustomer(String userName, String password);
+	
+	
 }

@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "plant")
-@DiscriminatorValue("plant")
+//@DiscriminatorValue("plant")
 public class Plant extends Product{
 	
 
@@ -71,23 +71,10 @@ public class Plant extends Product{
 
 	}
 
-	public Plant(Integer pId, int units) {
-		super(pId, units);
-		// TODO Auto-generated constructor stub
-	}
-
-	public Plant(@Positive(message = "Height of plant should be positive") Integer plantHeight,
-			@NotEmpty(message = "Plant spread cannot be blank") @Size(min = 3, max = 15, message = "Invalid Plant spread") String plantSpread,
-			@NotEmpty(message = "Plant Name cannot be blank") @Size(min = 3, max = 15, message = "Invalid Plant Name") String commonName,
-			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
-			String medicinalOrCulinaryUse,
-			@NotEmpty(message = "difficulty level cannot be left blank or null") String difficultyLevel,
-			@NotEmpty(message = "Temperature cannot be left blank or null") String temparature,
-			@NotNull String typeOfPlant,
-			@NotEmpty(message = "plant description cannot be left blank or null") String plantDescription,
-			@Positive(message = "Stock should be positive") Integer plantsStock,
-			@Positive(message = "Enter valid cost") double plantCost) {
-		super();
+	public Plant(int pId, Integer plantHeight, Integer plantsStock, String commonName, String bloomTime,
+			String medicinalOrCulinaryUse, String difficultyLevel, String temparature, String typeOfPlant,
+			String plantDescription, String plantSpread, double plantCost) {
+		super(pId);
 		this.plantHeight = plantHeight;
 		this.plantSpread = plantSpread;
 		this.commonName = commonName;
@@ -100,6 +87,7 @@ public class Plant extends Product{
 		this.plantsStock = plantsStock;
 		this.plantCost = plantCost;
 	}
+
 
 	public Integer getPlantHeight() {
 		return plantHeight;
@@ -192,7 +180,7 @@ public class Plant extends Product{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + ((bloomTime == null) ? 0 : bloomTime.hashCode());
 		result = prime * result + ((commonName == null) ? 0 : commonName.hashCode());
 		result = prime * result + ((difficultyLevel == null) ? 0 : difficultyLevel.hashCode());
@@ -213,7 +201,7 @@ public class Plant extends Product{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -275,13 +263,11 @@ public class Plant extends Product{
 
 	@Override
 	public String toString() {
-		return "Plant [plantHeight=" + plantHeight + ", plantSpread=" + plantSpread + ", commonName=" + commonName
-				+ ", bloomTime=" + bloomTime + ", medicinalOrCulinaryUse=" + medicinalOrCulinaryUse
-				+ ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfPlant="
-				+ typeOfPlant + ", plantDescription=" + plantDescription + ", plantsStock=" + plantsStock
-				+ ", plantCost=" + plantCost + "]";
+		return "Plant [plantHeight=" + plantHeight + ", plantSpread=" + plantSpread
+				+ ", commonName=" + commonName + ", bloomTime=" + bloomTime + ", medicinalOrCulinaryUse="
+				+ medicinalOrCulinaryUse + ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature
+				+ ", typeOfPlant=" + typeOfPlant + ", plantDescription=" + plantDescription + ", plantsStock="
+				+ plantsStock + ", plantCost=" + plantCost + "]";
 	}
-
-	
 
 }

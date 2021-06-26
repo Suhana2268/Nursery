@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ec.onlineplantnursery.entity.Order;
 import com.ec.onlineplantnursery.entity.Planter;
+import com.ec.onlineplantnursery.entity.Product;
 import com.ec.onlineplantnursery.exceptions.OrderIdNotFoundException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.repository.IOrderRepository;
@@ -93,6 +94,14 @@ public class IOrderServiceImpl implements IOrderService {
 		Optional<Order> op = orderRep.findById(orderId);
 
 		if (op.isPresent()) {
+			/**List<Product> productList = op.get().getProducts();
+			System.out.println(productList);
+			int index = 0;
+			for(int i: op.get().getQuantity()) {
+				System.out.println("Product = "+productList.get(index).getpId()+" Quantity = "+i);
+				index += 1;
+			}**/
+			
 			return op.get();
 		} else {
 			throw new OrderIdNotFoundException(orderId);

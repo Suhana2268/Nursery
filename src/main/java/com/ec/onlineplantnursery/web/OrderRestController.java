@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ec.onlineplantnursery.entity.Order;
@@ -38,6 +40,8 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Validated
 @RequestMapping("/onlinenursery/order")
+
+
 @Api(value = "Online Nursery Application")
 public class OrderRestController {
 	Logger log = org.slf4j.LoggerFactory.getLogger(OrderRestController.class);
@@ -65,7 +69,7 @@ public class OrderRestController {
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
 		orderResponse.setCustomerName(order.getCustomer().getCustomerName());
 		orderResponse.setAddress(order.getCustomer().getAddress());
-		orderResponse.setProductIds(order.getProducts());
+		orderResponse.setProductIds(order.getProductQuantityMap());
 		return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
 	}
 	
@@ -89,7 +93,7 @@ public class OrderRestController {
 			OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
 			orderResponse.setCustomerName(order.getCustomer().getCustomerName());
 			orderResponse.setAddress(order.getCustomer().getAddress());
-			orderResponse.setProductIds(order.getProducts());
+			orderResponse.setProductIds(order.getProductQuantityMap());
 			orderResponsesList.add(orderResponse);
 		}
 		return new ResponseEntity<>(orderResponsesList, HttpStatus.OK);
@@ -134,7 +138,7 @@ public class OrderRestController {
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
 		orderResponse.setCustomerName(order.getCustomer().getCustomerName());
 		orderResponse.setAddress(order.getCustomer().getAddress());
-		orderResponse.setProductIds(order.getProducts());
+		orderResponse.setProductIds(order.getProductQuantityMap());
 		return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
 			
 	}
@@ -156,7 +160,7 @@ public class OrderRestController {
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
 		orderResponse.setCustomerName(order.getCustomer().getCustomerName());
 		orderResponse.setAddress(order.getCustomer().getAddress());
-		orderResponse.setProductIds(order.getProducts());
+		orderResponse.setProductIds(order.getProductQuantityMap());
 		OrderResponseDto deletedOrder = modelMapper.map(orderResponse, OrderResponseDto.class);
 		return new ResponseEntity<>(deletedOrder, HttpStatus.OK);
 	}
@@ -179,7 +183,7 @@ public class OrderRestController {
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
 		orderResponse.setCustomerName(order.getCustomer().getCustomerName());
 		orderResponse.setAddress(order.getCustomer().getAddress());
-		orderResponse.setProductIds(order.getProducts());
+		orderResponse.setProductIds(order.getProductQuantityMap());
 
 		return new ResponseEntity<>(orderResponse, HttpStatus.OK);
 

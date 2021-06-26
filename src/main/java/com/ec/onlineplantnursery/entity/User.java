@@ -15,12 +15,16 @@ import javax.persistence.Table;
 @Table(name = "Nursery_User")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "User_InfoT", discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorValue(value = "0")
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
 	//email
+	
+	
+	private String email;
 	
 	private String userType;
 	
@@ -31,50 +35,47 @@ public class User {
 		super();
 	
 	}
-
-	public User(int userId, String userType, String password) {
+	public User(int userId, String email, String userType, String password) {
 		super();
 		this.userId = userId;
+		this.email = email;
 		this.userType = userType;
 		this.password = password;
 	}
-
-
 	public int getUserId() {
 		return userId;
 	}
-
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getUserType() {
 		return userType;
 	}
-
 	public void setUserType(String userType) {
 		this.userType = userType;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + userId;
 		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -84,6 +85,11 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -98,12 +104,12 @@ public class User {
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userType=" + userType + ", password=" + password + "]";
+		return "User [userId=" + userId + ", email=" + email + ", userType=" + userType + ", password=" + password
+				+ "]";
 	}
-	
+
 	
 	 
 	

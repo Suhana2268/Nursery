@@ -1,22 +1,19 @@
 package com.ec.onlineplantnursery.responseDto;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.ElementCollection;
 
 import com.ec.onlineplantnursery.entity.Address;
-import com.ec.onlineplantnursery.entity.Planter;
-import com.ec.onlineplantnursery.entity.Product;
-
 public class OrderResponseDto {
 
 	private Integer bookingOrderId;
-	@ElementCollection
-	private List<Integer> quantity;
+	
 	private double totalCost;
 	private String customerName;
 	private Address address;
-	private List<Product> productIds;
+	private Map<Integer, Integer> productIds;
 
 	public OrderResponseDto() {
 		super();
@@ -29,16 +26,6 @@ public class OrderResponseDto {
 
 	public void setBookingOrderId(Integer bookingOrderId) {
 		this.bookingOrderId = bookingOrderId;
-	}
-
-	
-
-	public List<Integer> getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(List<Integer> quantity) {
-		this.quantity = quantity;
 	}
 
 	public double getTotalCost() {
@@ -65,14 +52,11 @@ public class OrderResponseDto {
 		this.address = address;
 	}
 
-	public List<Product> getProductIds() {
+	public Map<Integer, Integer> getProductIds() {
 		return productIds;
 	}
 
-	public void setProductIds(List<Product> productIds) {
+	public void setProductIds(Map<Integer, Integer> productIds) {
 		this.productIds = productIds;
 	}
-
-	
-
 }
