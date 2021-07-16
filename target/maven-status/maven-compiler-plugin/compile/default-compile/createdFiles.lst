@@ -14,6 +14,7 @@ com\ec\onlineplantnursery\security\JwtResponse.class
 com\ec\onlineplantnursery\repository\CustomSeedRepository.class
 com\ec\onlineplantnursery\service\IPlanterServiceImpl.class
 com\ec\onlineplantnursery\web\TransactionRestController.class
+com\ec\onlineplantnursery\entity\Image.class
 com\ec\onlineplantnursery\service\IPlantServiceImpl.class
 com\ec\onlineplantnursery\repository\IOrderRepository.class
 com\ec\onlineplantnursery\entity\Product.class
@@ -57,11 +58,13 @@ com\ec\onlineplantnursery\exceptions\OrderIdNotFoundException.class
 com\ec\onlineplantnursery\responseDto\PlantResponseDto.class
 com\ec\onlineplantnursery\service\IPlantService.class
 com\ec\onlineplantnursery\web\PlantRestController.class
+com\ec\onlineplantnursery\web\ImageRestController.class
 com\ec\onlineplantnursery\repository\IProductRepository.class
 com\ec\onlineplantnursery\web\OrderRestController.class
 com\ec\onlineplantnursery\repository\CustomCustomerRepositoryImpl.class
 com\ec\onlineplantnursery\service\IOrderServiceImpl.class
 com\ec\onlineplantnursery\OnlineplantnurseryApplication.class
+com\ec\onlineplantnursery\repository\ImageRepository.class
 com\ec\onlineplantnursery\responseDto\SeedResponseDto.class
 com\ec\onlineplantnursery\service\TransactionServiceImpl.class
 com\ec\onlineplantnursery\exceptions\MyExceptionResponse.class
