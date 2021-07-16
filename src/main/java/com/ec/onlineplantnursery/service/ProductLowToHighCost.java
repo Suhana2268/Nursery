@@ -9,6 +9,6 @@ public class ProductLowToHighCost implements Comparator<Seed> {
 
 	@Override
 	public int compare(Seed s1, Seed s2) {
-		return (int) (s1.getSeedsCost() - s2.getSeedsCost());
+		return (int) (s1.getCost() - s2.getCost());
 	}
 }

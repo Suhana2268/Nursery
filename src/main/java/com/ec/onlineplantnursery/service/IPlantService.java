@@ -1,7 +1,6 @@
 package com.ec.onlineplantnursery.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.ec.onlineplantnursery.entity.Plant;
 import com.ec.onlineplantnursery.exceptions.PlantIdNotFoundException;

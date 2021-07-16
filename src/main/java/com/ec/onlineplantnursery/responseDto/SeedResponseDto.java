@@ -2,6 +2,7 @@ package com.ec.onlineplantnursery.responseDto;
 
 public class SeedResponseDto {
 
+	private Integer seedId;
 	private String commonName;
 	private String bloomTime;
 	private String watering;
@@ -10,8 +11,8 @@ public class SeedResponseDto {
 	private String typeOfSeeds;
 	private String seedsDescription;
 	private Integer seedsStock;
-	private double seedsCost;
 	private Integer seedsPerPacket;
+	private double cost;
 
 	public SeedResponseDto() {
 		super();
@@ -19,6 +20,21 @@ public class SeedResponseDto {
 	}
 
 	
+	
+
+	public Integer getSeedId() {
+		return seedId;
+	}
+
+
+
+
+	public void setSeedId(Integer seedId) {
+		this.seedId = seedId;
+	}
+
+
+
 
 	public String getCommonName() {
 		return commonName;
@@ -84,13 +100,7 @@ public class SeedResponseDto {
 		this.seedsStock = seedsStock;
 	}
 
-	public double getSeedsCost() {
-		return seedsCost;
-	}
-
-	public void setSeedsCost(double seedsCost) {
-		this.seedsCost = seedsCost;
-	}
+	
 
 	public Integer getSeedsPerPacket() {
 		return seedsPerPacket;
@@ -102,12 +112,17 @@ public class SeedResponseDto {
 
 
 
-
-	@Override
-	public String toString() {
-		return "SeedResponseDto [commonName=" + commonName + ", bloomTime=" + bloomTime + ", watering="
-				+ watering + ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfSeeds="
-				+ typeOfSeeds + ", seedsDescription=" + seedsDescription + ", seedsStock=" + seedsStock + ", seedsCost="
-				+ seedsCost + ", seedsPerPacket=" + seedsPerPacket + "]";
+	public double getCost() {
+		return cost;
 	}
+
+
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.ec.onlineplantnursery.service;
 
 import java.util.Collections;
+
 import java.util.List;
 
 import java.util.Optional;
@@ -10,12 +11,10 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.ec.onlineplantnursery.entity.Seed;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.exceptions.SeedIdNotFoundException;
 import com.ec.onlineplantnursery.repository.ISeedRepository;
-import com.ec.onlineplantnursery.requestDto.SeedRequestDto;
 
 
 @Service
@@ -58,22 +57,18 @@ public class ISeedServiceImpl implements ISeedService {
 	 */
 
 	@Override
-	public SeedRequestDto updateSeed(SeedRequestDto seed) throws SeedIdNotFoundException {
+	public Seed updateSeed(Seed seed) throws SeedIdNotFoundException {
 		System.out.println("---> Inside Seed Service"+seed.getpId());
 		
-		Seed seed1 = seedRepo.findById(seed.getpId()).get();
-		Seed updateSeed = modelMapper.map(seed, Seed.class);
-		System.err.println("---> inside seed service seed details"+seed1);
-		if (seed1 != null) {
-			seedRepo.save(updateSeed);
-			System.out.println(updateSeed);
-			SeedRequestDto responseSeed = modelMapper.map(updateSeed, SeedRequestDto.class);
-			return responseSeed;
-
-		} else {
-			throw new SeedIdNotFoundException(seed.getpId());
-			
-		}
+		Optional<Seed> existingSeed = seedRepo.findById(seed.getpId());
+        if(existingSeed.isPresent()) {
+       
+    		return seedRepo.save(seed);
+        }
+        else {
+        	throw new SeedIdNotFoundException();
+        }
+		
 
 	}
 

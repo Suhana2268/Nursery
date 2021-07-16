@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class SeedRequestDto {
 
-private int pId;
+private Integer seedId;
 	
 	
 	@ApiModelProperty(name = "SeedName", value = "Hold the min 3 char seed name", required = true)
@@ -50,9 +50,9 @@ private int pId;
 	@Positive(message = "Stock should be positive")
 	private Integer seedsStock;
 
-	@ApiModelProperty(name = "SeedCost", value = "Holds only positive value")
-	@Positive(message = "Cost should be positive")
-	private double seedsCost;
+	
+	private double cost;
+	
 
 	@ApiModelProperty(name = "SeedsPerPacket", value = "Holds only positive value")
 	@Positive(message = "SeedsPerPacket should be positive")
@@ -63,7 +63,7 @@ private int pId;
 
 	}
 
-	public SeedRequestDto(int pId,
+	public SeedRequestDto(Integer seedId,
 			@NotEmpty(message = "Seed Name cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters") String commonName,
 			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
 			@NotEmpty(message = "watering cannot be left blank or null") String watering,
@@ -71,10 +71,10 @@ private int pId;
 			@NotEmpty(message = "Temperature cannot be left blank or null") String temparature,
 			@NotEmpty(message = "Type of seeds cannot be left blank or null") String typeOfSeeds,
 			@NotEmpty(message = "seeds description cannot be left blank or null") String seedsDescription,
-			@Positive(message = "Stock should be positive") Integer seedsStock,
-			@Positive(message = "Cost should be positive") double seedsCost,
+			@Positive(message = "Stock should be positive") Integer seedsStock, double cost,
 			@Positive(message = "SeedsPerPacket should be positive") Integer seedsPerPacket) {
-
+		super();
+		this.seedId = seedId;
 		this.commonName = commonName;
 		this.bloomTime = bloomTime;
 		this.watering = watering;
@@ -83,18 +83,18 @@ private int pId;
 		this.typeOfSeeds = typeOfSeeds;
 		this.seedsDescription = seedsDescription;
 		this.seedsStock = seedsStock;
-		this.seedsCost = seedsCost;
+		this.cost = cost;
 		this.seedsPerPacket = seedsPerPacket;
 	}
 
 	
 
-	public int getpId() {
-		return pId;
+	public Integer getSeedId() {
+		return seedId;
 	}
 
-	public void setpId(int pId) {
-		this.pId = pId;
+	public void setSeedId(Integer seedId) {
+		this.seedId = seedId;
 	}
 
 	public String getCommonName() {
@@ -161,12 +161,12 @@ private int pId;
 		this.seedsStock = seedsStock;
 	}
 
-	public double getSeedsCost() {
-		return seedsCost;
+	public double getCost() {
+		return cost;
 	}
 
-	public void setSeedsCost(double seedsCost) {
-		this.seedsCost = seedsCost;
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 
 	public Integer getSeedsPerPacket() {
@@ -175,14 +175,6 @@ private int pId;
 
 	public void setSeedsPerPacket(Integer seedsPerPacket) {
 		this.seedsPerPacket = seedsPerPacket;
-	}
-
-	@Override
-	public String toString() {
-		return "SeedRequestDto [pId=" + pId + ", commonName=" + commonName + ", bloomTime=" + bloomTime + ", watering="
-				+ watering + ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfSeeds="
-				+ typeOfSeeds + ", seedsDescription=" + seedsDescription + ", seedsStock=" + seedsStock + ", seedsCost="
-				+ seedsCost + ", seedsPerPacket=" + seedsPerPacket + "]";
 	}
 
 	

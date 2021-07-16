@@ -1,9 +1,7 @@
 package com.ec.onlineplantnursery.responseDto;
 
-import java.util.List;
-import java.util.Map;
 
-import javax.persistence.ElementCollection;
+import java.util.Map;
 
 import com.ec.onlineplantnursery.entity.Address;
 public class OrderResponseDto {
@@ -11,9 +9,14 @@ public class OrderResponseDto {
 	private Integer bookingOrderId;
 	
 	private double totalCost;
-	private String customerName;
-	private Address address;
+	
 	private Map<Integer, Integer> productIds;
+	
+	private String email;
+	
+	/*
+	 * private String customerName; private Address address;
+	 */
 
 	public OrderResponseDto() {
 		super();
@@ -36,20 +39,24 @@ public class OrderResponseDto {
 		this.totalCost = totalCost;
 	}
 
-	public String getCustomerName() {
-		return customerName;
+	
+	/*
+	 * public String getCustomerName() { return customerName; }
+	 * 
+	 * public void setCustomerName(String customerName) { this.customerName =
+	 * customerName; }
+	 * 
+	 * public Address getAddress() { return address; }
+	 * 
+	 * public void setAddress(Address address) { this.address = address; }
+	 */
+	 
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Map<Integer, Integer> getProductIds() {
@@ -59,4 +66,6 @@ public class OrderResponseDto {
 	public void setProductIds(Map<Integer, Integer> productIds) {
 		this.productIds = productIds;
 	}
+	
+	
 }

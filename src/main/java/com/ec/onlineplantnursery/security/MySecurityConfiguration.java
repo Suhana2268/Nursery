@@ -1,6 +1,6 @@
 package com.ec.onlineplantnursery.security;
 
-import javax.annotation.security.PermitAll;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,10 +38,10 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	         http 	              
-	              .cors().disable()
+	              .cors().and()
 	              .csrf().disable()
 	              .authorizeRequests()
-	              .antMatchers("/customer/add","/user/signin","/onlinenursery/seed/add").permitAll()
+	              .antMatchers("/onlinenursery/customer/add","/user/signin","/onlinenursery/seed/add").permitAll()
 	              .anyRequest().authenticated()
 	              .and()
 	              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

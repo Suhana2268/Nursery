@@ -29,8 +29,6 @@ public class Customer extends User{
 	@Size(min = 3, max = 50, message = "Invalid Customer Name,Customer Name should have minimum 3 and maximum 50 characters")
 	private String customerName;
 	
-	//remove email and username
-	
     
 	@Column
 	@ApiModelProperty(name = "CustomerUserName", value = "Hold the min 3 char Customer username", required = true)

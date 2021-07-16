@@ -3,6 +3,7 @@ package com.ec.onlineplantnursery.service;
 
 
 import java.util.List;
+
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -10,9 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ec.onlineplantnursery.entity.Plant;
 import com.ec.onlineplantnursery.entity.Planter;
-import com.ec.onlineplantnursery.entity.Seed;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.repository.IPlantRepository;
 import com.ec.onlineplantnursery.repository.IPlanterRepository;

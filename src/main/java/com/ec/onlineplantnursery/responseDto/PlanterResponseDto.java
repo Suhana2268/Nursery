@@ -12,7 +12,7 @@ public class PlanterResponseDto {
 	private int planterColor;
 	private String planterShape;
 	private int planterStock;
-	private double planterCost;
+	private double cost;
 	private Plant plant;
 	private Seed seed;
 
@@ -74,12 +74,14 @@ public class PlanterResponseDto {
 
 	
 
-	public double getPlanterCost() {
-		return planterCost;
+	
+
+	public double getCost() {
+		return cost;
 	}
 
-	public void setPlanterCost(double planterCost) {
-		this.planterCost = planterCost;
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 
 	public Plant getPlant() {

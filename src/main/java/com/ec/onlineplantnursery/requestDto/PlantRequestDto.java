@@ -54,9 +54,10 @@ public class PlantRequestDto {
 	@ApiModelProperty(name = "PlantStock", value = "Holds only positive value")
 	@Positive(message = "Stock should be positive")
 	private Integer plantsStock;
+	
+	private double cost;
 
-	@Positive(message = "Enter valid cost")
-	private double plantCost;
+	
 
 	public Integer getPlantId() {
 		return plantId;
@@ -146,12 +147,15 @@ public class PlantRequestDto {
 		this.plantsStock = plantsStock;
 	}
 
-	public double getPlantCost() {
-		return plantCost;
+	public double getCost() {
+		return cost;
 	}
 
-	public void setPlantCost(double plantCost) {
-		this.plantCost = plantCost;
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
+	
+
+	
 
 }

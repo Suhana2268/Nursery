@@ -2,6 +2,7 @@ package com.ec.onlineplantnursery.web;
 
 import java.util.List;
 
+
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -148,9 +149,9 @@ public class SeedRestController {
 		
 		log.info("inside update seed"+seedRequest);
 		System.out.println("->  inside update seed"+seedRequest);
-		//Seed seed = modelMapper.map(seedRequest, Seed.class);
+		Seed seed = modelMapper.map(seedRequest, Seed.class);
 		//System.out.println("->  inside update seed"+seed);
-		SeedRequestDto updatedSeed = seedService.updateSeed(seedRequest);
+		Seed updatedSeed = seedService.updateSeed(seed);
 		SeedResponseDto responseSeed = modelMapper.map(updatedSeed, SeedResponseDto.class);
 		
 		return new ResponseEntity<>(responseSeed, HttpStatus.OK);

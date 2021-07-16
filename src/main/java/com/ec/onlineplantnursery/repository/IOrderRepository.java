@@ -16,5 +16,7 @@ public interface IOrderRepository extends JpaRepository<Order, Integer>, CustomO
 	double findSeedCostByPlanterId(@Param("planterId") Integer planterId);
 	
 	**/
+	@Query("select p.cost from Product p where p.pId =: pId")
+	double findPlantCostByProductId(@Param("pId") Integer pId);
 
 }

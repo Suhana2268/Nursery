@@ -35,8 +35,8 @@ public class PlanterRequestDto {
 	@Min(value = 1, message = "In stock cannot be less than 1")
 	private int planterStock;
 
-	@Min(value = 50, message = "Cost cannot be less than 50")
-	private double planterCost;
+	private double cost;
+	
 
 	private Plant plant;
 
@@ -100,14 +100,6 @@ public class PlanterRequestDto {
 
 	
 
-	public double getPlanterCost() {
-		return planterCost;
-	}
-
-	public void setPlanterCost(double planterCost) {
-		this.planterCost = planterCost;
-	}
-
 	public Plant getPlant() {
 		return plant;
 	}
@@ -123,5 +115,15 @@ public class PlanterRequestDto {
 	public void setSeed(Seed seed) {
 		this.seed = seed;
 	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	
 
 }

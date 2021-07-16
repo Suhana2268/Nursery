@@ -3,6 +3,8 @@ package com.ec.onlineplantnursery.web;
 
 
 import java.util.List;
+
+
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -23,11 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ec.onlineplantnursery.entity.Customer;
-import com.ec.onlineplantnursery.exceptions.InvalidCredentialException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.requestDto.CustomerRequestDto;
 import com.ec.onlineplantnursery.responseDto.CustomerResponseDto;
-import com.ec.onlineplantnursery.security.JwtResponse;
 import com.ec.onlineplantnursery.service.ICustomerServiceImpl;
 
 import io.swagger.annotations.Api;
@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Validated
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/onlinenursery/customer")
 @Api(value = "Online Nursery Application")
 public class CustomerRestController {
 	Logger log = org.slf4j.LoggerFactory.getLogger(CustomerRestController.class);

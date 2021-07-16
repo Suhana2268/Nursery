@@ -1,8 +1,5 @@
 package com.ec.onlineplantnursery.service;
 
-
-
-
 import com.ec.onlineplantnursery.entity.User;
 import com.ec.onlineplantnursery.exceptions.InvalidCredentialException;
 

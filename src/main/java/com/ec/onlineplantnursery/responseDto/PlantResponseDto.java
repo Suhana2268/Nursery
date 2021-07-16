@@ -13,7 +13,7 @@ public class PlantResponseDto {
 	private String typeOfPlant;
 	private String plantDescription;
 	private Integer plantsStock;
-	private double plantCost;
+	private double cost;
 
 	public Integer getPlantId() {
 		return plantId;
@@ -97,6 +97,14 @@ public class PlantResponseDto {
 
 	
 
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
 	public Integer getPlantsStock() {
 		return plantsStock;
 	}
@@ -105,12 +113,5 @@ public class PlantResponseDto {
 		this.plantsStock = plantsStock;
 	}
 
-	public double getPlantCost() {
-		return plantCost;
-	}
-
-	public void setPlantCost(double plantCost) {
-		this.plantCost = plantCost;
-	}
-
+	
 }

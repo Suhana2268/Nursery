@@ -1,23 +1,17 @@
 package com.ec.onlineplantnursery.service;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ec.onlineplantnursery.entity.Customer;
-import com.ec.onlineplantnursery.exceptions.InvalidCredentialException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.repository.ICustomerRepository;
-import com.ec.onlineplantnursery.security.JwtUtil;
 
 @Service
 public class ICustomerServiceImpl implements ICustomerService{
@@ -46,8 +40,12 @@ public class ICustomerServiceImpl implements ICustomerService{
 	@Transactional
 	public Customer addCustomer(Customer customer) {
 		customer.setUserType("1");
+		Optional<Customer> cust = custRepo.findById(customer.getUserId());
+		if(cust.isEmpty()) {
 		custRepo.save(customer);
 		return customer;
+		}
+		return null;
 	}
 	
 	
@@ -140,9 +138,5 @@ public class ICustomerServiceImpl implements ICustomerService{
 		}
 		return false;
 	}
-	
-	
-
-	
 	
 }

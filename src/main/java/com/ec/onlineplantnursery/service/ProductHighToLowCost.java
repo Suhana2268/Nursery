@@ -11,7 +11,7 @@ import com.ec.onlineplantnursery.entity.Seed;
 		@Override
 		public int compare(Seed s1, Seed s2) {
 			// TODO Auto-generated method stub
-			return (int) (s2.getSeedsCost() - s1.getSeedsCost());
+			return (int) (s2.getCost() - s1.getCost());
 		}
 
 	}

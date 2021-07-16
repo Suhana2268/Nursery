@@ -25,6 +25,13 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
 	}
 
+	@Override
+	public double calculateCost(int productId) {
+		Query q = entityManager.createQuery("select p.plantCost from Plant p where p.pId =: pId");
+		q.setParameter("pId", productId);
+		return q.getFirstResult();
+	}
+
 //	/*
 //	 * @Override public double totalCost(int planterId) { Query q =
 //	 * entityManager.createQuery(

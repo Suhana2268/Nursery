@@ -2,17 +2,12 @@ package com.ec.onlineplantnursery.requestDto;
 
 import java.time.LocalDate;
 
-import java.util.List;
 import java.util.Map;
-
-import javax.persistence.ElementCollection;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
 
 import com.ec.onlineplantnursery.entity.Customer;
-import com.ec.onlineplantnursery.entity.Planter;
-import com.ec.onlineplantnursery.entity.Product;
+import com.ec.onlineplantnursery.entity.User;
 
 import lombok.Data;
 
@@ -27,15 +22,17 @@ public class OrderRequestDTO {
 	@NotEmpty(message = "transactionMode cannot be left blank or null")
 	private String transactionMode;
 
-	private List<Product> products;
+	
 	
 	
 
 	private double totalCost;
 
-	private Customer customer;
+	//private Customer customer;
 
 	private Map<Integer, Integer> productQuantityMap;
+	
+	private User user;
 
 	public OrderRequestDTO() {
 		super();
@@ -66,10 +63,6 @@ public class OrderRequestDTO {
 		this.transactionMode = transactionMode;
 	}
 
-	
-
-	
-
 	public double getTotalCost() {
 		return totalCost;
 	}
@@ -78,21 +71,11 @@ public class OrderRequestDTO {
 		this.totalCost = totalCost;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
+	/*
+	 * public Customer getCustomer() { return customer; }
+	 * 
+	 * public void setCustomer(Customer customer) { this.customer = customer; }
+	 */
 
 	public Map<Integer, Integer> getProductQuantityMap() {
 		return productQuantityMap;
@@ -102,9 +85,13 @@ public class OrderRequestDTO {
 		this.productQuantityMap = productQuantityMap;
 	}
 
-		
+	public User getUser() {
+		return user;
+	}
 
-	
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	
 	

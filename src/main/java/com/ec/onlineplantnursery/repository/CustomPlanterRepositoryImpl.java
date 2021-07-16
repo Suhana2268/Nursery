@@ -26,7 +26,7 @@ public class CustomPlanterRepositoryImpl implements CustomPlanterRepository {
 	@Override
 	public List<Planter> getPlantersByRange(double minCost, double maxCost) {
 
-		Query q = entityManager.createQuery("from Planter pl where pl.planterCost >=:minCost and pl.planterCost <=: maxCost");
+		Query q = entityManager.createQuery("from Planter pl where pl.cost >=:minCost and pl.cost <=: maxCost");
 		q.setParameter("minCost", minCost);
 		q.setParameter("maxCost", maxCost);
 		return q.getResultList();

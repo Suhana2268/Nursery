@@ -2,6 +2,7 @@ package com.ec.onlineplantnursery.service;
 
 
 import java.util.List;
+
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.ec.onlineplantnursery.entity.Plant;
 import com.ec.onlineplantnursery.exceptions.PlantIdNotFoundException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
-import com.ec.onlineplantnursery.exceptions.SeedIdNotFoundException;
 import com.ec.onlineplantnursery.repository.IPlantRepository;
 
 
