@@ -15,22 +15,31 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ec.onlineplantnursery.entity.Image;
+import com.ec.onlineplantnursery.entity.Seed;
+import com.ec.onlineplantnursery.exceptions.SeedIdNotFoundException;
 import com.ec.onlineplantnursery.repository.ImageRepository;
 import com.ec.onlineplantnursery.repository.ProductRepo;
+import com.ec.onlineplantnursery.requestDto.SeedRequestDto;
+import com.ec.onlineplantnursery.responseDto.SeedResponseDto;
 import com.ec.onlineplantnursery.service.ISeedServiceImpl;
 
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/onlinenursery/image")
@@ -57,6 +66,7 @@ public class ImageRestController {
 				return imageRepo.save(img);
 			});
 		}
+	
 		
 		//get corresponding image for item id
 	@GetMapping("/{pId}/productImage")

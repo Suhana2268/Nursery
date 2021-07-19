@@ -1,7 +1,7 @@
 package com.ec.onlineplantnursery.entity;
 
 import javax.persistence.Column;
-
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "plant")
-//@DiscriminatorValue("plant")
+@DiscriminatorValue("plant")
 public class Plant extends Product{
 	
 
@@ -67,15 +67,13 @@ public class Plant extends Product{
 
 	public Plant(@Positive(message = "Height of plant should be positive") Integer plantHeight,
 			@NotEmpty(message = "Plant spread cannot be blank") @Size(min = 3, max = 15, message = "Invalid Plant spread") String plantSpread,
-			@NotEmpty(message = "Plant Name cannot be blank") @Size(min = 3, max = 15, message = "Invalid Plant Name") String commonName,
 			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
 			String medicinalOrCulinaryUse,
 			@NotEmpty(message = "difficulty level cannot be left blank or null") String difficultyLevel,
 			@NotEmpty(message = "Temperature cannot be left blank or null") String temparature,
 			@NotNull String typeOfPlant,
 			@NotEmpty(message = "plant description cannot be left blank or null") String plantDescription,
-			@Positive(message = "Stock should be positive") Integer plantsStock,
-			@Positive(message = "Enter valid cost") double plantCost) {
+			@Positive(message = "Stock should be positive") Integer plantsStock) {
 		super();
 		this.plantHeight = plantHeight;
 		this.plantSpread = plantSpread;
@@ -239,7 +237,7 @@ public class Plant extends Product{
 		return "Plant [plantHeight=" + plantHeight + ", plantSpread=" + plantSpread + ", commonName=" + getCommonName()
 				+ ", bloomTime=" + bloomTime + ", medicinalOrCulinaryUse=" + medicinalOrCulinaryUse
 				+ ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfPlant="
-				+ typeOfPlant + ", plantDescription=" + plantDescription + ", plantsStock=" + plantsStock + "]";
+				+ typeOfPlant + ", plantDescription=" + plantDescription + ", plantsStock=" + plantsStock + ", plantCost=" + getCost()  +"]";
 	}
 
 	

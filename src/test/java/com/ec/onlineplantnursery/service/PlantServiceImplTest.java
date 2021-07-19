@@ -1,4 +1,4 @@
-/*package com.ec.onlineplantnursery.service;
+package com.ec.onlineplantnursery.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ec.onlineplantnursery.entity.Plant;
+import com.ec.onlineplantnursery.entity.Planter;
 import com.ec.onlineplantnursery.exceptions.PlantIdNotFoundException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.repository.IPlantRepository;
@@ -51,26 +52,20 @@ class PlantServiceImplTest {
 	@Test
 	@DisplayName("Test-save plant")
 	void testSavePlant() {
-		Plant input = new Plant(1, 10, 10, "Ice Plant", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent", "This is a delightful,easy to grow plant", "6 inches", 150.0);
+		Plant input = mock(Plant.class);
 
-		Plant savedProduct = new Plant(1, 10, 10, "Ice Plant", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent", "This is a delightful,easy to grow plant", "6 inches", 150.0);
-
-		when(plantRepo.save(input)).thenReturn(savedProduct);
+		when(plantRepo.save(input)).thenReturn(input);
 		Plant result = plantService.addPlant(input);
 		verify(plantRepo).save(input);
-		assertEquals(savedProduct, result);
+		assertEquals(input, result);
 	}
 
 	@Test
 	@DisplayName("test- get all Plants")
 	void testGetAllPlants() {
 
-		Plant input1 = new Plant(1, 10, 10, "Ice Plant", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent Plant", "This is a delightful,easy to grow plant", "6 inches", 150.0);
-		Plant input2 = new Plant(2, 10, 10, "Guava", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Fruit Plant", "This is a delightful,easy to grow plant", "6 inches", 150.0);
+		Plant input1 = mock(Plant.class);
+		Plant input2 = mock(Plant.class);
 		List<Plant> pList = new ArrayList<>();
 		pList.add(input1);
 		pList.add(input2);
@@ -85,20 +80,19 @@ class PlantServiceImplTest {
 	@DisplayName("Test-Get plant by id")
 	void testviewPlantById() throws PlantIdNotFoundException {
 
-		Plant actual = new Plant(1, 10, 10, "Ice Plant", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent Plant", "This is a delightful,easy to grow plant", "6 inches", 150.0);
+		Plant expected = mock(Plant.class);
 
-		Optional<Plant> p = Optional.of(actual);
-		when(plantRepo.findById(actual.getpId())).thenReturn(p);
-		Plant expected = plantService.viewPlant(1);
-		assertEquals(expected, actual);
+		Optional<Plant> p = Optional.of(expected);
+		when(plantRepo.findById(1)).thenReturn(p);
+		Plant output = plantService.viewPlant(1);
+		verify(plantRepo).findById(1);
+		assertEquals(expected, output);
 	}
 
 	@Test
 	@DisplayName("Test-Get plant by name")
 	void testViewPlantByName() throws ResourceNotFoundException {
-		Plant input = new Plant(1, 10, 10, "Ice Plant", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent Plant", "This is a delightful,easy to grow plant", "6 inches", 150.0);
+		Plant input = mock(Plant.class);
 
 		String commonName = "Ice Plant";
 		when(plantRepo.viewPlant(commonName)).thenReturn(input);
@@ -111,10 +105,8 @@ class PlantServiceImplTest {
 	@DisplayName("Test-Get Plant by type")
 	void testViewPlantByTypeOfPlant() throws ResourceNotFoundException {
 
-		Plant input1 = new Plant(2, 10, 10, "Guava", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Fruit Plant", "This is a delightful,easy to grow plant", "6 inches", 150.0);
-		Plant input2 = new Plant(3, 10, 10, "Papaya", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Fruit Plant", "This is a delightful,easy to grow plant", "6 inches", 150.0);
+		Plant input1 = mock(Plant.class);
+		Plant input2 = mock(Plant.class);
 		List<Plant> plantList = new ArrayList<>();
 		plantList.add(input1);
 		plantList.add(input2);
@@ -129,11 +121,9 @@ class PlantServiceImplTest {
 	@Test
 	@DisplayName("Test-Exception for Update plant")
 	void testUpdatePlant() throws NoSuchElementException, PlantIdNotFoundException {
-		Plant input = new Plant(1, 10, 10, "Ice Plant", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent", "This is a delightful,easy to grow plant", "6 inches", 150.0);
+		Plant input = mock(Plant.class);
 
-		Plant update = new Plant(1, 10, 10, "Ice", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent", "This is a delightful,easy to grow plant", "6 inches", 150.0);
+		Plant update = mock(Plant.class);
 		Optional<Plant> optionalPlant = Optional.of(input);
 
 		when(plantRepo.findById(input.getpId())).thenReturn(optionalPlant);
@@ -144,24 +134,12 @@ class PlantServiceImplTest {
 	}
 	
 
-	@Test
-	@DisplayName("Test-Delete plant")
-	void testDeletePlant() throws PlantIdNotFoundException {
-		Plant input = new Plant(11, 10, 10, "Ice Plant", "Throughout year", "culinary", "Easy to grow", "20-35 C",
-				"Succulent", "This is a delightful,easy to grow plant", "6 inches", 150.0);
-
-		when(plantRepo.findById(input.getpId())).thenReturn(Optional.of(input));
-		Plant result = plantService.deletePlant(input);
-		verify(plantRepo).delete(input);
-		assertEquals(input, result);
-
-	}
+	
 	
 	@Test 
 	@DisplayName("Test-Exception for get plant by name")
 	void testViewPlantByNameException() {
-		Plant input = new Plant(11,10,10,"Ice Plant","Throughout year","culinary","Easy to grow","20-35 C","Succulent","This is a delightful,easy to grow plant","6 inches",150.0);
-		
+		Plant input = mock(Plant.class);
 		String commonName = "abc";
 		try {
 			when(plantRepo.viewPlant(commonName)).thenReturn(input);
@@ -178,8 +156,8 @@ class PlantServiceImplTest {
 	@DisplayName("Test-Exception for get plant by type")
 	void testViewPlantByTypeOfPlantException() throws ResourceNotFoundException{
 		
-		Plant input1 = new Plant(2,10,10,"Guava","Throughout year","culinary","Easy to grow","20-35 C","Fruit Plant","This is a delightful,easy to grow plant","6 inches",150.0);
-		Plant input2 = new Plant(3,10,10,"Papaya","Throughout year","culinary","Easy to grow","20-35 C","Fruit Plant","This is a delightful,easy to grow plant","6 inches",150.0);
+		Plant input1 = mock(Plant.class);
+		Plant input2 = mock(Plant.class);
 		
 		List<Plant> plantList = new ArrayList<>();
 		plantList.add(input1);
@@ -197,4 +175,4 @@ class PlantServiceImplTest {
 	
 	
 
-}// end*/
+}// end

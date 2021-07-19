@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ec.onlineplantnursery.entity.Image;
 import com.ec.onlineplantnursery.entity.Plant;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.repository.IPlantRepository;
@@ -17,6 +18,7 @@ import com.ec.onlineplantnursery.entity.Planter;
 import com.ec.onlineplantnursery.repository.IPlanterRepository;
 import com.ec.onlineplantnursery.entity.Seed;
 import com.ec.onlineplantnursery.repository.ISeedRepository;
+import com.ec.onlineplantnursery.repository.ImageRepository;
 
 @Service
 public class IPlanterServiceImpl implements IPlanterService {
@@ -26,6 +28,9 @@ public class IPlanterServiceImpl implements IPlanterService {
 
 	@Autowired
 	IPlantRepository plantRepo;
+
+	@Autowired
+	ImageRepository imageRepo;
 
 	@Autowired
 	ISeedRepository seedRepo;
@@ -58,7 +63,7 @@ public class IPlanterServiceImpl implements IPlanterService {
 	 */
 
 	@Override
-	public Planter addPlanter(Planter planter) throws ResourceNotFoundException {
+	public Planter addPlanter(Planter planter)  {
 
 		
 		return planterRepo.save(planter);
@@ -96,10 +101,13 @@ public class IPlanterServiceImpl implements IPlanterService {
 	@Override
 	public Planter deletePlanter(Planter planter) throws ResourceNotFoundException {
 		Optional<Planter> pl = planterRepo.findById(planter.getpId());
+		Optional<Image> i = imageRepo.findByProduct_pId(planter.getpId());
+		Image image = i.get();
+			
 		if (!(pl.isPresent())) {
 			throw new ResourceNotFoundException("No Planter found with the Id");
 		}
-
+		imageRepo.delete(image);
 		planterRepo.delete(planter);
 		return pl.get();
 	}

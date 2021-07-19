@@ -19,7 +19,6 @@ public class SeedRequestDto {
 	private int pId;
 	
 	
-	
 	private String commonName;
 
 	@ApiModelProperty(name = "Bloom Time", value = "Hold the min 3 char bloom time", required = true)

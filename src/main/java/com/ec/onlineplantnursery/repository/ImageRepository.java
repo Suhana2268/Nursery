@@ -11,4 +11,6 @@ import com.ec.onlineplantnursery.entity.Image;
 public interface ImageRepository extends JpaRepository<Image, Integer>{
 
 	Optional<Image> findByProduct_pId(int pId);
+
+	//Image getImageByPId(int pId);
 }

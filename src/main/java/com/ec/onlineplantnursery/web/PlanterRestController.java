@@ -58,7 +58,7 @@ public class PlanterRestController {
 
 	@ApiOperation(value = "planter post mapping. Give plantId and seedId as zero in url if creating new plant and seed instance through planter.", response = PlanterResponseDto.class)
 	@PostMapping("/add")
-	public ResponseEntity<PlanterResponseDto> insertPlanter(@RequestBody @Valid PlanterRequestDto planter) throws ResourceNotFoundException {
+	public ResponseEntity<PlanterResponseDto> insertPlanter(@RequestBody @Valid PlanterRequestDto planter)  {
 		
 		log.info("inside insert planter");
 		Planter planter1 = modelMapper.map(planter, Planter.class);
@@ -97,7 +97,7 @@ public class PlanterRestController {
 	 */
 
 	@ApiOperation(value = "planter delete mapping to delete planter", response = PlanterResponseDto.class)
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	public ResponseEntity<PlanterResponseDto> deletePlanter(@RequestBody PlanterRequestDto planterDto) throws ResourceNotFoundException {
 		
 		log.info("inside delete planter by id");

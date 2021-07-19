@@ -1,4 +1,4 @@
-/*package com.ec.onlineplantnursery.service;
+package com.ec.onlineplantnursery.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,24 +45,19 @@ class SeedServiceImplTest {
 	@Test
 	@DisplayName("Test-Save Seed")
 	void testSaveSeed() {
-		Seed input = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
-		Seed output = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
-		when(seedRepo.save(input)).thenReturn(output);
+		Seed input = mock(Seed.class);
+		when(seedRepo.save(input)).thenReturn(input);
 		Seed result = seedService.addSeed(input);
 		verify(seedRepo).save(input);
-		assertEquals(output, result);
+		assertEquals(input, result);
 	}
 
 	@Test
 	@DisplayName("Test-Get All Seeds")
 	void testGetAllSeeds() {
 
-		Seed s1 = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
-		Seed s2 = new Seed(2,"Papaya", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
+		Seed s1 = mock(Seed.class);
+		Seed s2 = mock(Seed.class);
 		List<Seed> seedList1 = new ArrayList<>();
 		seedList1.add(s1);
 		seedList1.add(s2);
@@ -77,8 +72,7 @@ class SeedServiceImplTest {
 	@Test
 	@DisplayName("Test-Get Seed by Id")
 	void testViewSeedById() throws SeedIdNotFoundException {
-		Seed s = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
+		Seed s = mock(Seed.class);
 		Optional<Seed> s1 = Optional.of(s);
 		when(seedRepo.findById(1)).thenReturn(s1);
 		Seed s2 = seedService.viewSeed(1);
@@ -90,8 +84,7 @@ class SeedServiceImplTest {
 	@Test
 	@DisplayName("Test-Get Seed by Id using invalid entry")
 	void testViewSeedByIdNotExisting() throws SeedIdNotFoundException {
-		Seed s = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
+		Seed s = mock(Seed.class);
 		Optional<Seed> s1 = Optional.of(s);
 
 		when(seedRepo.findById(1)).thenReturn(s1);
@@ -102,8 +95,7 @@ class SeedServiceImplTest {
 	@Test
 	@DisplayName("Test-Get Seed by common Name ")
 	void testViewSeedByName() throws ResourceNotFoundException {
-		Seed s = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
+		Seed s = mock(Seed.class);
 		String commonName = "Mango";
 		when(seedRepo.getSeedByCommonName(commonName)).thenReturn(s);
 		Seed s1 = seedService.viewSeed(commonName);
@@ -114,8 +106,7 @@ class SeedServiceImplTest {
 	@Test
 	@DisplayName("Test-Resource not found exception by common name ")
 	void testExceptionViewSeedByName() {
-		Seed input = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
+		Seed input = mock(Seed.class);
 		String commonName = "abc";
 		try {
 			when(seedRepo.getSeedByCommonName(commonName)).thenReturn(input);
@@ -130,10 +121,8 @@ class SeedServiceImplTest {
 	@Test
 	@DisplayName("Test-Get Seed by type of seed ")
 	void testViewSeedByTypeOfSeed() throws ResourceNotFoundException {
-		Seed s1 = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
-		Seed s2 = new Seed(2,"Papaya", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
+		Seed s1 = mock(Seed.class);
+		Seed s2 = mock(Seed.class);
 		List<Seed> seedList = new ArrayList<>();
 		seedList.add(s1);
 		seedList.add(s2);
@@ -148,10 +137,8 @@ class SeedServiceImplTest {
 	@DisplayName("Test-Get Seed by type of seed ")
 	void testExceptionViewSeedByTypeOfSeed() throws ResourceNotFoundException {
 
-		Seed s1 = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
-		Seed s2 = new Seed(2,"Papaya", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 200, 300, 2000);
+		Seed s1 = mock(Seed.class);
+		Seed s2 = mock(Seed.class);
 		List<Seed> seedList = new ArrayList<>();
 		seedList.add(s1);
 		seedList.add(s2);
@@ -166,27 +153,15 @@ class SeedServiceImplTest {
 
 	}
 
-	@Test
-	@DisplayName("Test-Delete seed")
-	void testDeleteSeed() throws SeedIdNotFoundException {
-
-		Seed input = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 250, 300, 2000);
-		when(seedRepo.findById(input.getpId())).thenReturn(Optional.of(input));
-		Seed output = seedService.deleteSeed(input);
-		verify(seedRepo).delete(input);
-		assertEquals(input, output);
-	}
+	
 
 	
 
 	@Test
 	@DisplayName("Test-Update seed")
 	void testUpdateSeed() throws SeedIdNotFoundException {
-		Seed input = new Seed(1,"Mango", "Morning", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 250, 300, 2000);
-		Seed savedInput = new Seed(1,"Mango", "Evening", "Twice a day", "easy", "25ºC", "Monocotyledonous",
-				"This seed is a small embryonic plant", 250, 300, 2000);
+		Seed input = mock(Seed.class);
+		Seed savedInput = mock(Seed.class);
 
 		when(seedRepo.findById(input.getpId())).thenReturn(Optional.of(input));
 		when(seedRepo.save(savedInput)).thenReturn(savedInput);
@@ -196,4 +171,4 @@ class SeedServiceImplTest {
 
 	
 	
-}//end*/
+}//end

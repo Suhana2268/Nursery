@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,9 +31,16 @@ public class UserRestController {
 	
 	  @ApiOperation(value = "User Post mapping for user signing in", response = User.class)
 	  
-	  @PostMapping("/signin") public ResponseEntity<JwtResponse>signuser(@RequestBody @Valid User user) throws InvalidCredentialException {
+	  @PostMapping("/signin") 
+	  public ResponseEntity<JwtResponse>signuser(@RequestBody @Valid User user) throws InvalidCredentialException {
 	
-		  return new ResponseEntity<>(new JwtResponse(this.userService.signIn(user),1),HttpStatus.OK);
+		  User userDetail = userService.loadUserByEmail(user.getEmail());
+		  if(user.getUserType()=="admin") {
+			  
+			  return new ResponseEntity<>(new JwtResponse(this.userService.signIn(user),Integer.parseInt(userDetail.getUserType())),HttpStatus.OK);
+		  }
+		  return new ResponseEntity<>(new JwtResponse(this.userService.signIn(user),Integer.parseInt(userDetail.getUserType())),HttpStatus.OK);
+		 
 	  }
 
 	@ApiOperation(value = "User Post mapping for user signing out", response = User.class)

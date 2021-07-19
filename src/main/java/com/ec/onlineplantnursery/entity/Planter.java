@@ -1,6 +1,7 @@
 package com.ec.onlineplantnursery.entity;
 
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -10,7 +11,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 @Entity
 @Table(name = "Planter")
-//@DiscriminatorValue("planter")
+@DiscriminatorValue("planter")
 public class Planter extends Product{
 	
 
@@ -39,16 +40,15 @@ public class Planter extends Product{
 	public Planter() {
 		super();
 
+
 	}
-
-
 	public Planter(int pId, double cost, String commonName) {
 		super(pId, cost,commonName);
 		
 	}
 
 
-	public Planter(@NotEmpty(message = "Seed Name cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters") String commonName,
+	public Planter(String commonName,
 			@Positive float planterheight,
 			@Min(value = 1, message = "Capacity cannot be less than 1") int planterCapacity, @Positive int drinageHoles,
 			@Positive int planterColor,
@@ -172,7 +172,7 @@ public class Planter extends Product{
 	public String toString() {
 		return "Planter [commonName=" + getCommonName()+", planterheight=" + planterheight + ", planterCapacity=" + planterCapacity + ", drinageHoles="
 				+ drinageHoles + ", planterColor=" + planterColor + ", planterShape=" + planterShape + ", planterStock="
-				+ planterStock + "]";
+				+ planterStock + ", cost=" + getCost() +"]";
 	}
 
 

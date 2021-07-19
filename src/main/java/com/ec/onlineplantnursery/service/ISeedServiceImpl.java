@@ -1,5 +1,6 @@
 package com.ec.onlineplantnursery.service;
 
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -15,18 +16,23 @@ import org.springframework.stereotype.Service;
 
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.exceptions.SeedIdNotFoundException;
+import com.ec.onlineplantnursery.entity.Image;
 import com.ec.onlineplantnursery.entity.Product;
 import com.ec.onlineplantnursery.repository.ProductRepo;
 import com.ec.onlineplantnursery.requestDto.SeedRequestDto;
 import com.ec.onlineplantnursery.responseDto.SeedResponseDto;
 import com.ec.onlineplantnursery.entity.Seed;
 import com.ec.onlineplantnursery.repository.ISeedRepository;
+import com.ec.onlineplantnursery.repository.ImageRepository;
 
 @Service
 public class ISeedServiceImpl implements ISeedService {
 
 	@Autowired
 	ISeedRepository seedRepo;
+	
+	@Autowired
+	ImageRepository imageRepo;
 
 	@Autowired
 	ProductRepo proRepo;
@@ -98,8 +104,13 @@ public class ISeedServiceImpl implements ISeedService {
 	public Seed deleteSeed(Seed input) throws SeedIdNotFoundException {
 
 		Optional<Seed> s = seedRepo.findById(input.getpId());
+		
+		Optional<Image> i = imageRepo.findByProduct_pId(input.getpId());
+		Image image = i.get();
 		if (s.isPresent()) {
+			imageRepo.delete(image);
 			seedRepo.delete(input);
+			
 			return s.get();
 		} else {
 			throw new SeedIdNotFoundException(input.getpId());

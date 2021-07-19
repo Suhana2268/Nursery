@@ -1,6 +1,6 @@
 package com.ec.onlineplantnursery.entity;
 import javax.persistence.Column;
-
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "seed")
-//@DiscriminatorValue("seed")
+@DiscriminatorValue("seed")
 public class Seed extends Product{
 	
 
@@ -76,7 +76,6 @@ public class Seed extends Product{
 		this.typeOfSeeds = typeOfSeeds;
 		this.seedsDescription = seedsDescription;
 		this.seedsStock = seedsStock;
-		
 		this.seedsPerPacket = seedsPerPacket;
 	}
 

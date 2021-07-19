@@ -85,4 +85,15 @@ public class MyGlobalExceptionHandler {
 	}
 	
 
+	@ExceptionHandler
+	public ResponseEntity<MyExceptionResponse> invalidUserIdException(AdminIdNotFoundException ex)
+	{
+		String message=ex.getMessage();
+		MyExceptionResponse response=new MyExceptionResponse();
+		response.setHttpStatus(HttpStatus.NOT_FOUND.value());
+		response.setExceptionMsg(message);
+		
+		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+	}
+
 }

@@ -5,16 +5,25 @@ import com.ec.onlineplantnursery.entity.Seed;
 
 public class PlanterResponseDto {
 
-	private int pId;;
+	private int pId;
+	private String commonName;
 	private float planterheight;
 	private int planterCapacity;
 	private int drinageHoles;
 	private int planterColor;
 	private String planterShape;
 	private int planterStock;
-	private double planterCost;
+	private double cost;
 	
 	
+
+	public String getCommonName() {
+		return commonName;
+	}
+
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
+	}
 
 	public int getpId() {
 		return pId;
@@ -74,13 +83,24 @@ public class PlanterResponseDto {
 
 	
 
-	public double getPlanterCost() {
-		return planterCost;
+	
+	public double getCost() {
+		return cost;
 	}
 
-	public void setPlanterCost(double planterCost) {
-		this.planterCost = planterCost;
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
+
+	@Override
+	public String toString() {
+		return "PlanterResponseDto [pId=" + pId + ", commonName=" + commonName + ", planterheight=" + planterheight
+				+ ", planterCapacity=" + planterCapacity + ", drinageHoles=" + drinageHoles + ", planterColor="
+				+ planterColor + ", planterShape=" + planterShape + ", planterStock=" + planterStock + ", cost="
+				+ cost + "]";
+	}
+
+	
 
 	
 

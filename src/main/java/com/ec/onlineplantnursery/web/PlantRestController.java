@@ -97,7 +97,7 @@ public class PlantRestController {
 	 */
 
 	@ApiOperation(value = "Delete Plant", response = PlantResponseDto.class)
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	public ResponseEntity<PlantResponseDto> deletePlant(@RequestBody PlantRequestDto plantDto) throws PlantIdNotFoundException {
 
 		log.info("Inside Delete Plant");

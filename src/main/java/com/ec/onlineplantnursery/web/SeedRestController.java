@@ -139,7 +139,7 @@ public class SeedRestController {
 	 */
 
 	@ApiOperation(value = "Seed Post mapping to delete seed", response = SeedResponseDto.class)
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	public ResponseEntity<SeedResponseDto> deleteSeed(@RequestBody SeedRequestDto seedRequestDto) throws SeedIdNotFoundException {
 		
 		log.info("inside delete seed");

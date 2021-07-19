@@ -41,7 +41,10 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 	              .cors().and()
 	              .csrf().disable()
 	              .authorizeRequests()
-	              .antMatchers("/onlinenursery/customer/add","/user/signin","/onlinenursery/seed/add").permitAll()
+	              .antMatchers("/onlinenursery/admin/add","/onlinenursery/customer/viewall","/onlinenursery/customer/add","/user/signin","/onlinenursery/seed/add","/onlinenursery/seed/seeds","/onlinenursery/seed/{id}","/onlinenursery/seed/commonName/{commonName}"
+	            		  ,"/onlinenursery/seed/type/{typeOfSeed}","/onlinenursery/image/{pId}/addImages","/onlinenursery/image/{pId}/productImage","/onlinenursery/image/images"
+	            		  , "/onlinenursery/plant/add","/onlinenursery/plant/plants","/onlinenursery/plant/type/{typeOfPlant}","/onlinenursery/plant/{pId}","/onlinenursery/planter/add","/onlinenursery/planter/{pId}"
+	            		  ,"/onlinenursery/planter/planters","/onlinenursery/planter/shape/{planterShape}","/onlinenursery/seed/delete","/onlinenursery/plant/delete","/onlinenursery/planter/delete","/onlinenursery/product/search/{text}").permitAll()
 	              .anyRequest().authenticated()
 	              .and()
 	              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

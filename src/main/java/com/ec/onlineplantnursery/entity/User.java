@@ -1,6 +1,7 @@
 
 package com.ec.onlineplantnursery.entity;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -11,6 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "Nursery_User")
@@ -24,11 +30,19 @@ public class User {
 	private int userId;
 	//email
 	
-	
+	@ApiModelProperty(name = "Email", value = "Email cannot be empty")
+	@Column
+	@NotEmpty(message = "Email cannot be left blank or null")
+	@Email(message = "Enter valid email Id")
+
 	private String email;
 	
 	private String userType;
 	
+	@ApiModelProperty(name = "user password", required = true)
+	@Column
+	@NotEmpty(message = "cannot be left empty")
+	@Size(min = 8, max = 25)
 	private String password;
 	//role
 	

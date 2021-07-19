@@ -6,7 +6,7 @@ import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.entity.Planter;
 
 public interface IPlanterService {
-	Planter addPlanter(Planter planter) throws ResourceNotFoundException;
+	Planter addPlanter(Planter planter) ;
 
 	Planter updatePlanter(Planter planter) throws ResourceNotFoundException;
 

@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 public class CustomerRequestDto {
 
-	private Integer customerId;
+	private Integer userId;
 
 	@Column
 	@ApiModelProperty(name = "CustomerName", value = "Hold the min 3 char Customer name", required = true)
@@ -44,12 +44,12 @@ public class CustomerRequestDto {
 	@Valid
 	private Address address;
 
-	public Integer getCustomerId() {
-		return customerId;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
+	public void setCustomerId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getCustomerName() {

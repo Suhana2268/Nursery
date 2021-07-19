@@ -1,5 +1,6 @@
-/*package com.ec.onlineplantnursery.service;
+package com.ec.onlineplantnursery.service;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ec.onlineplantnursery.entity.Plant;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
+import com.ec.onlineplantnursery.exceptions.SeedIdNotFoundException;
 import com.ec.onlineplantnursery.repository.IPlantRepository;
 
 import com.ec.onlineplantnursery.service.IPlantServiceImpl;
@@ -63,7 +65,16 @@ public class PlanterServiceImplTest {
 		ac.close();
 	}
 
-	
+	@Test
+	@DisplayName("Test-save planter")
+	void testSavePlanter() {
+		Planter input = mock(Planter.class);
+
+		when(planterRepo.save(input)).thenReturn(input);
+		Planter result = planterService.addPlanter(input);
+		verify(planterRepo).save(input);
+		assertEquals(input, result);
+	}
 
 
 	@Test
@@ -109,11 +120,8 @@ public class PlanterServiceImplTest {
 
 
 		String planterShape = "square";
-		
-		Plant plant = new Plant(1, 4, 13, "Rose", "Once a week", "medicinal", "easy", "20 C", "Succulent", "This is a stemless or very short-stemmed plant", "wide", 200);
-	    Seed seed = new Seed(1,"Money", "One week", "Once a day", "easy", "20ºC", "Monocotyledonous", "This seed is a small embryonic plant", 20, 100.0, 1000);
 	    
-	    Planter planter = new Planter(102, 11, 2, 2, 2, "square", 5, 110);
+	    Planter planter = mock(Planter.class);
 		List<Planter> pList = new ArrayList<>();
 		pList.add(planter);
 		when(planterRepo.viewPlanter(planterShape)).thenReturn(pList);
@@ -132,10 +140,8 @@ public class PlanterServiceImplTest {
 		double minCost = 100;
 		double maxCost = 150;
 		
-		Plant plant = new Plant(1, 4, 13, "Rose", "Once a week", "medicinal", "easy", "20 C", "Succulent", "This is a stemless or very short-stemmed plant", "wide", 200);
-	    Seed seed = new Seed(1,"Money", "One week", "Once a day", "easy", "20ºC", "Monocotyledonous", "This seed is a small embryonic plant", 20, 100.0, 1000);
 		
-		Planter planter = new Planter(102, 11, 2, 2, 2, "square", 5, 110);
+		Planter planter = mock(Planter.class);
 		List<Planter> pList = new ArrayList<>();
 		pList.add(planter);
 		when(planterRepo.getPlantersByRange(minCost,maxCost)).thenReturn(pList);;	
@@ -146,46 +152,20 @@ public class PlanterServiceImplTest {
 	}
 	
 
-	@Test
-	@DisplayName("Test-Delete Planter , Args:- planter")
-	void testDeletePlanter() throws ResourceNotFoundException {
-
-		Seed sinput = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
-				"This seed is a small embryonic plant",250,300,2000);
-		Planter input = new Planter(1,12,3,2,23,"Round",45,30);
-		
-		when(planterRepo.findById(input.getpId())).thenReturn(Optional.of(input));
-		Planter testPlanter = planterService.deletePlanter(input);
-		assertEquals(input,testPlanter);
-		
-	}
+	
+	
 	
 	
 	@Test
-	@DisplayName("Test-Delete Planter , Args:- pass planter")
-	public void testDeletePlanterException() {
-		
-		Planter input = mock(Planter.class);
-		
-		when(planterRepo.findById(123)).thenReturn(Optional.of(input));
-		Executable executable = ()->planterService.deletePlanter(input);
-		assertThrows(ResourceNotFoundException.class, executable);
-	}
-
-	@Test
-	@DisplayName("Test-Update Planter , Args:- No Args to pass")
+	@DisplayName("Test-Update Planter")
 	void testUpdatePlanter() throws ResourceNotFoundException {
-		Seed sinput = new Seed(1,"Mango","Morning", "Twice a day", "easy","25ºC","Monocotyledonous",
-				"This seed is a small embryonic plant",250,300,2000);
-		Planter input = new Planter(1,12,3,2,23,"Round",45,30);
-		Planter savedPlanter = new Planter(1,12,3,2,23,"Square",45,30);
+		Planter input = mock(Planter.class);
+		Planter savedInput = mock(Planter.class);
 
-		
-		when(planterRepo.findById(1)).thenReturn(Optional.of(input));
-		
-		when(planterRepo.save(savedPlanter)).thenReturn(savedPlanter);
-		Planter testPlanter =   planterService.updatePlanter(savedPlanter);
-		assertEquals(savedPlanter, testPlanter);
+		when(planterRepo.findById(input.getpId())).thenReturn(Optional.of(input));
+		when(planterRepo.save(savedInput)).thenReturn(savedInput);
+		Planter output = planterService.updatePlanter(savedInput);
+		assertEquals(savedInput, output);
 	}
 	
 	@Test
@@ -199,4 +179,4 @@ public class PlanterServiceImplTest {
 		assertThrows(ResourceNotFoundException.class, executable);
 	}
 
-}*/
+}

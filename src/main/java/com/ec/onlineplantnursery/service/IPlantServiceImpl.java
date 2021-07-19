@@ -8,11 +8,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ec.onlineplantnursery.entity.Image;
 import com.ec.onlineplantnursery.entity.Plant;
 import com.ec.onlineplantnursery.exceptions.PlantIdNotFoundException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
 import com.ec.onlineplantnursery.exceptions.SeedIdNotFoundException;
 import com.ec.onlineplantnursery.repository.IPlantRepository;
+import com.ec.onlineplantnursery.repository.ImageRepository;
 import com.ec.onlineplantnursery.entity.Seed;
 
 
@@ -23,6 +25,8 @@ public class IPlantServiceImpl implements IPlantService{
 	@Autowired
 	IPlantRepository plantRepo;
 	
+	@Autowired
+	ImageRepository imageRepo;
 	
 	
 	public IPlantServiceImpl() {
@@ -83,7 +87,11 @@ public class IPlantServiceImpl implements IPlantService{
 	@Override
 	public Plant deletePlant(Plant plant) throws PlantIdNotFoundException{
 		Optional<Plant> plant1 = plantRepo.findById(plant.getpId());
+		
+		Optional<Image> i = imageRepo.findByProduct_pId(plant.getpId());
+		Image image = i.get();
 		if(plant1.isPresent()) {
+			imageRepo.delete(image);
 			plantRepo.delete(plant);	
 		}
 		else {

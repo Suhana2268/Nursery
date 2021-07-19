@@ -4,6 +4,8 @@ package com.ec.onlineplantnursery.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,24 +19,38 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn(name = "Product_Type",discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "productType",discriminatorType = DiscriminatorType.STRING)
 public class Product implements Comparable<Product>,Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int pId;
 	
-	@ApiModelProperty(name = "SeedName", value = "Hold the min 3 char seed name", required = true)
-	@NotEmpty(message = "Seed Name cannot be left blank or null")
-	@Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters")
+	@ApiModelProperty(name = "ProductName", value = "Hold the min 3 char seed name", required = true)
+	@NotEmpty(message = "Product Name cannot be left blank or null")
+	@Size(min = 3, max = 15, message = "Invalid Product Name, Product Name should have minimum 3 and maximum 15 characters")
 	private String commonName;
 
+	@Column(name="productType", insertable = false, updatable = false)
+	private String productType;
+	
 	private double cost;
 
 	public Product() {
 		super();
 		
 	}
+	public Product(int pId,
+			@NotEmpty(message = "Product Name cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Product Name, Product Name should have minimum 3 and maximum 15 characters") String commonName,
+			double cost, String productType) {
+		super();
+		this.pId = pId;
+		this.commonName = commonName;
+		this.cost = cost;
+		this.productType = productType;
+	}
+
+
 
 	public Product(int pId, double cost,String commonName) {
 		super();
@@ -71,6 +87,14 @@ public class Product implements Comparable<Product>,Serializable{
 	
 	
 
+	public String getProductType() {
+		return productType;
+	}
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -80,9 +104,9 @@ public class Product implements Comparable<Product>,Serializable{
 		temp = Double.doubleToLongBits(cost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + pId;
+		result = prime * result + ((productType == null) ? 0 : productType.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -101,16 +125,18 @@ public class Product implements Comparable<Product>,Serializable{
 			return false;
 		if (pId != other.pId)
 			return false;
+		if (productType == null) {
+			if (other.productType != null)
+				return false;
+		} else if (!productType.equals(other.productType))
+			return false;
 		return true;
 	}
-
-	
-	
 	@Override
 	public String toString() {
-		return "Product [pId=" + pId + ", commonName=" + commonName + ", cost=" + cost + "]";
+		return "Product [pId=" + pId + ", commonName=" + commonName + ", productType=" + productType + ", cost=" + cost
+				+ "]";
 	}
-
 	@Override
 	public int compareTo(Product o) {
 		// TODO Auto-generated method stub
