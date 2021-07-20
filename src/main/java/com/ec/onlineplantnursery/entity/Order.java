@@ -2,21 +2,10 @@ package com.ec.onlineplantnursery.entity;
 
 import java.time.LocalDate;
 
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 
@@ -31,7 +20,8 @@ public class Order {
 	private Integer bookingOrderId;
 	
 
-
+	private int orderId;
+	
 	@ApiModelProperty(name = "OrderDate", value = "Holds date of order and cannot be past")
 	@FutureOrPresent(message ="Order date cannot be past")
 	private LocalDate orderDate;
@@ -61,22 +51,30 @@ public class Order {
 	 */
 	
 	
-	@ManyToOne
-	@JoinColumn(name = "User_Info", referencedColumnName = "userId")
-	private User user;
+	private int pId;
+	
+	private int quantity;
+	
+	private int userId;
+	
+	
+	
+	
+	
+	/*
+	 * @ElementCollection(fetch = FetchType.LAZY)
+	 * 
+	 * @CollectionTable(name = "order_product", joinColumns = {@JoinColumn(name =
+	 * "orderId", referencedColumnName = "bookingOrderId")})
+	 * 
+	 * @MapKeyColumn(name = "pId")
+	 * 
+	 * @Column(name = "quantity")
+	 */
+	
+	
+	
 
-	
-	
-	
-	
-	
-	@ElementCollection
-	@CollectionTable(name = "order_product",
-	joinColumns =  {@JoinColumn(name = "orderId", referencedColumnName = "bookingOrderId")})
-	@MapKeyColumn(name = "pId")
-	@Column(name = "quantity")
-	
-	private Map<Integer, Integer> productQuantityMap;
 	
 	
 	public Order() {
@@ -85,85 +83,201 @@ public class Order {
 	}
 
 
-	public Order(Integer bookingOrderId, @FutureOrPresent(message = "Order date cannot be past") LocalDate orderDate,
-			double totalCost, int orderStatus, Customer customer, User user, Map<Integer, Integer> productQuantityMap) {
+
+
+
+	public Order(Integer bookingOrderId, int orderId,
+			@FutureOrPresent(message = "Order date cannot be past") LocalDate orderDate, double totalCost,
+			int orderStatus, int pId, int quantity, int userId) {
 		super();
 		this.bookingOrderId = bookingOrderId;
+		this.orderId = orderId;
 		this.orderDate = orderDate;
 		this.totalCost = totalCost;
 		this.orderStatus = orderStatus;
-		//this.customer = customer;
-		this.user = user;
-		this.productQuantityMap = productQuantityMap;
+		this.pId = pId;
+		this.quantity = quantity;
+		this.userId = userId;
 	}
 
 
+
+
+
+	/**
+	 * @return the bookingOrderId
+	 */
 	public Integer getBookingOrderId() {
 		return bookingOrderId;
 	}
 
 
+
+
+
+	/**
+	 * @param bookingOrderId the bookingOrderId to set
+	 */
 	public void setBookingOrderId(Integer bookingOrderId) {
 		this.bookingOrderId = bookingOrderId;
 	}
 
 
+
+
+
+	/**
+	 * @return the orderId
+	 */
+	public int getOrderId() {
+		return orderId;
+	}
+
+
+
+
+
+	/**
+	 * @param orderId the orderId to set
+	 */
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
+
+
+
+
+	/**
+	 * @return the orderDate
+	 */
 	public LocalDate getOrderDate() {
 		return orderDate;
 	}
 
 
+
+
+
+	/**
+	 * @param orderDate the orderDate to set
+	 */
 	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
 
 
+
+
+
+	/**
+	 * @return the totalCost
+	 */
 	public double getTotalCost() {
 		return totalCost;
 	}
 
 
+
+
+
+	/**
+	 * @param totalCost the totalCost to set
+	 */
 	public void setTotalCost(double totalCost) {
 		this.totalCost = totalCost;
 	}
 
 
+
+
+
+	/**
+	 * @return the orderStatus
+	 */
 	public int getOrderStatus() {
 		return orderStatus;
 	}
 
 
+
+
+
+	/**
+	 * @param orderStatus the orderStatus to set
+	 */
 	public void setOrderStatus(int orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 
 
-	/*
-	 * public Customer getCustomer() { return customer; }
-	 * 
-	 * 
-	 * public void setCustomer(Customer customer) { this.customer = customer; }
+
+
+
+	/**
+	 * @return the pId
 	 */
-
-
-	public User getUser() {
-		return user;
+	public int getpId() {
+		return pId;
 	}
 
 
-	public void setUser(User user) {
-		this.user = user;
+
+
+
+	/**
+	 * @param pId the pId to set
+	 */
+	public void setpId(int pId) {
+		this.pId = pId;
 	}
 
 
-	public Map<Integer, Integer> getProductQuantityMap() {
-		return productQuantityMap;
+
+
+
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
 	}
 
 
-	public void setProductQuantityMap(Map<Integer, Integer> productQuantityMap) {
-		this.productQuantityMap = productQuantityMap;
+
+
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
+
+
+
+
+
+	/**
+	 * @return the userId
+	 */
+	public int getUserId() {
+		return userId;
+	}
+
+
+
+
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+
 
 
 	@Override
@@ -171,16 +285,20 @@ public class Order {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bookingOrderId == null) ? 0 : bookingOrderId.hashCode());
-		//result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
+		result = prime * result + orderId;
 		result = prime * result + orderStatus;
-		result = prime * result + ((productQuantityMap == null) ? 0 : productQuantityMap.hashCode());
+		result = prime * result + pId;
+		result = prime * result + quantity;
 		long temp;
 		temp = Double.doubleToLongBits(totalCost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + userId;
 		return result;
 	}
+
+
+
 
 
 	@Override
@@ -197,42 +315,39 @@ public class Order {
 				return false;
 		} else if (!bookingOrderId.equals(other.bookingOrderId))
 			return false;
-		/*
-		 * if (customer == null) { if (other.customer != null) return false; } else if
-		 * (!customer.equals(other.customer)) return false;
-		 */
 		if (orderDate == null) {
 			if (other.orderDate != null)
 				return false;
 		} else if (!orderDate.equals(other.orderDate))
 			return false;
+		if (orderId != other.orderId)
+			return false;
 		if (orderStatus != other.orderStatus)
 			return false;
-		if (productQuantityMap == null) {
-			if (other.productQuantityMap != null)
-				return false;
-		} else if (!productQuantityMap.equals(other.productQuantityMap))
+		if (pId != other.pId)
+			return false;
+		if (quantity != other.quantity)
 			return false;
 		if (Double.doubleToLongBits(totalCost) != Double.doubleToLongBits(other.totalCost))
 			return false;
-		if (user == null) {
-			if (other.user != null)
-				return false;
-		} else if (!user.equals(other.user))
+		if (userId != other.userId)
 			return false;
 		return true;
 	}
 
 
+
+
+
 	@Override
 	public String toString() {
-		return "Order [bookingOrderId=" + bookingOrderId + ", orderDate=" + orderDate + ", totalCost=" + totalCost
-				+ ", orderStatus=" + orderStatus + ", user=" + user + ", productQuantityMap=" + productQuantityMap
-				+ "]";
+		return "Order [bookingOrderId=" + bookingOrderId + ", orderId=" + orderId + ", orderDate=" + orderDate
+				+ ", totalCost=" + totalCost + ", orderStatus=" + orderStatus + ", pId=" + pId + ", quantity="
+				+ quantity + ", userId=" + userId + "]";
 	}
 
 
-	
+
 
 
 	

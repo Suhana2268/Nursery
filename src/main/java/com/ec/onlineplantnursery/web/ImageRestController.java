@@ -33,6 +33,7 @@ import com.ec.onlineplantnursery.service.ISeedServiceImpl;
 import io.swagger.annotations.Api;
 
 @RestController
+
 @RequestMapping("/onlinenursery/image")
 @Api(value = "Online Nursery Application")
 @CrossOrigin(origins = {"http://localhost:4200"})

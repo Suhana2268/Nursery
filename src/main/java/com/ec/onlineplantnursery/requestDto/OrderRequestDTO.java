@@ -19,20 +19,33 @@ public class OrderRequestDTO {
 	@FutureOrPresent(message = "Date cannot be in Past")
 	private LocalDate orderDate;
 
-	@NotEmpty(message = "transactionMode cannot be left blank or null")
-	private String transactionMode;
-
-	
-	
-	
-
 	private double totalCost;
+	
+	private int orderId;
+	
+	private int orderStatus;
 
 	//private Customer customer;
 
-	private Map<Integer, Integer> productQuantityMap;
+	/**
+	 * @return the orderStatus
+	 */
+	public int getOrderStatus() {
+		return orderStatus;
+	}
+
+	/**
+	 * @param orderStatus the orderStatus to set
+	 */
+	public void setOrderStatus(int orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	private int pId;
 	
-	private User user;
+	private int quantity;
+	
+	private int userId;
 
 	public OrderRequestDTO() {
 		super();
@@ -55,13 +68,7 @@ public class OrderRequestDTO {
 		this.orderDate = orderDate;
 	}
 
-	public String getTransactionMode() {
-		return transactionMode;
-	}
-
-	public void setTransactionMode(String transactionMode) {
-		this.transactionMode = transactionMode;
-	}
+	
 
 	public double getTotalCost() {
 		return totalCost;
@@ -77,22 +84,66 @@ public class OrderRequestDTO {
 	 * public void setCustomer(Customer customer) { this.customer = customer; }
 	 */
 
-	public Map<Integer, Integer> getProductQuantityMap() {
-		return productQuantityMap;
+
+	
+
+	/**
+	 * @return the userId
+	 */
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setProductQuantityMap(Map<Integer, Integer> productQuantityMap) {
-		this.productQuantityMap = productQuantityMap;
+	/**
+	 * @return the pId
+	 */
+	public int getpId() {
+		return pId;
 	}
 
-	public User getUser() {
-		return user;
+	/**
+	 * @param pId the pId to set
+	 */
+	public void setpId(int pId) {
+		this.pId = pId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
 	}
 
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return the orderId
+	 */
+	public int getOrderId() {
+		return orderId;
+	}
+
+	/**
+	 * @param orderId the orderId to set
+	 */
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
+	
 	
 	
 }

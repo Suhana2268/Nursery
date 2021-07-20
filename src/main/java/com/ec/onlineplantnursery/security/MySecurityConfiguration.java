@@ -41,7 +41,7 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 	              .cors().and()
 	              .csrf().disable()
 	              .authorizeRequests()
-	              .antMatchers("/onlinenursery/customer/add","onlinenursery/seed/commonName/{commonName}","onlinenursery/seed/typeOfPlant/{typeOfPlant}","/onlinenursery/seed/seeds","/user/signin","/onlinenursery/seed/add").permitAll()
+	              .antMatchers("/onlinenursery/customer/add","/onlinenursery/seed/commonName/{commonName}","/onlinenursery/order/{customerId}","/onlinenursery/seed/{id}","/onlinenursery/seed/type/{typeOfSeed}","/onlinenursery/seed/seeds","/onlinenursery/user/signin","/onlinenursery/seed/add").permitAll()
 	              .anyRequest().authenticated()
 	              .and()
 	              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

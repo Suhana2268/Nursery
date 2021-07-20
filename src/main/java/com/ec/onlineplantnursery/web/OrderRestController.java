@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ec.onlineplantnursery.entity.Customer;
 import com.ec.onlineplantnursery.entity.Order;
+import com.ec.onlineplantnursery.entity.Product;
 import com.ec.onlineplantnursery.entity.User;
 import com.ec.onlineplantnursery.exceptions.OrderIdNotFoundException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
+import com.ec.onlineplantnursery.repository.IUserRepository;
 import com.ec.onlineplantnursery.requestDto.OrderRequestDTO;
 import com.ec.onlineplantnursery.responseDto.OrderResponseDto;
 import com.ec.onlineplantnursery.responseDto.PlanterResponseDto;
+import com.ec.onlineplantnursery.service.IOrderService;
 import com.ec.onlineplantnursery.service.IOrderServiceImpl;
 
 import io.swagger.annotations.Api;
@@ -38,6 +42,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Validated
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/onlinenursery/order")
 
 
@@ -47,6 +52,10 @@ public class OrderRestController {
 
 	@Autowired
 	private IOrderServiceImpl ordService;
+	
+	@Autowired
+	private IUserRepository userRepository;
+	
 	@Autowired
 	private ModelMapper modelMapper;
 	
@@ -66,17 +75,25 @@ public class OrderRestController {
 		Order orderRequest = modelMapper.map(orderdto, Order.class);
 		Order order = ordService.addOrder(orderRequest);
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
-		/*
-		 * User user = order.getUser(); Customer c = (Customer) user;
-		 * orderResponse.setCustomerName(c.getCustomerName());
-		 * orderResponse.setAddress(c.getAddress());
-		 */
-		orderResponse.setEmail(order.getUser().getEmail());
 		
-		orderResponse.setProductIds(order.getProductQuantityMap());
+		User user = userRepository.findById(order.getUserId()).get();
+		orderResponse.setEmail(user.getEmail());
+		
+		//orderResponse.setProductQuantityMap(order.getProductQuantityMap());
+		
 		return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/product/{pId}")
+	public Product getProductBypId(@PathVariable int pId) {
+		return ordService.getProductBypId(pId);
+	}
+	
+	
+	@DeleteMapping("/product/{pId}")
+	public Product deleteProductBypId(@PathVariable int pId) {
+		return ordService.deleteProductBypId(pId);
+	}
 
 	/*
 	 * Method Name:viewAllOrders 
@@ -95,19 +112,20 @@ public class OrderRestController {
 		List<OrderResponseDto> orderResponsesList = new ArrayList<>();
 		for (Order order : orders) {
 			OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
-			/*
-			 * User user = order.getUser(); Customer c = (Customer) user;
-			 * orderResponse.setCustomerName(c.getCustomerName());
-			 * orderResponse.setAddress(c.getAddress());
-			 */
-			orderResponse.setEmail(order.getUser().getEmail());
-			orderResponse.setProductIds(order.getProductQuantityMap());
+			User user = userRepository.findById(order.getUserId()).get();
+			orderResponse.setEmail(user.getEmail());
+			//orderResponse.setProductQuantityMap(order.getProductQuantityMap());
 			orderResponsesList.add(orderResponse);
 		}
 		return new ResponseEntity<>(orderResponsesList, HttpStatus.OK);
 		
 		
 
+	}
+	
+	@GetMapping("/customer/{id}")
+	public List<Order> displayProductsByCustomerId(@PathVariable int id) {
+		return ordService.displayProductsByUserId(id);
 	}
 
 	/*
@@ -144,13 +162,9 @@ public class OrderRestController {
 		Order orderRequest = modelMapper.map(o, Order.class);
 		Order order = ordService.updateOrder(orderRequest);
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
-		/*
-		 * User user = order.getUser(); Customer c = (Customer) user;
-		 * orderResponse.setCustomerName(c.getCustomerName());
-		 * orderResponse.setAddress(c.getAddress());
-		 */
-		orderResponse.setEmail(order.getUser().getEmail());
-		orderResponse.setProductIds(order.getProductQuantityMap());
+		User user = userRepository.findById(order.getUserId()).get();
+		orderResponse.setEmail(user.getEmail());
+		//orderResponse.setProductQuantityMap(order.getProductQuantityMap());
 		return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
 			
 	}
@@ -170,13 +184,9 @@ public class OrderRestController {
 		log.info("Delete order");
 		Order order = this.ordService.deleteOrder(oid);
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
-		/*
-		 * User user = order.getUser(); Customer c = (Customer) user;
-		 * orderResponse.setCustomerName(c.getCustomerName());
-		 * orderResponse.setAddress(c.getAddress());
-		 */
-		orderResponse.setEmail(order.getUser().getEmail());
-		orderResponse.setProductIds(order.getProductQuantityMap());
+		User user = userRepository.findById(order.getUserId()).get();
+		orderResponse.setEmail(user.getEmail());
+		//orderResponse.setProductQuantityMap(order.getProductQuantityMap());
 		OrderResponseDto deletedOrder = modelMapper.map(orderResponse, OrderResponseDto.class);
 		return new ResponseEntity<>(deletedOrder, HttpStatus.OK);
 	}
@@ -197,16 +207,15 @@ public class OrderRestController {
 		log.info("Inside view order using orderid");
 		Order order = this.ordService.viewOrder(id);
 		OrderResponseDto orderResponse = modelMapper.map(order, OrderResponseDto.class);
-		/*
-		 * User user = order.getUser(); Customer c = (Customer) user;
-		 * orderResponse.setCustomerName(c.getCustomerName());
-		 * orderResponse.setAddress(c.getAddress());
-		 */
-		orderResponse.setEmail(order.getUser().getEmail());
-		orderResponse.setProductIds(order.getProductQuantityMap());
+		User user = userRepository.findById(order.getUserId()).get();
+		orderResponse.setEmail(user.getEmail());
+		//orderResponse.setProductQuantityMap(order.getProductQuantityMap());
 
 		return new ResponseEntity<>(orderResponse, HttpStatus.OK);
 
 	}
+	
+	
+	
 
 }

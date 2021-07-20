@@ -15,12 +15,14 @@ com\ec\onlineplantnursery\repository\CustomSeedRepository.class
 com\ec\onlineplantnursery\service\IPlanterServiceImpl.class
 com\ec\onlineplantnursery\web\TransactionRestController.class
 com\ec\onlineplantnursery\entity\Image.class
+com\ec\onlineplantnursery\service\PaymentServiceImpl.class
 com\ec\onlineplantnursery\service\IPlantServiceImpl.class
 com\ec\onlineplantnursery\repository\IOrderRepository.class
 com\ec\onlineplantnursery\entity\Product.class
 com\ec\onlineplantnursery\entity\Planter.class
 com\ec\onlineplantnursery\exceptions\SeedIdNotFoundException.class
 com\ec\onlineplantnursery\requestDto\PlantRequestDto.class
+com\ec\onlineplantnursery\entity\Payment.class
 com\ec\onlineplantnursery\repository\CustomSeedRepositoryImpl.class
 com\ec\onlineplantnursery\security\JwtAuthenticationFilter.class
 com\ec\onlineplantnursery\repository\IUserRepository.class
@@ -49,8 +51,10 @@ com\ec\onlineplantnursery\entity\Transaction.class
 com\ec\onlineplantnursery\exceptions\ResourceNotFoundException.class
 com\ec\onlineplantnursery\repository\ICustomerRepository.class
 com\ec\onlineplantnursery\web\SeedRestController.class
+com\ec\onlineplantnursery\repository\IPaymentRepository.class
 com\ec\onlineplantnursery\repository\CustomPlantRepositoryImpl.class
 com\ec\onlineplantnursery\requestDto\OrderRequestDTO.class
+com\ec\onlineplantnursery\service\IPaymentService.class
 com\ec\onlineplantnursery\entity\Admin.class
 com\ec\onlineplantnursery\repository\CustomPlantRepository.class
 com\ec\onlineplantnursery\service\ProductHighToLowCost.class

@@ -8,6 +8,8 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ec.onlineplantnursery.entity.Customer;
+import com.ec.onlineplantnursery.entity.Order;
+import com.ec.onlineplantnursery.entity.User;
 
 public class CustomCustomerRepositoryImpl implements CustomCustomerRepository{
 
@@ -20,5 +22,7 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository{
 		q.setParameter("userName", "userName");
 		return q.getResultList();
 	}
+
+	
 
 }

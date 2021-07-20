@@ -13,4 +13,5 @@ public interface ICustomerRepository extends JpaRepository<Customer, Integer>, C
 	@Query("select c from Customer c where c.username =:username")
 	List<Customer> findByUserName(@Param("username") String username);
 	
+	
 }

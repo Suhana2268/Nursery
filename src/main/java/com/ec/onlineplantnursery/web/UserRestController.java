@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/user")
+@RequestMapping("/onlinenursery/user")
 @Api("Online Plant Nursery Application")
 public class UserRestController {
 	@Autowired
@@ -31,8 +31,10 @@ public class UserRestController {
 	  @ApiOperation(value = "User Post mapping for user signing in", response = User.class)
 	  
 	  @PostMapping("/signin") public ResponseEntity<JwtResponse>signuser(@RequestBody @Valid User user) throws InvalidCredentialException {
+		  int id = this.userService.getUserByemail(user.getEmail()).getUserId();
+		  String userType = this.userService.getUserByemail(user.getEmail()).getUserType();
 	
-		  return new ResponseEntity<>(new JwtResponse(this.userService.signIn(user),1),HttpStatus.OK);
+		  return new ResponseEntity<>(new JwtResponse(this.userService.signIn(user),id, userType),HttpStatus.OK);
 	  }
 
 	@ApiOperation(value = "User Post mapping for user signing out", response = User.class)

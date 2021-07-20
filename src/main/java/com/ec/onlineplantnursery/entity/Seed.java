@@ -13,11 +13,6 @@ import io.swagger.annotations.ApiModelProperty;
 //@DiscriminatorValue("seed")
 public class Seed extends Product{
 	
-	@ApiModelProperty(name = "SeedName", value = "Hold the min 3 char seed name", required = true)
-	@NotEmpty(message = "Seed Name cannot be left blank or null")
-	@Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters")
-	@Column(unique = true)
-	private String commonName;
 
 	@ApiModelProperty(name = "Bloom Time", value = "Hold the min 3 char bloom time", required = true)
 	@NotEmpty(message = "bloom time cannot be left blank or null")
@@ -57,8 +52,8 @@ public class Seed extends Product{
 
 	}
 
-	public Seed(int pId, double cost) {
-		super(pId, cost);
+	public Seed(int pId, double cost,String commonName) {
+		super(pId, cost,commonName);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -74,7 +69,6 @@ public class Seed extends Product{
 			@Positive(message = "Cost should be positive") double seedsCost,
 			@Positive(message = "SeedsPerPacket should be positive") Integer seedsPerPacket) {
 		super();
-		this.commonName = commonName;
 		this.bloomTime = bloomTime;
 		this.watering = watering;
 		this.difficultyLevel = difficultyLevel;
@@ -86,13 +80,6 @@ public class Seed extends Product{
 		this.seedsPerPacket = seedsPerPacket;
 	}
 
-	public String getCommonName() {
-		return commonName;
-	}
-
-	public void setCommonName(String commonName) {
-		this.commonName = commonName;
-	}
 
 	public String getBloomTime() {
 		return bloomTime;
@@ -165,7 +152,6 @@ public class Seed extends Product{
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((bloomTime == null) ? 0 : bloomTime.hashCode());
-		result = prime * result + ((commonName == null) ? 0 : commonName.hashCode());
 		result = prime * result + ((difficultyLevel == null) ? 0 : difficultyLevel.hashCode());
 		result = prime * result + ((seedsDescription == null) ? 0 : seedsDescription.hashCode());
 		result = prime * result + ((seedsPerPacket == null) ? 0 : seedsPerPacket.hashCode());
@@ -190,11 +176,7 @@ public class Seed extends Product{
 				return false;
 		} else if (!bloomTime.equals(other.bloomTime))
 			return false;
-		if (commonName == null) {
-			if (other.commonName != null)
-				return false;
-		} else if (!commonName.equals(other.commonName))
-			return false;
+		
 		if (difficultyLevel == null) {
 			if (other.difficultyLevel != null)
 				return false;
@@ -235,13 +217,12 @@ public class Seed extends Product{
 
 	@Override
 	public String toString() {
-		return "Seed [commonName=" + commonName + ", bloomTime=" + bloomTime + ", watering=" + watering
+		return "Seed [commonName=" + getCommonName() + ", bloomTime=" + bloomTime + ", watering=" + watering
 				+ ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfSeeds="
 				+ typeOfSeeds + ", seedsDescription=" + seedsDescription + ", seedsStock=" + seedsStock
-				+ ", seedsPerPacket=" + seedsPerPacket + "]";
+				+ ", cost =" + getCost() + ", seedsPerPacket=" + seedsPerPacket + "]";
 	}
 
 	
 
-	
 }

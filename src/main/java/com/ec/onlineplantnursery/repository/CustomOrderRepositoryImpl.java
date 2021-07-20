@@ -9,7 +9,10 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ec.onlineplantnursery.entity.Order;
 import com.ec.onlineplantnursery.entity.Planter;
+import com.ec.onlineplantnursery.entity.Product;
+import com.ec.onlineplantnursery.entity.User;
 
 @Service
 public class CustomOrderRepositoryImpl implements CustomOrderRepository {
@@ -31,6 +34,17 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 		q.setParameter("pId", productId);
 		return q.getFirstResult();
 	}
+	
+	@Override
+	public List<Order> displayOrders(User user) {
+		Query q = entityManager.createQuery("select from Order o where o.user =: user");
+		q.setParameter("user", user);
+		return q.getResultList();
+	}
+
+	
+	
+	
 
 //	/*
 //	 * @Override public double totalCost(int planterId) { Query q =

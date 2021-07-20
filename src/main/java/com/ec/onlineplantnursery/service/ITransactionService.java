@@ -4,7 +4,7 @@ import com.ec.onlineplantnursery.entity.Transaction;
 
 public interface ITransactionService {
 	
-	Transaction makeTransaction(Transaction t);
+	Transaction makeTransaction(Transaction t, int userId);
 	
 
 }

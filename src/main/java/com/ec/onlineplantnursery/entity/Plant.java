@@ -26,10 +26,6 @@ public class Plant extends Product{
 	@Size(min = 3, max = 15, message = "Invalid Plant spread")
 	private String plantSpread;
 
-	@Column(unique = true)
-	@NotEmpty(message = "Plant Name cannot be blank")
-	@Size(min = 3, max = 15, message = "Invalid Plant Name")
-	private String commonName;
 
 	@ApiModelProperty(name = "Bloom Time", value = "Hold the min 3 char bloom time", required = true)
 	@NotEmpty(message = "bloom time cannot be left blank or null")
@@ -64,8 +60,8 @@ public class Plant extends Product{
 
 	}
 
-	public Plant(int pId, double cost) {
-		super(pId, cost);
+	public Plant(int pId, double cost,String commonName) {
+		super(pId, cost,commonName);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -83,7 +79,6 @@ public class Plant extends Product{
 		super();
 		this.plantHeight = plantHeight;
 		this.plantSpread = plantSpread;
-		this.commonName = commonName;
 		this.bloomTime = bloomTime;
 		this.medicinalOrCulinaryUse = medicinalOrCulinaryUse;
 		this.difficultyLevel = difficultyLevel;
@@ -108,14 +103,6 @@ public class Plant extends Product{
 
 	public void setPlantSpread(String plantSpread) {
 		this.plantSpread = plantSpread;
-	}
-
-	public String getCommonName() {
-		return commonName;
-	}
-
-	public void setCommonName(String commonName) {
-		this.commonName = commonName;
 	}
 
 	public String getBloomTime() {
@@ -179,7 +166,6 @@ public class Plant extends Product{
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((bloomTime == null) ? 0 : bloomTime.hashCode());
-		result = prime * result + ((commonName == null) ? 0 : commonName.hashCode());
 		result = prime * result + ((difficultyLevel == null) ? 0 : difficultyLevel.hashCode());
 		result = prime * result + ((medicinalOrCulinaryUse == null) ? 0 : medicinalOrCulinaryUse.hashCode());
 		result = prime * result + ((plantDescription == null) ? 0 : plantDescription.hashCode());
@@ -204,11 +190,6 @@ public class Plant extends Product{
 			if (other.bloomTime != null)
 				return false;
 		} else if (!bloomTime.equals(other.bloomTime))
-			return false;
-		if (commonName == null) {
-			if (other.commonName != null)
-				return false;
-		} else if (!commonName.equals(other.commonName))
 			return false;
 		if (difficultyLevel == null) {
 			if (other.difficultyLevel != null)
@@ -255,7 +236,7 @@ public class Plant extends Product{
 
 	@Override
 	public String toString() {
-		return "Plant [plantHeight=" + plantHeight + ", plantSpread=" + plantSpread + ", commonName=" + commonName
+		return "Plant [plantHeight=" + plantHeight + ", plantSpread=" + plantSpread + ", commonName=" + getCommonName()
 				+ ", bloomTime=" + bloomTime + ", medicinalOrCulinaryUse=" + medicinalOrCulinaryUse
 				+ ", difficultyLevel=" + difficultyLevel + ", temparature=" + temparature + ", typeOfPlant="
 				+ typeOfPlant + ", plantDescription=" + plantDescription + ", plantsStock=" + plantsStock + "]";

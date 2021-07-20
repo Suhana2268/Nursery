@@ -2,7 +2,7 @@ package com.ec.onlineplantnursery.responseDto;
 
 public class SeedResponseDto {
 
-	private Integer seedId;
+	private Integer pId;
 	private String commonName;
 	private String bloomTime;
 	private String watering;
@@ -22,16 +22,37 @@ public class SeedResponseDto {
 	
 	
 
-	public Integer getSeedId() {
-		return seedId;
+	
+
+
+
+
+	/**
+	 * @return the pId
+	 */
+	public Integer getpId() {
+		return pId;
 	}
 
 
 
 
-	public void setSeedId(Integer seedId) {
-		this.seedId = seedId;
+
+
+
+
+
+	/**
+	 * @param pId the pId to set
+	 */
+	public void setpId(Integer pId) {
+		this.pId = pId;
 	}
+
+
+
+
+
 
 
 

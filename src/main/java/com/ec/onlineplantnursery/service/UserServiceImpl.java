@@ -52,8 +52,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService{
 		
 		return null;
 	}
-
 	
+	
+	public User getUserByemail(String email) {
+		Optional<User> user = userRepository.findByemail(email);
+		return user.get();
+	}
 	
 
 	

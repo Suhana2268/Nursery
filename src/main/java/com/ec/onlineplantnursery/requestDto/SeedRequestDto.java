@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class SeedRequestDto {
 
-private Integer seedId;
+private Integer pId;
 	
 	
 	@ApiModelProperty(name = "SeedName", value = "Hold the min 3 char seed name", required = true)
@@ -63,7 +63,7 @@ private Integer seedId;
 
 	}
 
-	public SeedRequestDto(Integer seedId,
+	public SeedRequestDto(Integer pId,
 			@NotEmpty(message = "Seed Name cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters") String commonName,
 			@NotEmpty(message = "bloom time cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters") String bloomTime,
 			@NotEmpty(message = "watering cannot be left blank or null") String watering,
@@ -74,7 +74,7 @@ private Integer seedId;
 			@Positive(message = "Stock should be positive") Integer seedsStock, double cost,
 			@Positive(message = "SeedsPerPacket should be positive") Integer seedsPerPacket) {
 		super();
-		this.seedId = seedId;
+		this.pId = pId;
 		this.commonName = commonName;
 		this.bloomTime = bloomTime;
 		this.watering = watering;
@@ -87,14 +87,12 @@ private Integer seedId;
 		this.seedsPerPacket = seedsPerPacket;
 	}
 
-	
-
-	public Integer getSeedId() {
-		return seedId;
+	public Integer getpId() {
+		return pId;
 	}
 
-	public void setSeedId(Integer seedId) {
-		this.seedId = seedId;
+	public void setpId(Integer pId) {
+		this.pId = pId;
 	}
 
 	public String getCommonName() {

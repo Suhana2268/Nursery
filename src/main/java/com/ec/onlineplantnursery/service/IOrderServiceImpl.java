@@ -12,15 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.ec.onlineplantnursery.entity.Customer;
 import com.ec.onlineplantnursery.entity.Order;
 import com.ec.onlineplantnursery.entity.Plant;
 import com.ec.onlineplantnursery.entity.Planter;
-
+import com.ec.onlineplantnursery.entity.Product;
+import com.ec.onlineplantnursery.entity.User;
 import com.ec.onlineplantnursery.exceptions.OrderIdNotFoundException;
 import com.ec.onlineplantnursery.exceptions.PlantIdNotFoundException;
 import com.ec.onlineplantnursery.exceptions.ResourceNotFoundException;
+import com.ec.onlineplantnursery.repository.ICustomerRepository;
 import com.ec.onlineplantnursery.repository.IOrderRepository;
 import com.ec.onlineplantnursery.repository.IProductRepository;
+import com.ec.onlineplantnursery.repository.IUserRepository;
 
 
 @Service
@@ -33,7 +37,12 @@ public class IOrderServiceImpl implements IOrderService {
 	IProductRepository productRepository;
 	
 	
-
+	@Autowired
+	ICustomerRepository customerRepository;
+	
+	@Autowired
+	IUserRepository userRepository;
+	
 	public IOrderServiceImpl() {
 		super();
 	}
@@ -52,24 +61,17 @@ public class IOrderServiceImpl implements IOrderService {
 	public Order addOrder(Order order) throws ResourceNotFoundException {
 		
 			double totalCost = 0;
-			double unitCost = 0;
-			double cost = 0;
 			
-			HashMap<Integer, Integer> products = (HashMap<Integer, Integer>) order.getProductQuantityMap();
-			System.out.println("Products"+products);
-			for(Entry<Integer, Integer> i : products.entrySet()) {
-				
-				unitCost = (productRepository.findBypId(i.getKey()).getCost());
-				cost = i.getValue()*unitCost;
-				totalCost += cost;
-				
-			}
+			
+			totalCost += productRepository.findById(order.getpId()).get().getCost()*order.getQuantity();
 			order.setTotalCost(totalCost);
 			orderRep.save(order);
 			return order;
 	
 		
 	}
+	
+	
 
 	/*
 	 * Method Name:updateOrder
@@ -81,35 +83,26 @@ public class IOrderServiceImpl implements IOrderService {
 
 	
 	
-	@Override
-	@Transactional
-	public Order updateOrder(Order order) throws ResourceNotFoundException {
-		System.out.println(order.getBookingOrderId());
-		Optional<Order> existingOrder = orderRep.findById(order.getBookingOrderId());
-		System.out.println(existingOrder);
-		System.out.println(order.getBookingOrderId());
-		if(existingOrder.isPresent()) {
-			double totalCost = 0;
-			double unitCost = 0;
-			double cost = 0;
-			
-			HashMap<Integer, Integer> products = (HashMap<Integer, Integer>) order.getProductQuantityMap();
-			System.out.println("Products"+products);
-			for(Entry<Integer, Integer> i : products.entrySet()) {
-				
-				unitCost = (productRepository.findBypId(i.getKey()).getCost());
-				cost = i.getValue()*unitCost;
-				totalCost += cost;
-				
-			}
-			order.setTotalCost(totalCost);
-			orderRep.save(order);
-			return order;
-		}
-		else {
-			throw new ResourceNotFoundException();
-		}
-	}
+	/*
+	 * @Override
+	 * 
+	 * @Transactional public Order updateOrder(Order order) throws
+	 * ResourceNotFoundException { System.out.println(order.getBookingOrderId());
+	 * Optional<Order> existingOrder = orderRep.findById(order.getBookingOrderId());
+	 * System.out.println(existingOrder);
+	 * System.out.println(order.getBookingOrderId()); if(existingOrder.isPresent())
+	 * { double totalCost = 0; double unitCost = 0; double cost = 0;
+	 * 
+	 * HashMap<Integer, Integer> products = (HashMap<Integer, Integer>)
+	 * order.getProductQuantityMap(); System.out.println("Products"+products);
+	 * for(Entry<Integer, Integer> i : products.entrySet()) {
+	 * 
+	 * unitCost = (productRepository.findBypId(i.getKey()).getCost()); cost =
+	 * i.getValue()*unitCost; totalCost += cost;
+	 * 
+	 * } order.setTotalCost(totalCost); orderRep.save(order); return order; } else {
+	 * throw new ResourceNotFoundException(); } }
+	 */
 
 	/*
 	 * Method Name:deleteOrder Parameters:orderId ReturnType:Order Author
@@ -187,5 +180,32 @@ public class IOrderServiceImpl implements IOrderService {
 			return planters;
 		}
 	}
+	
+	
+	public List<Order> displayProductsByUserId(int id) {
+		
+		List<Order> orders = orderRep.findCartById(id);
+		System.out.println(orders);
+		return orders;
+	}
+
+
+	@Override
+	public Order updateOrder(Order order) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public Product getProductBypId(int pId) {
+		return productRepository.findBypId(pId);
+	}
+	
+	public Product deleteProductBypId(int pId) {
+		Product product = productRepository.findBypId(pId);
+		productRepository.deleteById(pId);
+		return product;
+	}
+	
+
 
 }

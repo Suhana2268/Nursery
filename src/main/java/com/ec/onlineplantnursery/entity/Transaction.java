@@ -19,20 +19,28 @@ public class Transaction {
 	
 	private String transactionMode;
 	
+	private String paymentStatus;
+	
 	@OneToOne
 	@JoinColumn(name = "OrderInfo", referencedColumnName = "bookingOrderId")
 	private Order order;
+	
+	@OneToOne
+	@JoinColumn(name = "PaymentInfo", referencedColumnName = "paymentId")
+	private Payment payment;
 
 	public Transaction() {
 		super();
 		
 	}
 
-	public Transaction(int transactionId, String transactionMode, Order order) {
+	public Transaction(int transactionId, String transactionMode, String paymentStatus, Order order, Payment payment) {
 		super();
 		this.transactionId = transactionId;
 		this.transactionMode = transactionMode;
+		this.paymentStatus = paymentStatus;
 		this.order = order;
+		this.payment = payment;
 	}
 
 	public int getTransactionId() {
@@ -51,6 +59,14 @@ public class Transaction {
 		this.transactionMode = transactionMode;
 	}
 
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+
 	public Order getOrder() {
 		return order;
 	}
@@ -59,11 +75,21 @@ public class Transaction {
 		this.order = order;
 	}
 
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((order == null) ? 0 : order.hashCode());
+		result = prime * result + ((payment == null) ? 0 : payment.hashCode());
+		result = prime * result + ((paymentStatus == null) ? 0 : paymentStatus.hashCode());
 		result = prime * result + transactionId;
 		result = prime * result + ((transactionMode == null) ? 0 : transactionMode.hashCode());
 		return result;
@@ -83,6 +109,16 @@ public class Transaction {
 				return false;
 		} else if (!order.equals(other.order))
 			return false;
+		if (payment == null) {
+			if (other.payment != null)
+				return false;
+		} else if (!payment.equals(other.payment))
+			return false;
+		if (paymentStatus == null) {
+			if (other.paymentStatus != null)
+				return false;
+		} else if (!paymentStatus.equals(other.paymentStatus))
+			return false;
 		if (transactionId != other.transactionId)
 			return false;
 		if (transactionMode == null) {
@@ -95,9 +131,10 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "Transaction [transactionId=" + transactionId + ", transactionMode=" + transactionMode + ", order="
-				+ order + "]";
+		return "Transaction [transactionId=" + transactionId + ", transactionMode=" + transactionMode
+				+ ", paymentStatus=" + paymentStatus + ", order=" + order + ", payment=" + payment + "]";
 	}
 
+	
 	
 }
